@@ -348,8 +348,8 @@ class MockCollection extends Mock implements CollectionReference {
   Future<int> count() {
     return super.noSuchMethod(
       Invocation.method(#count, null),
-      returnValue: 2,
-      returnValueForMissingStub: 2,
+      returnValue: Future.value(2),
+      returnValueForMissingStub: Future.value(2),
     );
   }
 
@@ -372,6 +372,9 @@ class MockDocumentReference extends Mock implements DocumentReference {
   final Person person;
 
   MockDocumentReference(this.person);
+
+  @override
+  String get id => person.firstName;
 }
 
 class MockDocumentSnapshot extends Mock implements DocumentSnapshot {
