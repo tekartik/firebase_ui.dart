@@ -266,7 +266,7 @@ class _FirestoreTableState extends State<FirestoreDataTable> {
         return AggregateQueryBuilder(
           query: _query,
           builder: (context, aggSsnapshot) {
-            return FirestoreQueryBuilder<Map<String, Object?>>(
+            return FirestoreQueryBuilder(
               query: _query,
               builder: (context, snapshot, child) {
                 if (aggSsnapshot.hasData) {
@@ -926,10 +926,10 @@ class _Source extends DataTableSource {
     );
   }
 
-  FirestoreQueryBuilderSnapshot<Map<String, Object?>>? _previousSnapshot;
+  FirestoreQueryBuilderSnapshot? _previousSnapshot;
 
   void setFromSnapshot(
-    FirestoreQueryBuilderSnapshot<Map<String, Object?>> snapshot, [
+    FirestoreQueryBuilderSnapshot snapshot, [
     int? aggregateSnapshot,
   ]) {
     if (aggregateSnapshot != null) {

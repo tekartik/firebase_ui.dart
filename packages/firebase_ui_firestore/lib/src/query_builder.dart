@@ -11,9 +11,9 @@ import 'package:tekartik_firebase_firestore/firestore.dart';
 /// A function that builds a widget from a [FirestoreQueryBuilderSnapshot]
 ///
 /// See also [FirebaseDatabaseQueryBuilder].
-typedef FirestoreQueryBuilderSnapshotBuilder<T> = Widget Function(
+typedef FirestoreQueryBuilderSnapshotBuilder = Widget Function(
   BuildContext context,
-  FirestoreQueryBuilderSnapshot<T> snapshot,
+  FirestoreQueryBuilderSnapshot snapshot,
   Widget? child,
 );
 
@@ -64,7 +64,7 @@ typedef FirestoreQueryBuilderSnapshotBuilder<T> = Widget Function(
 /// {@subCategory type:widget}
 /// {@subCategory description:A widget that listens to a query.}
 /// {@subCategory img:https://place-hold.it/400x150}
-class FirestoreQueryBuilder<Document> extends StatefulWidget {
+class FirestoreQueryBuilder extends StatefulWidget {
   /// {@macro firebase_ui.firestore_query_builder}
   const FirestoreQueryBuilder({
     super.key,
@@ -84,7 +84,7 @@ class FirestoreQueryBuilder<Document> extends StatefulWidget {
   /// When it changes, the current progress will be preserved.
   final int pageSize;
 
-  final FirestoreQueryBuilderSnapshotBuilder<Document> builder;
+  final FirestoreQueryBuilderSnapshotBuilder builder;
 
   /// A widget that will be passed to [builder] for optimizations purpose.
   ///
@@ -94,17 +94,15 @@ class FirestoreQueryBuilder<Document> extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _FirestoreQueryBuilderState<Document> createState() =>
-      _FirestoreQueryBuilderState<Document>();
+  _FirestoreQueryBuilderState createState() => _FirestoreQueryBuilderState();
 }
 
-class _FirestoreQueryBuilderState<Document>
-    extends State<FirestoreQueryBuilder<Document>> {
+class _FirestoreQueryBuilderState extends State<FirestoreQueryBuilder> {
   StreamSubscription? _querySubscription;
 
   var _pageCount = 0;
 
-  late var _snapshot = _QueryBuilderSnapshot<Document>._(
+  late var _snapshot = _QueryBuilderSnapshot._(
     docs: [],
     error: null,
     hasData: false,
@@ -134,7 +132,7 @@ class _FirestoreQueryBuilderState<Document>
   }
 
   @override
-  void didUpdateWidget(FirestoreQueryBuilder<Document> oldWidget) {
+  void didUpdateWidget(FirestoreQueryBuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.query != widget.query) {
       _pageCount = 0;
@@ -224,7 +222,7 @@ class _FirestoreQueryBuilderState<Document>
 }
 
 /// The result of a paginated query.
-abstract class FirestoreQueryBuilderSnapshot<Document> {
+abstract class FirestoreQueryBuilderSnapshot {
   /// Whether the first page of the query is currently being fetched.
   ///
   /// [isFetching] will reset to `true` when the query changes, in which case
@@ -271,8 +269,7 @@ abstract class FirestoreQueryBuilderSnapshot<Document> {
   void fetchMore();
 }
 
-class _QueryBuilderSnapshot<Document>
-    implements FirestoreQueryBuilderSnapshot<Document> {
+class _QueryBuilderSnapshot implements FirestoreQueryBuilderSnapshot {
   _QueryBuilderSnapshot._({
     required this.docs,
     required this.error,
@@ -314,7 +311,7 @@ class _QueryBuilderSnapshot<Document>
   @override
   void fetchMore() => _fetchNextPage();
 
-  _QueryBuilderSnapshot<Document> copyWith({
+  _QueryBuilderSnapshot copyWith({
     Object? docs = const _Sentinel(),
     Object? error = const _Sentinel(),
     Object? hasData = const _Sentinel(),
@@ -350,7 +347,7 @@ class _Sentinel {
 }
 
 /// A type representing the function passed to [FirestoreListView] for its `itemBuilder`.
-typedef FirestoreItemBuilder<Document> = Widget Function(
+typedef FirestoreItemBuilder = Widget Function(
   BuildContext context,
   DocumentSnapshot doc,
 );
@@ -419,12 +416,12 @@ typedef FirestoreEmptyBuilder = Widget Function(BuildContext context);
 /// {@subCategory type:widget}
 /// {@subCategory description:A widget that listens to a query and display the items using a ListView}
 /// {@subCategory img:https://place-hold.it/400x150}
-class FirestoreListView<Document> extends FirestoreQueryBuilder<Document> {
+class FirestoreListView extends FirestoreQueryBuilder {
   /// {@macro firebase_ui.firestorelistview}
   FirestoreListView({
     Key? key,
     required Query query,
-    required FirestoreItemBuilder<Document> itemBuilder,
+    required FirestoreItemBuilder itemBuilder,
     int pageSize = 10,
     FirestoreLoadingBuilder? loadingBuilder,
     FirestoreErrorBuilder? errorBuilder,

@@ -36,7 +36,7 @@ class FirebaseUIFirestoreExample extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('Contacts')),
-        body: FirestoreListView<User>(
+        body: FirestoreListView(
           query: collection,
           padding: const EdgeInsets.all(8.0),
           itemBuilder: (context, snapshot) {
