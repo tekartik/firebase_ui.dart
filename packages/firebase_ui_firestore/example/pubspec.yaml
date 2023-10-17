@@ -29,7 +29,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  tekartik_firebase_ui_firestore: ^1.5.12
   cloud_firestore: ^4.8.4
   cupertino_icons: ^1.0.2
   firebase_core: ^2.17.0
@@ -39,6 +38,13 @@ dependencies:
       path: firestore_flutter
       ref: dart3a
     version: '>=0.4.0'
+  tekartik_firebase_ui_firestore:
+    git:
+      url: https://github.com/tekartik/firebase_ui.dart
+      path: packages/firebase_ui_firestore
+      ref: dart3a
+    version: '>=0.1.0'
+
 dependency_overrides:
   tekartik_firebase_ui_firestore:
     path: ..
