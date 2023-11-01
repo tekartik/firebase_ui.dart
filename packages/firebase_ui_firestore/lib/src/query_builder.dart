@@ -419,10 +419,10 @@ typedef FirestoreEmptyBuilder = Widget Function(BuildContext context);
 class FirestoreListView extends FirestoreQueryBuilder {
   /// {@macro firebase_ui.firestorelistview}
   FirestoreListView({
-    Key? key,
-    required Query query,
+    super.key,
+    required super.query,
     required FirestoreItemBuilder itemBuilder,
-    int pageSize = 10,
+    super.pageSize,
     FirestoreLoadingBuilder? loadingBuilder,
     FirestoreErrorBuilder? errorBuilder,
     FirestoreEmptyBuilder? emptyBuilder,
@@ -446,9 +446,6 @@ class FirestoreListView extends FirestoreQueryBuilder {
     String? restorationId,
     Clip clipBehavior = Clip.hardEdge,
   }) : super(
-          key: key,
-          query: query,
-          pageSize: pageSize,
           builder: (context, snapshot, _) {
             if (snapshot.isFetching) {
               return loadingBuilder?.call(context) ??
