@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             body: Builder(
               builder: (context) {
-                if (!snapshot.hasData) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 return Stack(
