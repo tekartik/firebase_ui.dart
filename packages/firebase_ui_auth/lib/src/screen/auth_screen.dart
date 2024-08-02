@@ -25,54 +25,60 @@ class _AuthScreenState extends State<AuthScreen> {
         builder: (context, snapshot) {
           var state = snapshot.data;
           return Scaffold(
+              appBar: AppBar(
+                title: const Text('Auth'),
+              ),
               body: Center(
-            child: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                if (state == null)
-                  const CircularProgressIndicator()
-                else
-                  BodyContainer(
-                    child: Column(
-                      children: [
-                        IntrinsicWidth(
-                            child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    if (state == null)
+                      const CircularProgressIndicator()
+                    else
+                      BodyContainer(
+                        child: Column(
                           children: [
-                            if (state.signedIn)
-                              BodyHPadding(
-                                child: Center(
-                                  child: Text(state.user?.email ?? 'Signed in',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium),
-                                ),
-                              ),
-                            if (!state.signedIn)
-                              BodyHPadding(
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        _goToLoginScreen(context,
-                                            firebaseAuth: bloc.firebaseAuth);
-                                      },
-                                      child: const Text('Login'))),
-                            const SizedBox(width: 200, height: 16),
-                            if (state.signedIn)
-                              BodyHPadding(
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        _goToProfileScreen(context,
-                                            firebaseAuth: bloc.firebaseAuth);
-                                      },
-                                      child: const Text('Profile')))
+                            IntrinsicWidth(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                if (state.signedIn)
+                                  BodyHPadding(
+                                    child: Center(
+                                      child: Text(
+                                          state.user?.email ?? 'Signed in',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium),
+                                    ),
+                                  ),
+                                if (!state.signedIn)
+                                  BodyHPadding(
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            _goToLoginScreen(context,
+                                                firebaseAuth:
+                                                    bloc.firebaseAuth);
+                                          },
+                                          child: const Text('Login'))),
+                                const SizedBox(width: 200, height: 16),
+                                if (state.signedIn)
+                                  BodyHPadding(
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            _goToProfileScreen(context,
+                                                firebaseAuth:
+                                                    bloc.firebaseAuth);
+                                          },
+                                          child: const Text('Profile')))
+                              ],
+                            ))
                           ],
-                        ))
-                      ],
-                    ),
-                  ),
-              ],
-            ),
-          ));
+                        ),
+                      ),
+                  ],
+                ),
+              ));
         });
   }
 

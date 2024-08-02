@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
-import 'package:tekartik_app_flutter_widget/view/body_container.dart';
-import 'package:tekartik_app_flutter_widget/view/busy_indicator.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
 import 'package:tekartik_firebase_auth/auth.dart';
@@ -54,42 +52,19 @@ class _AuthFlutterProfileScreenState extends State<AuthFlutterProfileScreen>
         stream: bloc.state,
         builder: (context, snapshot) {
           var title = 'Profile';
-          var userState = snapshot.data;
+          return ProfileScreen(
+              appBar: AppBar(
+                title: Text(title),
+              ),
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-            ),
-            body: Builder(
-              builder: (context) {
-                if (userState == null) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return Stack(
-                  children: [
-                    Center(
-                      child: ListView(children: [
-                        BodyContainer(
-                          child: Column(
-                            children: [
-                              ProfileScreen(
-                                  //providers: providers
-                                  actions: [
-                                    SignedOutAction((context) {
-                                      Navigator.pop(context);
-                                    }),
-                                  ]),
-                            ],
-                          ),
-                        ),
-                      ]),
-                    ),
-                    BusyIndicator(busy: busyStream),
-                  ],
-                );
-              },
-            ),
-          );
+              //providers: providers
+              actions: [
+                SignedOutAction((context) {
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
+                }),
+              ]);
         });
   }
 }
