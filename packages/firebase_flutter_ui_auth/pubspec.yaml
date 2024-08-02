@@ -1,5 +1,5 @@
-name: tekartik_firebase_ui_auth
-description: "Firebase UI auth"
+name: tekartik_firebase_flutter_ui_auth
+description: "Firebase Flutter UI auth"
 version: 0.1.0
 publish_to: none
 
@@ -46,17 +46,26 @@ dependencies:
       url: https://github.com/tekartik/app_flutter_utils.dart
       ref: dart3a
       path: app_widget
+  firebase_ui_auth: ^1.15.0
+  tekartik_firebase_ui_auth:
+    git:
+      url: https://github.com/tekartik/firebase_ui.dart
+      ref: dart3a
+      path: packages/firebase_ui_auth
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: '>=4.0.0'
   tekartik_lints_flutter:
     git:
       url: https://github.com/tekartik/common_flutter.dart
       ref: dart3a
       path: packages/lints_flutter
 
+dependency_overrides:
+  tekartik_firebase_ui_auth:
+    path: ../firebase_ui_auth
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

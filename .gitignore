@@ -28,3 +28,4 @@ doc/api/
 /.idea/
 
 .metadata
+pubspec_overrides.yaml
