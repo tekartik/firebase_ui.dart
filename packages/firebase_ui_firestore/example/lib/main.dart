@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart' as native;
 import 'package:tekartik_firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:tekartik_firebase_ui_firestore_example/firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,8 @@ late CollectionReference collection;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await native.Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform);
 
   var firebaseApp = firebaseFlutter.app();
   var firestore = firestoreServiceFlutter.firestore(firebaseApp);
