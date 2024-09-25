@@ -9,7 +9,6 @@ import 'package:tekartik_firebase_ui_firestore_example/firebase_options.dart';
 import 'package:flutter/material.dart';
 
 // ignore: depend_on_referenced_packages
-import 'package:tekartik_firebase_firestore/firestore.dart';
 import 'package:tekartik_firebase_firestore_flutter/firestore_flutter.dart';
 
 // ignore: depend_on_referenced_packages

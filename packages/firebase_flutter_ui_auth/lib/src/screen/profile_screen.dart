@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
-import 'package:tekartik_firebase_auth/auth.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
 // ignore: unused_import, depend_on_referenced_packages

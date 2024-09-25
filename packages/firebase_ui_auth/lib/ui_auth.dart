@@ -1,3 +1,4 @@
+export 'package:tekartik_firebase_auth/auth.dart';
 export 'src/firebase_ui_auth_service.dart' show FirebaseUiAuthService;
 export 'src/firebase_ui_auth_service_basic.dart'
     show FirebaseUiAuthServiceBasic;
