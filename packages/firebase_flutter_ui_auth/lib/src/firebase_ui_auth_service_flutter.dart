@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:tekartik_firebase_auth/auth.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart' as impl;
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
