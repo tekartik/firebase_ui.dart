@@ -4,15 +4,19 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
 import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
-import 'package:tekartik_firebase_auth/auth.dart';
+import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
 
 // ignore: unused_import, depend_on_referenced_packages
-
+/// Debug username
 String? gDebugUsername;
+
+/// Debug password
 String? gDebugPassword;
 
+/// Auth login screen
 class AuthFlutterLoginScreen extends StatefulWidget {
+  /// Auth login screen
   const AuthFlutterLoginScreen({super.key});
 
   @override
@@ -45,19 +49,18 @@ class _AuthFlutterLoginScreenState extends State<AuthFlutterLoginScreen> {
     return ValueStreamBuilder(
         stream: bloc.state,
         builder: (context, snapshot) {
-          return SignInScreen(
-              //providers: providers
-              actions: [
-                SignedOutAction((context) {
-                  if (context.mounted) {
-                    Navigator.pop(context);
-                  }
-                }),
-              ]);
+          return SignInScreen(auth: bloc.firebaseAuth.nativeInstance, actions: [
+            SignedOutAction((context) {
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
+            }),
+          ]);
         });
   }
 }
 
+/// Auth login screen
 Widget authFlutterLoginScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
     blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
     child: const AuthFlutterLoginScreen());

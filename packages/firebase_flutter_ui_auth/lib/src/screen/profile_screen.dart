@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
+import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
 // ignore: unused_import, depend_on_referenced_packages
 
+/// Auth profile screen
 class AuthFlutterProfileScreen extends StatefulWidget {
+  /// Auth profile screen
   const AuthFlutterProfileScreen({super.key});
 
   @override
@@ -55,6 +58,7 @@ class _AuthFlutterProfileScreenState extends State<AuthFlutterProfileScreen>
               appBar: AppBar(
                 title: Text(title),
               ),
+              auth: bloc.firebaseAuth.nativeInstance,
 
               //providers: providers
               actions: [
