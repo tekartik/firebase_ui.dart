@@ -6,7 +6,9 @@ import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
 import 'package:tekartik_firebase_auth/auth.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
 
+/// Auth screen
 class AuthFlutterScreen extends StatefulWidget {
+  /// Auth screen
   const AuthFlutterScreen({super.key});
 
   @override
@@ -92,6 +94,7 @@ class _AuthFlutterScreenState extends State<AuthFlutterScreen> {
   }
 }
 
+/// Auth screen
 Widget authFlutterScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
     blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
     child: const AuthFlutterScreen());
