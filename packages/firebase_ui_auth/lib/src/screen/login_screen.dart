@@ -2,41 +2,40 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
 import 'package:tekartik_app_flutter_widget/mini_ui.dart';
 import 'package:tekartik_app_flutter_widget/view/body_container.dart';
 import 'package:tekartik_app_flutter_widget/view/body_h_padding.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
-import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
+import 'package:tekartik_app_rx_bloc_flutter/app_rx_flutter.dart';
 import 'package:tekartik_firebase_auth/auth.dart';
+import 'package:tekartik_firebase_ui_auth/src/utils/app_intl.dart';
 
 import 'auth_screen_bloc.dart';
 // ignore: unused_import, depend_on_referenced_packages
 
+/// debug username
 String? gDebugUsername;
+
+/// debug password
 String? gDebugPassword;
 
+/// Auth login screen
 class AuthLoginScreen extends StatefulWidget {
+  /// Auth login screen
   const AuthLoginScreen({super.key});
 
   @override
   State<AuthLoginScreen> createState() => _AuthLoginScreenState();
 }
 
-class _AuthLoginScreenState extends State<AuthLoginScreen>
-    with BusyScreenStateMixin<AuthLoginScreen> {
-  final usernameController = TextEditingController(text: gDebugUsername);
-  final passwordController = TextEditingController(text: gDebugPassword);
-  final _loginEnabled = ValueNotifier<bool>(false);
-
-  @override
-  void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
-    _loginEnabled.dispose();
-    busyDispose();
-    super.dispose();
-  }
+class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
+    with AutoDisposedBusyScreenStateMixin<AuthLoginScreen> {
+  late final usernameController =
+      audiAddTextEditingController(TextEditingController(text: gDebugUsername));
+  late final passwordController =
+      audiAddTextEditingController(TextEditingController(text: gDebugPassword));
+  late final _loginEnabled =
+      audiAddBehaviorSubject(BehaviorSubject<bool>.seeded(false));
 
   @override
   void initState() {
@@ -69,10 +68,11 @@ class _AuthLoginScreenState extends State<AuthLoginScreen>
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
+    var intl = appIntl(context);
     return ValueStreamBuilder(
         stream: bloc.state,
         builder: (context, snapshot) {
-          var title = 'Login';
+          var title = intl.loginTitle;
           // var user = snapshot.data;
 
           return Scaffold(
@@ -99,9 +99,9 @@ class _AuthLoginScreenState extends State<AuthLoginScreen>
                                   BodyHPadding(
                                     child: TextFormField(
                                       controller: usernameController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Utilisateur',
-                                        border: OutlineInputBorder(),
+                                      decoration: InputDecoration(
+                                        labelText: intl.loginUserLabel,
+                                        border: const OutlineInputBorder(),
                                         //hintText: 'Email',
                                       ),
                                       onChanged: (value) {
@@ -117,9 +117,9 @@ class _AuthLoginScreenState extends State<AuthLoginScreen>
                                       textInputAction: TextInputAction.done,
                                       obscureText: true,
                                       controller: passwordController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Mot de passe',
-                                        border: OutlineInputBorder(),
+                                      decoration: InputDecoration(
+                                        labelText: intl.loginPasswordLabel,
+                                        border: const OutlineInputBorder(),
                                         //hintText: 'Email',
                                       ),
                                       onChanged: (value) {
@@ -130,9 +130,10 @@ class _AuthLoginScreenState extends State<AuthLoginScreen>
                                   const SizedBox(
                                     height: 16,
                                   ),
-                                  ValueListenableBuilder<bool>(
-                                      valueListenable: _loginEnabled,
-                                      builder: (context, enabled, _) {
+                                  ValueStreamBuilder(
+                                      stream: _loginEnabled,
+                                      builder: (context, snapshot) {
+                                        var enabled = snapshot.data ?? false;
                                         return BodyHPadding(
                                           child: ElevatedButton(
                                             onPressed: enabled
@@ -146,7 +147,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen>
                                                                   .trim());*/
                                                   }
                                                 : null,
-                                            child: const Text('Login'),
+                                            child: Text(intl.loginButtonLabel),
                                           ),
                                         );
                                       }),
@@ -185,7 +186,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen>
             print(st);
           }
           if (context.mounted) {
-            unawaited(muiSnack(context, 'Login error: $e'));
+            unawaited(muiSnack(context, appIntl(context).loginGenericError));
           }
         } finally {
           _checkLoginEnabled();
@@ -195,6 +196,7 @@ class _AuthLoginScreenState extends State<AuthLoginScreen>
   }
 }
 
+/// Auth login screen
 Widget authLoginScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
     blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
     child: const AuthLoginScreen());

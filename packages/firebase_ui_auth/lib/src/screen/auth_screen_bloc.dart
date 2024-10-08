@@ -1,28 +1,28 @@
-import 'dart:async';
-
-import 'package:tekartik_app_rx_bloc/state_base_bloc.dart';
+import 'package:tekartik_app_rx_bloc/auto_dispose_state_base_bloc.dart';
 import 'package:tekartik_firebase_auth/auth.dart';
 
+/// Auth screen bloc
 class AuthScreenBlocState {
+  /// User
   final User? user;
 
+  /// Auth screen bloc state
   AuthScreenBlocState({required this.user});
 
+  /// Signed in
   bool get signedIn => user != null;
 }
 
-class AuthScreenBloc extends StateBaseBloc<AuthScreenBlocState> {
+/// Auth screen bloc
+class AuthScreenBloc extends AutoDisposeStateBaseBloc<AuthScreenBlocState> {
+  /// firebase auth
   late final FirebaseAuth firebaseAuth;
-  late StreamSubscription subscription;
+
+  /// Auth screen bloc
   AuthScreenBloc({FirebaseAuth? firebaseAuth}) {
     this.firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
-    subscription = this.firebaseAuth.onCurrentUser.listen((user) {
+    audiAddStreamSubscription(this.firebaseAuth.onCurrentUser.listen((user) {
       add(AuthScreenBlocState(user: user));
-    });
-  }
-  @override
-  void dispose() {
-    subscription.cancel();
-    super.dispose();
+    }));
   }
 }

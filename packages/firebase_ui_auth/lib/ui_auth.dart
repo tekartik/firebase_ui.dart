@@ -8,3 +8,7 @@ export 'src/screen/auth_screen_bloc.dart'
 export 'src/screen/login_screen.dart' show AuthLoginScreen, authLoginScreen;
 export 'src/screen/profile_screen.dart'
     show AuthProfileScreen, authProfileScreen;
+export 'src/utils/app_intl.dart'
+    show
+        FirebaseUiAuthServiceBasicLocalizations,
+        FirebaseUiAuthServiceBasicLocalizationsDefault;
