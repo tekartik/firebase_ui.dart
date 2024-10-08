@@ -1,0 +1,58 @@
+{
+  "profileTitle": "Profile",
+  "@profileTitle": {
+    "description": "The profile screen title"
+  },
+  "authTitle": "Authentication",
+  "@authTitle": {
+    "description": "The authentication screen title"
+  },
+  "logoutButtonLabel": "Logout",
+  "@logoutButtonLabel": {
+    "description": "The logout button label"
+  },
+  "loginButtonLabel": "Login",
+  "@loginButtonLabel": {
+    "description": "The login button label"
+  },
+  "profileButtonLabel": "Profile",
+  "@profileButtonLabel": {
+    "description": "The profile button label"
+  },
+  "profileLoggedInAs": "Logged in as {email}",
+  "@profileLoggedInAs": {
+    "description": "The profile screen logged in as label",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "alex@tekartik.com"
+      }
+    }
+  },
+  "hello": "Hello {userName}",
+  "loginTitle": "Login",
+  "@loginTitle": {
+    "description": "The login screen title"
+  },
+  "loginUserLabel": "User",
+  "@loginUserLabel": {
+    "description": "The login screen user label"
+  },
+  "loginPasswordLabel": "Password",
+  "@loginPasswordLabel": {
+    "description": "The login screen password label"
+  },
+  "loginGenericError": "Login failed",
+    "@loginGenericError": {
+        "description": "The login screen generic error message"
+    },
+  "@hello": {
+    "description": "A message with a single parameter",
+    "placeholders": {
+      "userName": {
+        "type": "String",
+        "example": "Bob"
+      }
+    }
+  }
+}

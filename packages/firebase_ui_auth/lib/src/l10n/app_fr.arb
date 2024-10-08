@@ -1,0 +1,13 @@
+{
+  "profileTitle": "Profil",
+  "authTitle": "Authentification",
+  "logoutButtonLabel": "Se déconnecter",
+  "loginButtonLabel": "Se connecter",
+  "profileButtonLabel": "Profil",
+  "profileLoggedInAs": "Connecté en tant que {email}",
+  "hello": "Bonjour {userName}",
+  "loginTitle": "Se connecter",
+  "loginUserLabel": "Utilisateur",
+  "loginPasswordLabel": "Mot de passe",
+  "loginGenericError": "Échec de la connexion"
+}
