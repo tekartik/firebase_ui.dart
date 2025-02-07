@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:tekartik_app_flutter_widget/mini_ui.dart';
 import 'package:tekartik_app_flutter_widget/view/body_container.dart';
 import 'package:tekartik_app_flutter_widget/view/body_h_padding.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_indicator.dart';
@@ -20,6 +22,8 @@ class AuthFlutterScreen extends StatefulWidget {
 
 class _AuthFlutterScreenState extends AutoDisposeBaseState<AuthFlutterScreen>
     with AutoDisposedBusyScreenStateMixin<AuthFlutterScreen> {
+  late final _showUserId =
+      audiAddBehaviorSubject(BehaviorSubject.seeded(false));
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
@@ -51,14 +55,45 @@ class _AuthFlutterScreenState extends AutoDisposeBaseState<AuthFlutterScreen>
                                         CrossAxisAlignment.stretch,
                                     children: [
                                       if (state.signedIn)
-                                        Text(
-                                            intl.profileLoggedInAs(
-                                                state.user!.email ??
-                                                    state.user!.displayName ??
-                                                    'user'),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium),
+                                        GestureDetector(
+                                          onLongPress: () {
+                                            _showUserId.add(!_showUserId.value);
+                                          },
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                  intl.profileLoggedInAs(state
+                                                          .user!.email ??
+                                                      state.user!.displayName ??
+                                                      'user'),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium),
+                                              BehaviorSubjectBuilder(
+                                                  subject: _showUserId,
+                                                  builder: (_, snapshot) {
+                                                    return snapshot.data!
+                                                        ? ListTile(
+                                                            title: const Text(
+                                                                'User id'),
+                                                            subtitle: Text(state
+                                                                .user!.uid),
+                                                            onTap: () {
+                                                              Clipboard.setData(
+                                                                  ClipboardData(
+                                                                      text: state
+                                                                          .user!
+                                                                          .uid));
+                                                              muiSnack(context,
+                                                                  'User id copied to clipboard');
+                                                            },
+                                                          )
+                                                        : const SizedBox();
+                                                  })
+                                            ],
+                                          ),
+                                        ),
                                       if (!state.signedIn)
                                         ElevatedButton(
                                             onPressed: () {
