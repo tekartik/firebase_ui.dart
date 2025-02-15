@@ -62,6 +62,9 @@ class _AuthProfileScreenState extends AutoDisposeBaseState<AuthProfileScreen>
                 if (userState == null) {
                   return const Center(child: CircularProgressIndicator());
                 }
+                if (!userState.signedIn) {
+                  return Container();
+                }
                 return Stack(
                   children: [
                     Center(
