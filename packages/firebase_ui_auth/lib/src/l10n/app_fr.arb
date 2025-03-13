@@ -9,5 +9,9 @@
   "loginTitle": "Se connecter",
   "loginUserLabel": "Utilisateur",
   "loginPasswordLabel": "Mot de passe",
-  "loginGenericError": "Échec de la connexion"
+  "loginGenericError": "Échec de la connexion",
+  "authUserIdLabel": "ID utilisateur",
+  "authUserEmailLabel": "Courriel de l'utilisateur",
+  "authUserIdCopiedToClipboard": "ID utilisateur copié dans le presse-papiers",
+  "authUserEmailCopiedToClipboard": "Adresse e-mail de l'utilisateur copiée dans le presse-papiers"
 }

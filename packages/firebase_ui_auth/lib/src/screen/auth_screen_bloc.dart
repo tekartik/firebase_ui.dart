@@ -21,8 +21,15 @@ class AuthScreenBloc extends AutoDisposeStateBaseBloc<AuthScreenBlocState> {
   /// Auth screen bloc
   AuthScreenBloc({FirebaseAuth? firebaseAuth}) {
     this.firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
-    audiAddStreamSubscription(this.firebaseAuth.onCurrentUser.listen((user) {
-      add(AuthScreenBlocState(user: user));
-    }));
+    audiAddStreamSubscription(
+      this.firebaseAuth.onCurrentUser.listen((user) {
+        add(AuthScreenBlocState(user: user));
+      }),
+    );
+  }
+
+  /// Sign out
+  Future<void> signOut() async {
+    await firebaseAuth.signOut();
   }
 }

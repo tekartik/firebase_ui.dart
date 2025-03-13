@@ -53,28 +53,29 @@ class _AuthFlutterProfileScreenState extends State<AuthFlutterProfileScreen>
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     var intl = appIntl(context);
     return ValueStreamBuilder(
-        stream: bloc.state,
-        builder: (context, snapshot) {
-          var title = intl.profileTitle;
-          return ProfileScreen(
-              appBar: AppBar(
-                title: Text(title),
-              ),
-              auth: bloc.firebaseAuth.nativeInstance,
+      stream: bloc.state,
+      builder: (context, snapshot) {
+        var title = intl.profileTitle;
+        return ProfileScreen(
+          appBar: AppBar(title: Text(title)),
+          auth: bloc.firebaseAuth.nativeInstance,
 
-              //providers: providers
-              actions: [
-                SignedOutAction((context) {
-                  if (context.mounted) {
-                    Navigator.pop(context);
-                  }
-                }),
-              ]);
-        });
+          //providers: providers
+          actions: [
+            SignedOutAction((context) {
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
+            }),
+          ],
+        );
+      },
+    );
   }
 }
 
 /// Auth profile screen
 Widget authFlutterProfileScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
-    blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-    child: const AuthFlutterProfileScreen());
+  blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
+  child: const AuthFlutterProfileScreen(),
+);

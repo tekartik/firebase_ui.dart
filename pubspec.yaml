@@ -1,0 +1,9 @@
+name: _
+publish_to: none
+environment:
+  sdk: ^3.7.0
+workspace:
+  - packages/firebase_flutter_ui_auth
+  - packages/firebase_ui_auth
+  - packages/firebase_ui_firestore
+  - packages/firebase_ui_firestore/example

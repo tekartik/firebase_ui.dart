@@ -4,3 +4,4 @@ template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
 synthetic-package: false
 format: true
+arb-translate-model: gemini-1.5-pro

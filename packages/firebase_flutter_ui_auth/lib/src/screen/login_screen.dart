@@ -47,20 +47,25 @@ class _AuthFlutterLoginScreenState extends State<AuthFlutterLoginScreen> {
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     return ValueStreamBuilder(
-        stream: bloc.state,
-        builder: (context, snapshot) {
-          return SignInScreen(auth: bloc.firebaseAuth.nativeInstance, actions: [
+      stream: bloc.state,
+      builder: (context, snapshot) {
+        return SignInScreen(
+          auth: bloc.firebaseAuth.nativeInstance,
+          actions: [
             SignedOutAction((context) {
               if (context.mounted) {
                 Navigator.pop(context);
               }
             }),
-          ]);
-        });
+          ],
+        );
+      },
+    );
   }
 }
 
 /// Auth login screen
 Widget authFlutterLoginScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
-    blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-    child: const AuthFlutterLoginScreen());
+  blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
+  child: const AuthFlutterLoginScreen(),
+);

@@ -6,11 +6,23 @@ enable-beta-ecosystems: true
 
 updates:
   - package-ecosystem: "pub"
+    directory: "."
+    schedule:
+      interval: "monthly"
+  - package-ecosystem: "pub"
+    directory: "packages/firebase_flutter_ui_auth"
+    schedule:
+      interval: "monthly"
+  - package-ecosystem: "pub"
+    directory: "packages/firebase_ui_auth"
+    schedule:
+      interval: "monthly"
+  - package-ecosystem: "pub"
     directory: "packages/firebase_ui_firestore"
     schedule:
       interval: "monthly"
   - package-ecosystem: "pub"
-    directory: "packages/tekartik_firebase_ui_auth"
+    directory: "packages/firebase_ui_firestore/example"
     schedule:
       interval: "monthly"
   - package-ecosystem: "github-actions"

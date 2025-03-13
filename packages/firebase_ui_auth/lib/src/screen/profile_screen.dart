@@ -48,37 +48,37 @@ class _AuthProfileScreenState extends AutoDisposeBaseState<AuthProfileScreen>
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     var intl = appIntl(context);
     return ValueStreamBuilder(
-        stream: bloc.state,
-        builder: (context, snapshot) {
-          var title = intl.profileTitle;
-          var userState = snapshot.data;
+      stream: bloc.state,
+      builder: (context, snapshot) {
+        var title = intl.profileTitle;
+        var userState = snapshot.data;
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-            ),
-            body: Builder(
-              builder: (context) {
-                if (userState == null) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (!userState.signedIn) {
-                  return Container();
-                }
-                return Stack(
-                  children: [
-                    Center(
-                      child: ListView(children: [
+        return Scaffold(
+          appBar: AppBar(title: Text(title)),
+          body: Builder(
+            builder: (context) {
+              if (userState == null) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (!userState.signedIn) {
+                return Container();
+              }
+              return Stack(
+                children: [
+                  Center(
+                    child: ListView(
+                      children: [
                         BodyContainer(
                           child: Column(
                             children: [
-                              Text(intl.profileLoggedInAs(
+                              Text(
+                                intl.profileLoggedInAs(
                                   userState.user!.email ??
                                       userState.user!.displayName ??
-                                      'user')),
-                              const SizedBox(
-                                height: 16,
+                                      'user',
+                                ),
                               ),
+                              const SizedBox(height: 16),
                               BodyHPadding(
                                 child: ElevatedButton(
                                   onPressed: () async {
@@ -86,19 +86,21 @@ class _AuthProfileScreenState extends AutoDisposeBaseState<AuthProfileScreen>
                                   },
                                   child: Text(intl.logoutButtonLabel),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
-                      ]),
+                      ],
                     ),
-                    BusyIndicator(busy: busyStream),
-                  ],
-                );
-              },
-            ),
-          );
-        });
+                  ),
+                  BusyIndicator(busy: busyStream),
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _logout(AuthScreenBloc bloc) async {
@@ -121,5 +123,6 @@ class _AuthProfileScreenState extends AutoDisposeBaseState<AuthProfileScreen>
 
 /// Auth profile screen
 Widget authProfileScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
-    blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-    child: const AuthProfileScreen());
+  blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
+  child: const AuthProfileScreen(),
+);

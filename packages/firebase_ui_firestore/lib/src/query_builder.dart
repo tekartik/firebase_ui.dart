@@ -11,11 +11,12 @@ import 'package:tekartik_firebase_firestore/firestore.dart';
 /// A function that builds a widget from a [FirestoreQueryBuilderSnapshot]
 ///
 /// See also [FirebaseDatabaseQueryBuilder].
-typedef FirestoreQueryBuilderSnapshotBuilder = Widget Function(
-  BuildContext context,
-  FirestoreQueryBuilderSnapshot snapshot,
-  Widget? child,
-);
+typedef FirestoreQueryBuilderSnapshotBuilder =
+    Widget Function(
+      BuildContext context,
+      FirestoreQueryBuilderSnapshot snapshot,
+      Widget? child,
+    );
 
 /// {@template firebase_ui.firestore_query_builder}
 /// Listens to a query and paginates the result in a way that is compatible with
@@ -159,8 +160,8 @@ class _FirestoreQueryBuilderState extends State<FirestoreQueryBuilder> {
     // "build" – most commonly ListView's itemBuilder
     Future.microtask(() => setState(() {}));
 
-    final expectedDocsCount = (_pageCount + 1) * widget.pageSize
-
+    final expectedDocsCount =
+        (_pageCount + 1) * widget.pageSize
         /// The "+1" is used to voluntarily fetch one extra item,
         /// used to determine whether there is a next page or not.
         /// This extra item will not be rendered.
@@ -180,9 +181,10 @@ class _FirestoreQueryBuilderState extends State<FirestoreQueryBuilder> {
 
           _snapshot = _snapshot.copyWith(
             hasData: true,
-            docs: event.docs.length < expectedDocsCount
-                ? event.docs
-                : event.docs.take(expectedDocsCount - 1).toList(),
+            docs:
+                event.docs.length < expectedDocsCount
+                    ? event.docs
+                    : event.docs.take(expectedDocsCount - 1).toList(),
             error: null,
             hasMore: event.docs.length == expectedDocsCount,
             stackTrace: null,
@@ -347,20 +349,15 @@ class _Sentinel {
 }
 
 /// A type representing the function passed to [FirestoreListView] for its `itemBuilder`.
-typedef FirestoreItemBuilder = Widget Function(
-  BuildContext context,
-  DocumentSnapshot doc,
-);
+typedef FirestoreItemBuilder =
+    Widget Function(BuildContext context, DocumentSnapshot doc);
 
 /// A type representing the function passed to [FirestoreListView] for its `loadingBuilder`.
 typedef FirestoreLoadingBuilder = Widget Function(BuildContext context);
 
 /// A type representing the function passed to [FirestoreListView] for its `errorBuilder`.
-typedef FirestoreErrorBuilder = Widget Function(
-  BuildContext context,
-  Object error,
-  StackTrace stackTrace,
-);
+typedef FirestoreErrorBuilder =
+    Widget Function(BuildContext context, Object error, StackTrace stackTrace);
 
 /// A type representing the function passed to [FirestoreListView] for its `emptyBuilder`.
 typedef FirestoreEmptyBuilder = Widget Function(BuildContext context);
@@ -446,54 +443,54 @@ class FirestoreListView extends FirestoreQueryBuilder {
     String? restorationId,
     Clip clipBehavior = Clip.hardEdge,
   }) : super(
-          builder: (context, snapshot, _) {
-            if (snapshot.isFetching) {
-              return loadingBuilder?.call(context) ??
-                  const Center(child: CircularProgressIndicator());
-            }
+         builder: (context, snapshot, _) {
+           if (snapshot.isFetching) {
+             return loadingBuilder?.call(context) ??
+                 const Center(child: CircularProgressIndicator());
+           }
 
-            if (snapshot.hasError && errorBuilder != null) {
-              return errorBuilder(
-                context,
-                snapshot.error!,
-                snapshot.stackTrace!,
-              );
-            }
+           if (snapshot.hasError && errorBuilder != null) {
+             return errorBuilder(
+               context,
+               snapshot.error!,
+               snapshot.stackTrace!,
+             );
+           }
 
-            if (snapshot.docs.isEmpty && emptyBuilder != null) {
-              return emptyBuilder(context);
-            }
+           if (snapshot.docs.isEmpty && emptyBuilder != null) {
+             return emptyBuilder(context);
+           }
 
-            return ListView.builder(
-              itemCount: snapshot.docs.length,
-              itemBuilder: (context, index) {
-                final isLastItem = index + 1 == snapshot.docs.length;
-                if (isLastItem && snapshot.hasMore) snapshot.fetchMore();
+           return ListView.builder(
+             itemCount: snapshot.docs.length,
+             itemBuilder: (context, index) {
+               final isLastItem = index + 1 == snapshot.docs.length;
+               if (isLastItem && snapshot.hasMore) snapshot.fetchMore();
 
-                final doc = snapshot.docs[index];
-                return itemBuilder(context, doc);
-              },
-              scrollDirection: scrollDirection,
-              reverse: reverse,
-              controller: controller,
-              primary: primary,
-              physics: physics,
-              shrinkWrap: shrinkWrap,
-              padding: padding,
-              itemExtent: itemExtent,
-              prototypeItem: prototypeItem,
-              addAutomaticKeepAlives: addAutomaticKeepAlives,
-              addRepaintBoundaries: addRepaintBoundaries,
-              addSemanticIndexes: addSemanticIndexes,
-              cacheExtent: cacheExtent,
-              semanticChildCount: semanticChildCount,
-              dragStartBehavior: dragStartBehavior,
-              keyboardDismissBehavior: keyboardDismissBehavior,
-              restorationId: restorationId,
-              clipBehavior: clipBehavior,
-            );
-          },
-        );
+               final doc = snapshot.docs[index];
+               return itemBuilder(context, doc);
+             },
+             scrollDirection: scrollDirection,
+             reverse: reverse,
+             controller: controller,
+             primary: primary,
+             physics: physics,
+             shrinkWrap: shrinkWrap,
+             padding: padding,
+             itemExtent: itemExtent,
+             prototypeItem: prototypeItem,
+             addAutomaticKeepAlives: addAutomaticKeepAlives,
+             addRepaintBoundaries: addRepaintBoundaries,
+             addSemanticIndexes: addSemanticIndexes,
+             cacheExtent: cacheExtent,
+             semanticChildCount: semanticChildCount,
+             dragStartBehavior: dragStartBehavior,
+             keyboardDismissBehavior: keyboardDismissBehavior,
+             restorationId: restorationId,
+             clipBehavior: clipBehavior,
+           );
+         },
+       );
 }
 
 /// Listens to an aggregate query and passes the [AsyncSnapshot] to the builder.
@@ -502,10 +499,8 @@ class AggregateQueryBuilder extends StatefulWidget {
   final Query query;
 
   /// A builder that is called whenever the query is updated.
-  final Widget Function(
-    BuildContext context,
-    AsyncSnapshot<int> snapshot,
-  ) builder;
+  final Widget Function(BuildContext context, AsyncSnapshot<int> snapshot)
+  builder;
 
   const AggregateQueryBuilder({
     super.key,

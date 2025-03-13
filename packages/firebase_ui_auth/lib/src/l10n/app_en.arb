@@ -54,5 +54,21 @@
         "example": "Bob"
       }
     }
+  },
+  "authUserIdLabel": "User ID",
+  "@authUserIdLabel": {
+    "description": "The label for UserID"
+  },
+    "authUserEmailLabel": "User Email",
+    "@authUserEmailLabel": {
+        "description": "The label for User Email"
+    },
+  "authUserIdCopiedToClipboard": "User id copied to clipboard",
+    "@authUserIdCopiedToClipboard": {
+        "description": "The authentication screen user id copied to clipboard message"
+    },
+  "authUserEmailCopiedToClipboard": "User email copied to clipboard",
+    "@authUserEmailCopiedToClipboard": {
+    "description": "The authentication screen user email copied to clipboard message"
   }
 }

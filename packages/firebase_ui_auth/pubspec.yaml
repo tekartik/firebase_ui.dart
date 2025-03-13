@@ -4,7 +4,7 @@ version: 0.1.0
 publish_to: none
 
 environment:
-  sdk: ^3.5.0
+  sdk: ^3.7.0
   flutter: ">=1.17.0"
 
 dependencies:
@@ -53,24 +53,29 @@ dependencies:
       url: https://github.com/tekartik/app_flutter_utils.dart
       ref: dart3a
       path: app_rx_bloc
+  tekartik_common_utils:
+    git:
+      url: https://github.com/tekartik/common_utils.dart
+      ref: dart3a
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ">=3.0.0"
+  flutter_lints: ">=5.0.0"
   tekartik_lints_flutter:
     git:
       url: https://github.com/tekartik/common_flutter.dart
       ref: dart3a
       path: packages/lints_flutter
   flutter_gen: ">=5.8.0"
-  dev_build: ">=1.0.1"
+  dev_build: ">=1.1.2"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
+resolution: workspace
 
   # To add assets to your package, add an assets section, like this:
   # assets:
