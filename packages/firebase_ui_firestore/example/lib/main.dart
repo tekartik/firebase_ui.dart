@@ -19,7 +19,8 @@ late CollectionReference collection;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await native.Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform);
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   var firebaseApp = firebaseFlutter.app();
   var firestore = firestoreServiceFlutter.firestore(firebaseApp);
@@ -41,12 +42,7 @@ class FirebaseUIFirestoreExample extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           itemBuilder: (context, snapshot) {
             final user = User.fromJson(snapshot.data);
-            return Column(
-              children: [
-                UserTile(user: user),
-                const Divider(),
-              ],
-            );
+            return Column(children: [UserTile(user: user), const Divider()]);
           },
         ),
       ),
@@ -57,18 +53,13 @@ class FirebaseUIFirestoreExample extends StatelessWidget {
 class UserTile extends StatelessWidget {
   final User user;
 
-  const UserTile({
-    super.key,
-    required this.user,
-  });
+  const UserTile({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          child: Text(user.firstName[0]),
-        ),
+        CircleAvatar(child: Text(user.firstName[0])),
         const SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,10 +70,7 @@ class UserTile extends StatelessWidget {
               '${user.firstName} ${user.lastName}',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            Text(
-              user.number,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            Text(user.number, style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ],
@@ -105,18 +93,18 @@ class User {
   });
 
   User.fromJson(Map<String, Object?> json)
-      : this(
-          city: json['city'].toString(),
-          country: json['country'].toString(),
-          streetName: json['streetName'].toString(),
-          zipCode: json['zipCode'].toString(),
-          prefix: json['prefix'].toString(),
-          firstName: json['firstName'].toString(),
-          lastName: json['lastName'].toString(),
-          email: json['email'].toString(),
-          userName: json['userName'].toString(),
-          number: json['number'].toString(),
-        );
+    : this(
+        city: json['city'].toString(),
+        country: json['country'].toString(),
+        streetName: json['streetName'].toString(),
+        zipCode: json['zipCode'].toString(),
+        prefix: json['prefix'].toString(),
+        firstName: json['firstName'].toString(),
+        lastName: json['lastName'].toString(),
+        email: json['email'].toString(),
+        userName: json['userName'].toString(),
+        number: json['number'].toString(),
+      );
 
   final String city;
   final String country;

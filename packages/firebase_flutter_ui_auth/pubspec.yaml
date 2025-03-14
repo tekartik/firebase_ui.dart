@@ -4,7 +4,7 @@ version: 0.1.0
 publish_to: none
 
 environment:
-  sdk: ^3.5.0
+  sdk: ^3.7.0
   flutter: ">=1.17.0"
 
 dependencies:
@@ -72,21 +72,19 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: '>=4.0.0'
+  flutter_lints: ">=5.0.0"
   tekartik_lints_flutter:
     git:
       url: https://github.com/tekartik/common_flutter.dart
       ref: dart3a
       path: packages/lints_flutter
 
-dependency_overrides:
-  tekartik_firebase_ui_auth:
-    path: ../firebase_ui_auth
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
+resolution: workspace
 
   # To add assets to your package, add an assets section, like this:
   # assets:

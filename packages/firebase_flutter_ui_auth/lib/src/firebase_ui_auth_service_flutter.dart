@@ -6,17 +6,22 @@ import 'package:tekartik_firebase_flutter/firebase_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart' as impl;
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
-/// Ui Auth service
+/// Ui Auth service on firebase flutter
+/// prefer using the instance [firebaseUiAuthServiceFlutter]
 class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
+  /// Constructor
+  const FirebaseUiAuthServiceFlutter();
+
   /// Configure email provider by default.
-  void configureProviders(
-      {FirebaseAuth? firebaseAuth,
-      bool noEmailPassword = false,
-      String? googleAuthClientId}) {
+  void configureProviders({
+    FirebaseAuth? firebaseAuth,
+    bool noEmailPassword = false,
+    String? googleAuthClientId,
+  }) {
     native.FirebaseUIAuth.configureProviders([
       if (!noEmailPassword) native.EmailAuthProvider(),
       if (googleAuthClientId != null)
-        native.GoogleProvider(clientId: googleAuthClientId)
+        native.GoogleProvider(clientId: googleAuthClientId),
     ], app: firebaseAuth?.app.nativeInstance);
   }
 
@@ -32,3 +37,6 @@ class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
   Widget profileScreen({FirebaseAuth? firebaseAuth}) =>
       impl.authFlutterProfileScreen(firebaseAuth: firebaseAuth);
 }
+
+/// FirebaseUiAuthServiceFlutter instance
+const firebaseUiAuthServiceFlutter = FirebaseUiAuthServiceFlutter();

@@ -4,7 +4,10 @@ import 'package:tekartik_firebase_ui_auth/src/firebase_ui_auth_service.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart' as impl;
 
 /// Ui Auth service
+/// prefer using the instance [firebaseUiAuthServiceBasic]
 class FirebaseUiAuthServiceBasic implements FirebaseUiAuthService {
+  /// Constructor
+  const FirebaseUiAuthServiceBasic();
   @override
   Widget authScreen({FirebaseAuth? firebaseAuth}) =>
       impl.authScreen(firebaseAuth: firebaseAuth);
@@ -15,3 +18,6 @@ class FirebaseUiAuthServiceBasic implements FirebaseUiAuthService {
   Widget profileScreen({FirebaseAuth? firebaseAuth}) =>
       impl.authProfileScreen(firebaseAuth: firebaseAuth);
 }
+
+/// FirebaseUiAuthServiceBasic instance
+const firebaseUiAuthServiceBasic = FirebaseUiAuthServiceBasic();

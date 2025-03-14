@@ -30,12 +30,15 @@ class AuthLoginScreen extends StatefulWidget {
 
 class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
     with AutoDisposedBusyScreenStateMixin<AuthLoginScreen> {
-  late final usernameController =
-      audiAddTextEditingController(TextEditingController(text: gDebugUsername));
-  late final passwordController =
-      audiAddTextEditingController(TextEditingController(text: gDebugPassword));
-  late final _loginEnabled =
-      audiAddBehaviorSubject(BehaviorSubject<bool>.seeded(false));
+  late final usernameController = audiAddTextEditingController(
+    TextEditingController(text: gDebugUsername),
+  );
+  late final passwordController = audiAddTextEditingController(
+    TextEditingController(text: gDebugPassword),
+  );
+  late final _loginEnabled = audiAddBehaviorSubject(
+    BehaviorSubject<bool>.seeded(false),
+  );
 
   @override
   void initState() {
@@ -58,7 +61,8 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
   }
 
   bool _checkLoginEnabled() {
-    var loginEnabled = usernameController.text.trim().isNotEmpty &&
+    var loginEnabled =
+        usernameController.text.trim().isNotEmpty &&
         passwordController.text.trim().isNotEmpty &&
         !busy;
     _loginEnabled.value = loginEnabled;
@@ -70,101 +74,103 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     var intl = appIntl(context);
     return ValueStreamBuilder(
-        stream: bloc.state,
-        builder: (context, snapshot) {
-          var title = intl.loginTitle;
-          // var user = snapshot.data;
+      stream: bloc.state,
+      builder: (context, snapshot) {
+        var title = intl.loginTitle;
+        // var user = snapshot.data;
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-            ),
-            body: Builder(
-              builder: (context) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return Stack(
-                  children: [
-                    ListView(children: [
+        return Scaffold(
+          appBar: AppBar(title: Text(title)),
+          body: Builder(
+            builder: (context) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return Stack(
+                children: [
+                  ListView(
+                    children: [
                       BodyContainer(
-                        child: Column(children: [
-                          Form(
-                            child: BodyContainer(
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 24,
-                                  ),
-                                  BodyHPadding(
-                                    child: TextFormField(
-                                      controller: usernameController,
-                                      decoration: InputDecoration(
-                                        labelText: intl.loginUserLabel,
-                                        border: const OutlineInputBorder(),
-                                        //hintText: 'Email',
+                        child: Column(
+                          children: [
+                            Form(
+                              child: BodyContainer(
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 24),
+                                    BodyHPadding(
+                                      child: TextFormField(
+                                        controller: usernameController,
+                                        decoration: InputDecoration(
+                                          labelText: intl.loginUserLabel,
+                                          border: const OutlineInputBorder(),
+                                          //hintText: 'Email',
+                                        ),
+                                        onChanged: (value) {
+                                          _checkLoginEnabled();
+                                        },
                                       ),
-                                      onChanged: (value) {
-                                        _checkLoginEnabled();
-                                      },
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  BodyHPadding(
-                                    child: TextFormField(
-                                      textInputAction: TextInputAction.done,
-                                      obscureText: true,
-                                      controller: passwordController,
-                                      decoration: InputDecoration(
-                                        labelText: intl.loginPasswordLabel,
-                                        border: const OutlineInputBorder(),
-                                        //hintText: 'Email',
+                                    const SizedBox(height: 16),
+                                    BodyHPadding(
+                                      child: TextFormField(
+                                        textInputAction: TextInputAction.done,
+                                        obscureText: true,
+                                        controller: passwordController,
+                                        decoration: InputDecoration(
+                                          labelText: intl.loginPasswordLabel,
+                                          border: const OutlineInputBorder(),
+                                          //hintText: 'Email',
+                                        ),
+                                        onChanged: (value) {
+                                          _checkLoginEnabled();
+                                        },
                                       ),
-                                      onChanged: (value) {
-                                        _checkLoginEnabled();
-                                      },
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  ValueStreamBuilder(
+                                    const SizedBox(height: 16),
+                                    ValueStreamBuilder(
                                       stream: _loginEnabled,
                                       builder: (context, snapshot) {
                                         var enabled = snapshot.data ?? false;
                                         return BodyHPadding(
                                           child: ElevatedButton(
-                                            onPressed: enabled
-                                                ? () async {
-                                                    await _login(context, bloc);
-                                                    /*
+                                            onPressed:
+                                                enabled
+                                                    ? () async {
+                                                      await _login(
+                                                        context,
+                                                        bloc,
+                                                      );
+                                                      /*
                                                           auth.signInWithEmailAndPassword(
                                                               usernameController.text
                                                                   .trim(),
                                                               passwordController.text
                                                                   .trim());*/
-                                                  }
-                                                : null,
+                                                    }
+                                                    : null,
                                             child: Text(intl.loginButtonLabel),
                                           ),
                                         );
-                                      }),
-                                ],
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ]),
-                      )
-                    ]),
-                    //BusyIndicator(busy: busy),
-                  ],
-                );
-              },
-            ),
-          );
-        });
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  //BusyIndicator(busy: busy),
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _login(BuildContext context, AuthScreenBloc bloc) async {
@@ -174,8 +180,10 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
           var username = usernameController.text.trim();
           var password = passwordController.text.trim();
 
-          await bloc.firebaseAuth
-              .signInWithEmailAndPassword(email: username, password: password);
+          await bloc.firebaseAuth.signInWithEmailAndPassword(
+            email: username,
+            password: password,
+          );
 
           await Future<void>.delayed(const Duration(milliseconds: 300));
         } catch (e, st) {
@@ -198,5 +206,6 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
 
 /// Auth login screen
 Widget authLoginScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
-    blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-    child: const AuthLoginScreen());
+  blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
+  child: const AuthLoginScreen(),
+);

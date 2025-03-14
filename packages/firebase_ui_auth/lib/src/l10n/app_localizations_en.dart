@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -42,4 +44,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginGenericError => 'Login failed';
+
+  @override
+  String get authUserIdLabel => 'User ID';
+
+  @override
+  String get authUserEmailLabel => 'User Email';
+
+  @override
+  String get authUserIdCopiedToClipboard => 'User id copied to clipboard';
+
+  @override
+  String get authUserEmailCopiedToClipboard => 'User email copied to clipboard';
 }

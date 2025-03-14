@@ -1,7 +1,7 @@
 export 'package:tekartik_firebase_auth/auth.dart';
 export 'src/firebase_ui_auth_service.dart' show FirebaseUiAuthService;
 export 'src/firebase_ui_auth_service_basic.dart'
-    show FirebaseUiAuthServiceBasic;
+    show FirebaseUiAuthServiceBasic, firebaseUiAuthServiceBasic;
 export 'src/screen/auth_screen.dart' show AuthScreen, authScreen;
 export 'src/screen/auth_screen_bloc.dart'
     show AuthScreenBloc, AuthScreenBlocState;
