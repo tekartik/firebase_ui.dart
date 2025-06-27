@@ -300,10 +300,9 @@ class _FirestoreTableState extends State<FirestoreDataTable> {
                       showFirstLastButtons: widget.showFirstLastButtons,
                       sortAscending: widget.sortAscending,
                       sortColumnIndex: widget.sortColumnIndex,
-                      header:
-                          actions.isEmpty
-                              ? null
-                              : (widget.header ?? const SizedBox()),
+                      header: actions.isEmpty
+                          ? null
+                          : (widget.header ?? const SizedBox()),
                       actions: actions.isEmpty ? null : actions,
                       columns: [
                         for (final head in widget.columnLabels.values)
@@ -490,8 +489,8 @@ class _PropertyTypeForm extends StatelessWidget {
       );
     } else if (formState is _BooleanFormState) {
       return Checkbox(
-        onChanged:
-            (_) => onFormStateChange(_BooleanFormState(!formState.value)),
+        onChanged: (_) =>
+            onFormStateChange(_BooleanFormState(!formState.value)),
         value: formState.value,
       );
     }
@@ -879,33 +878,31 @@ class _Source extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       selected: _selectedRowIds.contains(doc.ref.id),
-      onSelectChanged:
-          selectionEnabled
-              ? (selected) {
-                if (selected == null) return;
+      onSelectChanged: selectionEnabled
+          ? (selected) {
+              if (selected == null) return;
 
-                if ((selected && _selectedRowIds.add(doc.ref.id)) ||
-                    (!selected && _selectedRowIds.remove(doc.ref.id))) {
-                  onSelectedRows?.call(
-                    _previousSnapshot!.docs
-                        .where((e) => _selectedRowIds.contains(e.ref.id))
-                        .toList(),
-                  );
+              if ((selected && _selectedRowIds.add(doc.ref.id)) ||
+                  (!selected && _selectedRowIds.remove(doc.ref.id))) {
+                onSelectedRows?.call(
+                  _previousSnapshot!.docs
+                      .where((e) => _selectedRowIds.contains(e.ref.id))
+                      .toList(),
+                );
 
-                  notifyListeners();
-                }
+                notifyListeners();
               }
-              : null,
+            }
+          : null,
       cells: [
         for (final head in getHeaders().keys)
           DataCell(
             builder?.call(doc, head) ?? _ValueView(data[head]),
-            onTap:
-                enableDefaultEditor
-                    ? () {
-                      onTapCell(doc, data[head], head);
-                    }
-                    : null,
+            onTap: enableDefaultEditor
+                ? () {
+                    onTapCell(doc, data[head], head);
+                  }
+                : null,
           ),
       ],
     );
@@ -976,14 +973,12 @@ class _ValueView extends StatelessWidget {
       return Text('/${value.path}');
     } else if (value is GeoPoint) {
       final localizations = FirebaseUILocalizations.labelsOf(context);
-      final latitudeLabel =
-          value.latitude < 0
-              ? localizations.southInitialLabel
-              : localizations.northInitialLabel;
-      final longitudeLabel =
-          value.longitude < 0
-              ? localizations.westInitialLabel
-              : localizations.eastInitialLabel;
+      final latitudeLabel = value.latitude < 0
+          ? localizations.southInitialLabel
+          : localizations.northInitialLabel;
+      final longitudeLabel = value.longitude < 0
+          ? localizations.westInitialLabel
+          : localizations.eastInitialLabel;
 
       return Text(
         '[${value.latitude.abs()}° $latitudeLabel, '

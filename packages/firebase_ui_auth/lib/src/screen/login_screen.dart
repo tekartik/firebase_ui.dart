@@ -134,21 +134,17 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
                                         var enabled = snapshot.data ?? false;
                                         return BodyHPadding(
                                           child: ElevatedButton(
-                                            onPressed:
-                                                enabled
-                                                    ? () async {
-                                                      await _login(
-                                                        context,
-                                                        bloc,
-                                                      );
-                                                      /*
+                                            onPressed: enabled
+                                                ? () async {
+                                                    await _login(context, bloc);
+                                                    /*
                                                           auth.signInWithEmailAndPassword(
                                                               usernameController.text
                                                                   .trim(),
                                                               passwordController.text
                                                                   .trim());*/
-                                                    }
-                                                    : null,
+                                                  }
+                                                : null,
                                             child: Text(intl.loginButtonLabel),
                                           ),
                                         );
