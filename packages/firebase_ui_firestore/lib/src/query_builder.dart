@@ -181,10 +181,9 @@ class _FirestoreQueryBuilderState extends State<FirestoreQueryBuilder> {
 
           _snapshot = _snapshot.copyWith(
             hasData: true,
-            docs:
-                event.docs.length < expectedDocsCount
-                    ? event.docs
-                    : event.docs.take(expectedDocsCount - 1).toList(),
+            docs: event.docs.length < expectedDocsCount
+                ? event.docs
+                : event.docs.take(expectedDocsCount - 1).toList(),
             error: null,
             hasMore: event.docs.length == expectedDocsCount,
             stackTrace: null,

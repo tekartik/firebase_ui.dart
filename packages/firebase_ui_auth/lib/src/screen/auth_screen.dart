@@ -72,34 +72,35 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                                         intl.profileLoggedInAs(
                                           displayName ?? email ?? '<null>',
                                         ),
-                                        style:
-                                            Theme.of(
-                                              context,
-                                            ).textTheme.titleMedium,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleMedium,
                                       ),
                                       subtitle:
                                           (displayName != null && email != null)
-                                              ? Text(email)
-                                              : null,
+                                          ? Text(email)
+                                          : null,
                                     ),
                                     BehaviorSubjectBuilder(
                                       subject: _showUserId,
                                       builder: (_, snapshot) {
                                         return snapshot.data!
                                             ? ListTile(
-                                              leading: const Icon(Icons.info),
-                                              title: Text(intl.authUserIdLabel),
-                                              subtitle: Text(uid!),
-                                              onTap: () {
-                                                Clipboard.setData(
-                                                  ClipboardData(text: uid),
-                                                );
-                                                muiSnack(
-                                                  context,
-                                                  intl.authUserIdCopiedToClipboard,
-                                                );
-                                              },
-                                            )
+                                                leading: const Icon(Icons.info),
+                                                title: Text(
+                                                  intl.authUserIdLabel,
+                                                ),
+                                                subtitle: Text(uid!),
+                                                onTap: () {
+                                                  Clipboard.setData(
+                                                    ClipboardData(text: uid),
+                                                  );
+                                                  muiSnack(
+                                                    context,
+                                                    intl.authUserIdCopiedToClipboard,
+                                                  );
+                                                },
+                                              )
                                             : const SizedBox();
                                       },
                                     ),
@@ -109,23 +110,25 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                                         builder: (_, snapshot) {
                                           return snapshot.data!
                                               ? ListTile(
-                                                leading: const Icon(
-                                                  Icons.alternate_email,
-                                                ),
-                                                title: Text(
-                                                  intl.authUserEmailLabel,
-                                                ),
-                                                subtitle: Text(email),
-                                                onTap: () {
-                                                  Clipboard.setData(
-                                                    ClipboardData(text: email),
-                                                  );
-                                                  muiSnack(
-                                                    context,
-                                                    intl.authUserEmailCopiedToClipboard,
-                                                  );
-                                                },
-                                              )
+                                                  leading: const Icon(
+                                                    Icons.alternate_email,
+                                                  ),
+                                                  title: Text(
+                                                    intl.authUserEmailLabel,
+                                                  ),
+                                                  subtitle: Text(email),
+                                                  onTap: () {
+                                                    Clipboard.setData(
+                                                      ClipboardData(
+                                                        text: email,
+                                                      ),
+                                                    );
+                                                    muiSnack(
+                                                      context,
+                                                      intl.authUserEmailCopiedToClipboard,
+                                                    );
+                                                  },
+                                                )
                                               : const SizedBox();
                                         },
                                       ),

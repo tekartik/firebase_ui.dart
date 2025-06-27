@@ -42,7 +42,12 @@ class FirebaseUIFirestoreExample extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           itemBuilder: (context, snapshot) {
             final user = User.fromJson(snapshot.data);
-            return Column(children: [UserTile(user: user), const Divider()]);
+            return Column(
+              children: [
+                UserTile(user: user),
+                const Divider(),
+              ],
+            );
           },
         ),
       ),
