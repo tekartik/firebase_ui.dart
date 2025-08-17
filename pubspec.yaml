@@ -1,7 +1,7 @@
 name: _
 publish_to: none
 environment:
-  sdk: ^3.8.0
+  sdk: ^3.9.0
 workspace:
   - packages/firebase_flutter_ui_auth
   - packages/firebase_ui_auth
