@@ -16,47 +16,38 @@ dependencies:
   tekartik_app_rx:
     git:
       url: https://github.com/tekartik/app_common_utils.dart
-      ref: dart3a
       path: app_rx
   tekartik_app_rx_utils:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_rx_utils
   tekartik_firebase_auth:
     git:
       url: https://github.com/tekartik/firebase_auth.dart
-      ref: dart3a
       path: auth
   tekartik_firebase_auth_sembast:
     git:
       url: https://github.com/tekartik/firebase_auth.dart
-      ref: dart3a
       path: auth_sembast
   tekartik_app_rx_bloc:
     git:
       url: https://github.com/tekartik/app_common_utils.dart
-      ref: dart3a
       path: app_rx_bloc
   tekartik_app_flutter_bloc:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_bloc
   tekartik_app_flutter_widget:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_widget
   tekartik_app_rx_bloc_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_rx_bloc
   tekartik_common_utils:
     git:
       url: https://github.com/tekartik/common_utils.dart
-      ref: dart3a
 
 dev_dependencies:
   flutter_test:
@@ -65,7 +56,6 @@ dev_dependencies:
   tekartik_lints_flutter:
     git:
       url: https://github.com/tekartik/common_flutter.dart
-      ref: dart3a
       path: packages/lints_flutter
   flutter_gen: ">=5.8.0"
   dev_build: ">=1.1.2"

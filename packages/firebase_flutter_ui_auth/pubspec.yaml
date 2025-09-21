@@ -14,59 +14,48 @@ dependencies:
   tekartik_app_rx:
     git:
       url: https://github.com/tekartik/app_common_utils.dart
-      ref: dart3a
       path: app_rx
   tekartik_app_rx_utils:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_rx_utils
   tekartik_firebase_auth:
     git:
       url: https://github.com/tekartik/firebase_auth.dart
-      ref: dart3a
       path: auth
   tekartik_firebase_auth_sembast:
     git:
       url: https://github.com/tekartik/firebase_auth.dart
-      ref: dart3a
       path: auth_sembast
   tekartik_app_rx_bloc:
     git:
       url: https://github.com/tekartik/app_common_utils.dart
-      ref: dart3a
       path: app_rx_bloc
   tekartik_app_flutter_bloc:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_bloc
   tekartik_app_flutter_widget:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_widget
   firebase_ui_auth: '>=1.15.0'
   tekartik_firebase_ui_auth:
     git:
       url: https://github.com/tekartik/firebase_ui.dart
-      ref: dart3a
       path: packages/firebase_ui_auth
   tekartik_firebase_auth_flutter:
     git:
       url: https://github.com/tekartik/firebase_flutter
-      ref: dart3a
       path: auth_flutter
   tekartik_firebase_flutter:
     git:
       url: https://github.com/tekartik/firebase_flutter
-      ref: dart3a
       path: firebase_flutter
   firebase_ui_oauth_google: ^1.4.0
   tekartik_app_rx_bloc_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart3a
       path: app_rx_bloc
 
 dev_dependencies:
@@ -76,7 +65,6 @@ dev_dependencies:
   tekartik_lints_flutter:
     git:
       url: https://github.com/tekartik/common_flutter.dart
-      ref: dart3a
       path: packages/lints_flutter
 
 # For information on the generic Dart part of this file, see the

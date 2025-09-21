@@ -13,7 +13,6 @@ dependencies:
     git:
       url: https://github.com/tekartik/firebase_firestore.dart
       path: firestore
-      ref: dart3a
     version: '>=0.8.0'
   firebase_ui_localizations: '>=1.7.0'
   flutter:

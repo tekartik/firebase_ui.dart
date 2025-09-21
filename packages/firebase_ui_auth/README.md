@@ -11,6 +11,5 @@ In your `pubspec.yaml`:
     git:
       url: https://github.com/tekartik/firebase_ui.dart
       path: packages/firebase_ui_auth
-      ref: dart3a
     version: '>=0.1.0'
 ```
