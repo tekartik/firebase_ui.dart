@@ -39,7 +39,8 @@ dependencies:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
       path: app_widget
-  firebase_ui_auth: '>=1.15.0'
+  # firebase_ui_auth: '>=2.0.0'
+  firebase_ui_auth: '>=1.7.1'
   tekartik_firebase_ui_auth:
     git:
       url: https://github.com/tekartik/firebase_ui.dart
@@ -52,7 +53,8 @@ dependencies:
     git:
       url: https://github.com/tekartik/firebase_flutter
       path: firebase_flutter
-  firebase_ui_oauth_google: ^1.4.0
+  # firebase_ui_oauth_google: ">=2.0.0"
+  firebase_ui_oauth_google: ">=1.4.3"
   tekartik_app_rx_bloc_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
