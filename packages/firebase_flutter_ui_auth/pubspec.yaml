@@ -52,7 +52,7 @@ dependencies:
     git:
       url: https://github.com/tekartik/firebase_flutter
       path: firebase_flutter
-  firebase_ui_oauth_google: ^1.4.0
+  firebase_ui_oauth_google: ^2.0.0
   tekartik_app_rx_bloc_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
