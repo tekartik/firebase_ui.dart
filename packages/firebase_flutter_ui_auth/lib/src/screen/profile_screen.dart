@@ -6,6 +6,7 @@ import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
 import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
+import 'package:tekartik_firebase_flutter_ui_auth/src/screen/email_verification_screen.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/src/utils/app_intl.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
@@ -79,3 +80,10 @@ Widget authFlutterProfileScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
   blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
   child: const AuthFlutterProfileScreen(),
 );
+
+/// Auth profile screen
+Widget authFlutterEmailVerificationScreen({FirebaseAuth? firebaseAuth}) =>
+    BlocProvider(
+      blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
+      child: const AuthFlutterEmailVerificationScreen(),
+    );

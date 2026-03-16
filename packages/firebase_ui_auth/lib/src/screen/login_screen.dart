@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tekartik_app_flutter_widget/mini_ui.dart';
 import 'package:tekartik_app_flutter_widget/view/body_container.dart';
 import 'package:tekartik_app_flutter_widget/view/body_h_padding.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_bloc_flutter/app_rx_flutter.dart';
-import 'package:tekartik_firebase_auth/auth.dart';
+import 'package:tekartik_app_url_launcher_flutter/web_launch_uri.dart';
+import 'package:tekartik_firebase_auth_rest/auth_rest.dart';
 import 'package:tekartik_firebase_ui_auth/src/utils/app_intl.dart';
 
 import 'auth_screen_bloc.dart';
@@ -73,6 +75,18 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     var intl = appIntl(context);
+    var auth = bloc.firebaseAuth;
+    GoogleRestAuthProvider? authRestGoogleProvider;
+    if (auth is FirebaseAuthRest) {
+      var providers = auth.providers;
+      for (var provider in providers) {
+        if (provider is GoogleRestAuthProvider) {
+          authRestGoogleProvider = provider;
+          break;
+        }
+      }
+    }
+
     return ValueStreamBuilder(
       stream: bloc.state,
       builder: (context, snapshot) {
@@ -150,6 +164,86 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
                                         );
                                       },
                                     ),
+                                    if (authRestGoogleProvider != null) ...[
+                                      const SizedBox(height: 16),
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          authRestGoogleProvider!
+                                              .userPrompt = (uri) async {
+                                            if (context.mounted) {
+                                              await showDialog<void>(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                      intl.signInWithGoogleButtonLabel,
+                                                    ),
+                                                    content: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        const Text(
+                                                          'Please sign in using the following link:',
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 8,
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            webLaunchUri(
+                                                              Uri.parse(uri),
+                                                            );
+                                                          },
+                                                          child: Text(
+                                                            uri,
+                                                            style:
+                                                                const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Clipboard.setData(
+                                                            ClipboardData(
+                                                              text: uri,
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: const Text(
+                                                          'Copy Link',
+                                                        ),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                            context,
+                                                          ).pop();
+                                                        },
+                                                        child: const Text(
+                                                          'Done',
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            }
+                                          };
+                                          await auth.signIn(
+                                            authRestGoogleProvider,
+                                          );
+                                        },
+                                        child: Text(
+                                          intl.signInWithGoogleButtonLabel,
+                                        ),
+                                      ),
+                                    ],
                                   ],
                                 ),
                               ),

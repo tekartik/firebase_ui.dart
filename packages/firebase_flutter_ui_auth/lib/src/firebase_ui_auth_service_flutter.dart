@@ -36,6 +36,10 @@ class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
   @override
   Widget profileScreen({FirebaseAuth? firebaseAuth}) =>
       impl.authFlutterProfileScreen(firebaseAuth: firebaseAuth);
+
+  @override
+  Widget emailVerificationScreen({FirebaseAuth? firebaseAuth}) =>
+      impl.authFlutterProfileScreen(firebaseAuth: firebaseAuth);
 }
 
 /// FirebaseUiAuthServiceFlutter instance

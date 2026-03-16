@@ -98,77 +98,17 @@ abstract class AppLocalizations {
     Locale('fr'),
   ];
 
-  /// The profile screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get profileTitle;
-
   /// The authentication screen title
   ///
   /// In en, this message translates to:
   /// **'Authentication'**
   String get authTitle;
 
-  /// The logout button label
+  /// The authentication screen user email copied to clipboard message
   ///
   /// In en, this message translates to:
-  /// **'Logout'**
-  String get logoutButtonLabel;
-
-  /// The login button label
-  ///
-  /// In en, this message translates to:
-  /// **'Login'**
-  String get loginButtonLabel;
-
-  /// The profile button label
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get profileButtonLabel;
-
-  /// The profile screen logged in as label
-  ///
-  /// In en, this message translates to:
-  /// **'Logged in as {email}'**
-  String profileLoggedInAs(String email);
-
-  /// A message with a single parameter
-  ///
-  /// In en, this message translates to:
-  /// **'Hello {userName}'**
-  String hello(String userName);
-
-  /// The login screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Login'**
-  String get loginTitle;
-
-  /// The login screen user label
-  ///
-  /// In en, this message translates to:
-  /// **'User'**
-  String get loginUserLabel;
-
-  /// The login screen password label
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get loginPasswordLabel;
-
-  /// The login screen generic error message
-  ///
-  /// In en, this message translates to:
-  /// **'Login failed'**
-  String get loginGenericError;
-
-  /// The label for UserID
-  ///
-  /// In en, this message translates to:
-  /// **'User ID'**
-  String get authUserIdLabel;
+  /// **'User email copied to clipboard'**
+  String get authUserEmailCopiedToClipboard;
 
   /// The label for User Email
   ///
@@ -182,11 +122,95 @@ abstract class AppLocalizations {
   /// **'User id copied to clipboard'**
   String get authUserIdCopiedToClipboard;
 
-  /// The authentication screen user email copied to clipboard message
+  /// The label for UserID
   ///
   /// In en, this message translates to:
-  /// **'User email copied to clipboard'**
-  String get authUserEmailCopiedToClipboard;
+  /// **'User ID'**
+  String get authUserIdLabel;
+
+  /// Email not verified message
+  ///
+  /// In en, this message translates to:
+  /// **'Email not verified'**
+  String get emailNotVerifiedMessage;
+
+  /// The email verification button label
+  ///
+  /// In en, this message translates to:
+  /// **'Verify email'**
+  String get emailVerificationButtonLabel;
+
+  /// Email verified message
+  ///
+  /// In en, this message translates to:
+  /// **'Email verified'**
+  String get emailVerifiedMessage;
+
+  /// A message with a single parameter
+  ///
+  /// In en, this message translates to:
+  /// **'Hello {userName}'**
+  String hello(String userName);
+
+  /// The login button label
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginButtonLabel;
+
+  /// The login screen generic error message
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed'**
+  String get loginGenericError;
+
+  /// The login screen password label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get loginPasswordLabel;
+
+  /// The login screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginTitle;
+
+  /// The login screen user label
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get loginUserLabel;
+
+  /// The logout button label
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logoutButtonLabel;
+
+  /// The profile button label
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileButtonLabel;
+
+  /// The profile screen logged in as label
+  ///
+  /// In en, this message translates to:
+  /// **'Logged in as {email}'**
+  String profileLoggedInAs(String email);
+
+  /// The profile screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// The sign in with google button label
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get signInWithGoogleButtonLabel;
 }
 
 class _AppLocalizationsDelegate

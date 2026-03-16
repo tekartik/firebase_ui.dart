@@ -1,19 +1,69 @@
 {
-  "profileTitle": "Profile",
-  "@profileTitle": {
-    "description": "The profile screen title"
-  },
   "authTitle": "Authentication",
   "@authTitle": {
     "description": "The authentication screen title"
   },
-  "logoutButtonLabel": "Logout",
-  "@logoutButtonLabel": {
-    "description": "The logout button label"
+  "authUserEmailCopiedToClipboard": "User email copied to clipboard",
+  "@authUserEmailCopiedToClipboard": {
+    "description": "The authentication screen user email copied to clipboard message"
+  },
+  "authUserEmailLabel": "User Email",
+  "@authUserEmailLabel": {
+    "description": "The label for User Email"
+  },
+  "authUserIdCopiedToClipboard": "User id copied to clipboard",
+  "@authUserIdCopiedToClipboard": {
+    "description": "The authentication screen user id copied to clipboard message"
+  },
+  "authUserIdLabel": "User ID",
+  "@authUserIdLabel": {
+    "description": "The label for UserID"
+  },
+  "emailNotVerifiedMessage": "Email not verified",
+  "@emailNotVerifiedMessage": {
+    "description": "Email not verified message"
+  },
+  "emailVerificationButtonLabel": "Verify email",
+  "@emailVerificationButtonLabel": {
+    "description": "The email verification button label"
+  },
+  "emailVerifiedMessage": "Email verified",
+  "@emailVerifiedMessage": {
+    "description": "Email verified message"
+  },
+  "hello": "Hello {userName}",
+  "@hello": {
+    "description": "A message with a single parameter",
+    "placeholders": {
+      "userName": {
+        "type": "String",
+        "example": "Bob"
+      }
+    }
   },
   "loginButtonLabel": "Login",
   "@loginButtonLabel": {
     "description": "The login button label"
+  },
+  "loginGenericError": "Login failed",
+  "@loginGenericError": {
+    "description": "The login screen generic error message"
+  },
+  "loginPasswordLabel": "Password",
+  "@loginPasswordLabel": {
+    "description": "The login screen password label"
+  },
+  "loginTitle": "Login",
+  "@loginTitle": {
+    "description": "The login screen title"
+  },
+  "loginUserLabel": "User",
+  "@loginUserLabel": {
+    "description": "The login screen user label"
+  },
+  "logoutButtonLabel": "Logout",
+  "@logoutButtonLabel": {
+    "description": "The logout button label"
   },
   "profileButtonLabel": "Profile",
   "@profileButtonLabel": {
@@ -29,46 +79,12 @@
       }
     }
   },
-  "hello": "Hello {userName}",
-  "loginTitle": "Login",
-  "@loginTitle": {
-    "description": "The login screen title"
+  "profileTitle": "Profile",
+  "@profileTitle": {
+    "description": "The profile screen title"
   },
-  "loginUserLabel": "User",
-  "@loginUserLabel": {
-    "description": "The login screen user label"
-  },
-  "loginPasswordLabel": "Password",
-  "@loginPasswordLabel": {
-    "description": "The login screen password label"
-  },
-  "loginGenericError": "Login failed",
-    "@loginGenericError": {
-        "description": "The login screen generic error message"
-    },
-  "@hello": {
-    "description": "A message with a single parameter",
-    "placeholders": {
-      "userName": {
-        "type": "String",
-        "example": "Bob"
-      }
-    }
-  },
-  "authUserIdLabel": "User ID",
-  "@authUserIdLabel": {
-    "description": "The label for UserID"
-  },
-    "authUserEmailLabel": "User Email",
-    "@authUserEmailLabel": {
-        "description": "The label for User Email"
-    },
-  "authUserIdCopiedToClipboard": "User id copied to clipboard",
-    "@authUserIdCopiedToClipboard": {
-        "description": "The authentication screen user id copied to clipboard message"
-    },
-  "authUserEmailCopiedToClipboard": "User email copied to clipboard",
-    "@authUserEmailCopiedToClipboard": {
-    "description": "The authentication screen user email copied to clipboard message"
+  "signInWithGoogleButtonLabel": "Sign in with Google",
+  "@signInWithGoogleButtonLabel": {
+    "description": "The sign in with google button label"
   }
 }

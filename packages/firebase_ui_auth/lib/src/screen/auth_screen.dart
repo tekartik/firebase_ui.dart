@@ -42,6 +42,7 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
       builder: (context, snapshot) {
         var state = snapshot.data;
         var email = state?.user?.email?.trimmedNonEmpty();
+        var emailVerified = state?.user?.emailVerified ?? false;
         var displayName = state?.user?.displayName?.trimmedNonEmpty();
         var uid = state?.user?.uid;
         return Scaffold(
@@ -109,25 +110,41 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                                         subject: _showUserId,
                                         builder: (_, snapshot) {
                                           return snapshot.data!
-                                              ? ListTile(
-                                                  leading: const Icon(
-                                                    Icons.alternate_email,
-                                                  ),
-                                                  title: Text(
-                                                    intl.authUserEmailLabel,
-                                                  ),
-                                                  subtitle: Text(email),
-                                                  onTap: () {
-                                                    Clipboard.setData(
-                                                      ClipboardData(
-                                                        text: email,
+                                              ? Column(
+                                                  children: [
+                                                    ListTile(
+                                                      leading: const Icon(
+                                                        Icons.alternate_email,
                                                       ),
-                                                    );
-                                                    muiSnack(
-                                                      context,
-                                                      intl.authUserEmailCopiedToClipboard,
-                                                    );
-                                                  },
+                                                      title: Text(
+                                                        intl.authUserEmailLabel,
+                                                      ),
+                                                      subtitle: Text(email),
+                                                      onTap: () {
+                                                        Clipboard.setData(
+                                                          ClipboardData(
+                                                            text: email,
+                                                          ),
+                                                        );
+                                                        muiSnack(
+                                                          context,
+                                                          intl.authUserEmailCopiedToClipboard,
+                                                        );
+                                                      },
+                                                    ),
+                                                    ListTile(
+                                                      leading: Icon(
+                                                        emailVerified
+                                                            ? Icons.check_circle
+                                                            : Icons.error,
+                                                      ),
+                                                      title: Text(
+                                                        emailVerified
+                                                            ? intl.emailVerifiedMessage
+                                                            : intl.emailNotVerifiedMessage,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 )
                                               : const SizedBox();
                                         },
@@ -141,7 +158,7 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
-                                    const SizedBox(width: 160),
+                                    const SizedBox(width: 160, height: 16),
                                     if (!state.signedIn)
                                       ElevatedButton(
                                         onPressed: () {
@@ -152,8 +169,23 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                                         },
                                         child: Text(intl.loginButtonLabel),
                                       ),
-                                    const SizedBox(width: 160, height: 16),
+
                                     if (state.signedIn) ...[
+                                      if (state.user?.emailVerified ==
+                                          false) ...[
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            _goToEmailVerificationScreen(
+                                              context,
+                                              firebaseAuth: bloc.firebaseAuth,
+                                            );
+                                          },
+                                          child: Text(
+                                            intl.emailVerificationButtonLabel,
+                                          ),
+                                        ),
+                                      ],
+                                      const SizedBox(height: 16),
                                       ElevatedButton(
                                         onPressed: () {
                                           _goToProfileScreen(
@@ -175,6 +207,7 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 16),
                           ],
                         ),
                       ),
@@ -212,6 +245,18 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => uiAuthService.profileScreen(firebaseAuth: firebaseAuth),
+      ),
+    );
+  }
+
+  void _goToEmailVerificationScreen(
+    BuildContext context, {
+    required FirebaseAuth firebaseAuth,
+  }) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) =>
+            uiAuthService.emailVerificationScreen(firebaseAuth: firebaseAuth),
       ),
     );
   }

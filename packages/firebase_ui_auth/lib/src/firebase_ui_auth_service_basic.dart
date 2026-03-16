@@ -17,6 +17,12 @@ class FirebaseUiAuthServiceBasic implements FirebaseUiAuthService {
   @override
   Widget profileScreen({FirebaseAuth? firebaseAuth}) =>
       impl.authProfileScreen(firebaseAuth: firebaseAuth);
+
+  @override
+  Widget emailVerificationScreen({FirebaseAuth? firebaseAuth}) {
+    // TODO: implement emailVerificationScreen
+    throw UnimplementedError();
+  }
 }
 
 /// FirebaseUiAuthServiceBasic instance

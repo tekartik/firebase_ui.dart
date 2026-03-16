@@ -11,4 +11,7 @@ abstract class FirebaseUiAuthService {
 
   /// Profile
   Widget profileScreen({FirebaseAuth? firebaseAuth});
+
+  /// Profile
+  Widget emailVerificationScreen({FirebaseAuth? firebaseAuth});
 }

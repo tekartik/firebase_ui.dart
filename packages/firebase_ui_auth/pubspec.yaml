@@ -48,6 +48,14 @@ dependencies:
   tekartik_common_utils:
     git:
       url: https://github.com/tekartik/common_utils.dart
+  tekartik_firebase_auth_rest:
+    git:
+      url: https://github.com/tekartik/firebase_rest.dart
+      path: auth_rest
+  tekartik_app_url_launcher_flutter:
+    git:
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      path: app_url_launcher
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +73,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
 resolution: workspace
 
   # To add assets to your package, add an assets section, like this:
