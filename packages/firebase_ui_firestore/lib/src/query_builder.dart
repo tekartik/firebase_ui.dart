@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:tekartik_firebase_firestore/firestore.dart';
 
 /// A function that builds a widget from a [FirestoreQueryBuilderSnapshot]
@@ -434,7 +435,8 @@ class FirestoreListView extends FirestoreQueryBuilder {
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double? cacheExtent,
+    @Deprecated('Use scrollCacheExtent instead.') double? cacheExtent,
+    ScrollCacheExtent? scrollCacheExtent,
     int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
@@ -461,6 +463,11 @@ class FirestoreListView extends FirestoreQueryBuilder {
            }
 
            return ListView.builder(
+             scrollCacheExtent:
+                 scrollCacheExtent ??
+                 (cacheExtent != null
+                     ? ScrollCacheExtent.pixels(cacheExtent)
+                     : null),
              itemCount: snapshot.docs.length,
              itemBuilder: (context, index) {
                final isLastItem = index + 1 == snapshot.docs.length;
@@ -481,7 +488,6 @@ class FirestoreListView extends FirestoreQueryBuilder {
              addAutomaticKeepAlives: addAutomaticKeepAlives,
              addRepaintBoundaries: addRepaintBoundaries,
              addSemanticIndexes: addSemanticIndexes,
-             cacheExtent: cacheExtent,
              semanticChildCount: semanticChildCount,
              dragStartBehavior: dragStartBehavior,
              keyboardDismissBehavior: keyboardDismissBehavior,
