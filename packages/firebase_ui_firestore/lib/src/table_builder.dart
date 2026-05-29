@@ -804,13 +804,13 @@ class _Source extends DataTableSource {
     required this.getHeaders,
     required this.getOnError,
     required bool selectionEnabled,
-    required int rowsPerPage,
+    required this._rowsPerPage,
     required this.enableDefaultEditor,
     required this.onTapCell,
     this.builder,
     this.onSelectedRows,
-  }) : _selectionEnabled = selectionEnabled,
-       _rowsPerpage = rowsPerPage;
+    // ignore: prefer_initializing_formals
+  }) : _selectionEnabled = selectionEnabled;
 
   final CellBuilder? builder;
 
@@ -818,11 +818,11 @@ class _Source extends DataTableSource {
   final OnTapCell onTapCell;
   final OnSelectedRows? onSelectedRows;
 
-  int _rowsPerpage;
-  int get rowsPerPage => _rowsPerpage;
+  int _rowsPerPage;
+  int get rowsPerPage => _rowsPerPage;
   set rowsPerPage(int value) {
-    if (value != _rowsPerpage) {
-      _rowsPerpage = value;
+    if (value != _rowsPerPage) {
+      _rowsPerPage = value;
       notifyListeners();
     }
   }
