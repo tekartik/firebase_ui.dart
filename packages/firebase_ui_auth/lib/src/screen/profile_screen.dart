@@ -11,6 +11,7 @@ import 'package:tekartik_firebase_auth/auth.dart';
 import 'package:tekartik_firebase_ui_auth/src/utils/app_intl.dart';
 
 import 'auth_screen_bloc.dart';
+
 // ignore: unused_import, depend_on_referenced_packages
 
 /// Auth profile screen

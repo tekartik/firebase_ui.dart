@@ -13,6 +13,7 @@ import 'package:tekartik_firebase_auth_rest/auth_rest.dart';
 import 'package:tekartik_firebase_ui_auth/src/utils/app_intl.dart';
 
 import 'auth_screen_bloc.dart';
+
 // ignore: unused_import, depend_on_referenced_packages
 
 /// debug username
