@@ -22,6 +22,7 @@ class _AuthFlutterEmailVerificationScreenState
   @override
   void initState() {
     super.initState();
+
     scheduleMicrotask(() async {
       if (mounted) {
         var bloc = BlocProvider.of<AuthScreenBloc>(context);
@@ -52,6 +53,7 @@ class _AuthFlutterEmailVerificationScreenState
                 Navigator.of(context).pop();
               }
             }),
+
             AuthCancelledAction((context) {
               if (mounted) {
                 Navigator.of(context).pop();

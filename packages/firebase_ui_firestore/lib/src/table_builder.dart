@@ -23,7 +23,6 @@ import 'query_builder.dart';
 ///
 /// An example usage would be:
 ///
-///
 /// ```dart
 /// // A collection of {'name': string, 'age': number}
 /// final usersCollection = FirebaseFirestore.instance.collection('users');
@@ -39,7 +38,6 @@ import 'query_builder.dart';
 /// );
 /// ```
 /// {@endtemplate}
-///
 
 typedef CellBuilder = Widget Function(DocumentSnapshot snapshot, String colKey);
 

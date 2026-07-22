@@ -185,6 +185,7 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                                           ),
                                         ),
                                       ],
+
                                       const SizedBox(height: 16),
                                       ElevatedButton(
                                         onPressed: () {
@@ -195,6 +196,7 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                                         },
                                         child: Text(intl.profileButtonLabel),
                                       ),
+
                                       const SizedBox(height: 16),
                                       ElevatedButton(
                                         onPressed: () {
@@ -207,6 +209,7 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                                 ),
                               ),
                             ),
+
                             const SizedBox(height: 16),
                           ],
                         ),
@@ -214,6 +217,7 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
                   ],
                 ),
               ),
+
               BusyIndicator(busy: busyStream),
             ],
           ),

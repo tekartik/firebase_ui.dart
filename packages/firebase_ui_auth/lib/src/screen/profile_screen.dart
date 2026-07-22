@@ -28,6 +28,7 @@ class _AuthProfileScreenState extends AutoDisposeBaseState<AuthProfileScreen>
   @override
   void initState() {
     super.initState();
+
     scheduleMicrotask(() async {
       if (mounted) {
         var bloc = BlocProvider.of<AuthScreenBloc>(context);
@@ -79,6 +80,7 @@ class _AuthProfileScreenState extends AutoDisposeBaseState<AuthProfileScreen>
                                       'user',
                                 ),
                               ),
+
                               const SizedBox(height: 16),
                               BodyHPadding(
                                 child: ElevatedButton(
@@ -94,6 +96,7 @@ class _AuthProfileScreenState extends AutoDisposeBaseState<AuthProfileScreen>
                       ],
                     ),
                   ),
+
                   BusyIndicator(busy: busyStream),
                 ],
               );

@@ -27,6 +27,7 @@ class _AuthFlutterLoginScreenState extends State<AuthFlutterLoginScreen> {
   @override
   void initState() {
     super.initState();
+
     scheduleMicrotask(() async {
       if (mounted) {
         var bloc = BlocProvider.of<AuthScreenBloc>(context);

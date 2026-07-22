@@ -47,6 +47,7 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
   void initState() {
     _checkLoginEnabled();
     super.initState();
+
     scheduleMicrotask(() async {
       if (mounted) {
         var bloc = BlocProvider.of<AuthScreenBloc>(context);
@@ -126,6 +127,7 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
                                         },
                                       ),
                                     ),
+
                                     const SizedBox(height: 16),
                                     BodyHPadding(
                                       child: TextFormField(
@@ -142,6 +144,7 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
                                         },
                                       ),
                                     ),
+
                                     const SizedBox(height: 16),
                                     ValueStreamBuilder(
                                       stream: _loginEnabled,

@@ -394,7 +394,6 @@ typedef FirestoreEmptyBuilder = Widget Function(BuildContext context);
 ///    );
 /// ```
 ///
-///
 /// Using [FirestoreListView], we can now show the list of movies by writing:
 ///
 /// ```dart
