@@ -50,6 +50,11 @@ implementations used in tests.
   Use `cellBuilder` to customize how a field is rendered.
 * The table strings come from `firebase_ui_localizations`: add
   `FirebaseUILocalizations.delegate` to the `MaterialApp` delegates.
+* A security rules denial surfaces as a `FirestoreException` whose `code` is
+  `FirestoreErrorCode.permissionDenied` on both the native and REST backends;
+  handle it in `errorBuilder`. `example/ui_auth_emulator_example` in the
+  repository shows `FirestoreListView` on the Firestore emulator with rules
+  and a screen testing get/list/create/put as signed-in or anonymous.
 
 ## Examples
 

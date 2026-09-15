@@ -32,4 +32,6 @@ const uiAuthService = FirebaseUiAuthServiceFlutter(
 uiAuthService.authScreen(firebaseAuth: firebaseAuth);
 ```
 
-See the `skills/` folder for agent skills (`dart run skills@ get`).
+See `example/ui_auth_emulator_example` in the repository for a complete app
+running on the Firebase emulators, and the `skills/` folder for agent skills
+(`dart run skills@ get`).

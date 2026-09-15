@@ -43,6 +43,13 @@ without changes.
   (native screens), plus the global material delegates.
 * Do not import `firebase_ui_auth` screens directly in app code; go through
   the service so the local flavor keeps working.
+* To develop against the Firebase emulators, call
+  `auth.nativeInstance.useAuthEmulator(host, port, automaticHostMapping: true)`
+  right after creating the auth (`automaticHostMapping` maps localhost to
+  10.0.2.2 on the Android emulator) and enable cleartext HTTP in the Android
+  manifest. `example/ui_auth_emulator_example` in the repository does this
+  with a `demo-` placeholder project id and switches to the REST backend plus
+  the basic screens on linux/windows.
 
 ## Examples
 
