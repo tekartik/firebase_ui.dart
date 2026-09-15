@@ -1,0 +1,43 @@
+name: tekartik_firebase_ui_auth_sdb_example
+description: Example of tekartik_firebase_ui_auth using a local sdb auth backend.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ">=1.0.9"
+  tekartik_app_flutter_idb:
+    git:
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      path: app_idb
+  tekartik_firebase_auth_sdb:
+    git:
+      url: https://github.com/tekartik/firebase_auth.dart
+      path: auth_sdb
+  tekartik_firebase_local:
+    git:
+      url: https://github.com/tekartik/firebase.dart
+      path: firebase_local
+  tekartik_firebase_ui_auth:
+    git:
+      url: https://github.com/tekartik/firebase_ui.dart
+      path: packages/firebase_ui_auth
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ">=6.0.0"
+  tekartik_lints_flutter:
+    git:
+      url: https://github.com/tekartik/common_flutter.dart
+      path: packages/lints_flutter
+
+flutter:
+  uses-material-design: true
+resolution: workspace

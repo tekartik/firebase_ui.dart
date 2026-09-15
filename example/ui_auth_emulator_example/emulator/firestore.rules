@@ -1,0 +1,36 @@
+rules_version = '2';
+
+// Rules exercised by the "Rules test" screen of the example.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // The hardcoded test user of the example (see lib/emulator_config.dart).
+    function isTestUser() {
+      return signedIn() && request.auth.token.email == 'test.user@example.com';
+    }
+
+    // Public items: readable by everyone, writable by any signed-in user.
+    match /public_items/{itemId} {
+      allow get, list: if true;
+      allow create, update, delete: if signedIn();
+    }
+
+    // Private items: only their owner can read and write them.
+    match /users/{userId}/items/{itemId} {
+      allow read, write: if signedIn() && request.auth.uid == userId;
+    }
+
+    // Admin items: readable by signed-in users, writable by the test user only.
+    match /admin_items/{itemId} {
+      allow read: if signedIn();
+      allow write: if isTestUser();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
