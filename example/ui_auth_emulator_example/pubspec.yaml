@@ -74,6 +74,7 @@ dev_dependencies:
       url: https://github.com/tekartik/common_flutter.dart
       path: packages/lints_flutter
   dev_build: ">=1.1.7+3"
+  path: ">=1.9.1"
   process_run: ">=1.2.4"
   test: ">=1.31.0"
   tekartik_app_flutter_idb:
@@ -92,6 +93,11 @@ dev_dependencies:
     git:
       url: https://github.com/tekartik/firebase_firestore.dart
       path: firestore_sembast
+  # tool/start_emulator.dart
+  tekartik_firebase_tools_common:
+    git:
+      url: https://github.com/tekartik/firebase_tools.dart
+      path: packages/firebase_tools_common
 
 flutter:
   uses-material-design: true

@@ -3,7 +3,8 @@
 /// Pure Dart (no Flutter import) so that the `tool/` scripts can use it.
 library;
 
-/// Placeholder project id.
+/// Placeholder project id, also written to `emulator/.firebaserc` by
+/// `tool/start_emulator.dart`.
 ///
 /// The `demo-` prefix tells the Firebase CLI and SDKs that the project does not
 /// exist: everything runs locally in the emulators, no credentials needed.

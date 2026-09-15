@@ -7,6 +7,10 @@ lost password and profile screens) running fully offline on a local
 Users are stored in a local sdb database (IndexedDB on the web, sembast
 elsewhere) so you can create an account, sign out and sign in again.
 
+The platform folders are not committed: after a fresh clone run
+`dart run tool/create_platforms.dart` (it runs `flutter create` for web and
+linux), then:
+
 ```bash
 flutter run -d chrome
 flutter run -d linux
