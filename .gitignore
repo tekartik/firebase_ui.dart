@@ -29,3 +29,5 @@ doc/api/
 
 .metadata
 pubspec_overrides.yaml
+.*
+!.gitignore

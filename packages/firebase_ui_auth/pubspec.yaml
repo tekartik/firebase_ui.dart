@@ -1,6 +1,6 @@
 name: tekartik_firebase_ui_auth
 description: "Firebase UI auth"
-version: 0.1.0
+version: 0.2.0
 publish_to: none
 
 environment:
@@ -60,6 +60,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  tekartik_firebase_auth_sdb:
+    git:
+      url: https://github.com/tekartik/firebase_auth.dart
+      path: auth_sdb
   flutter_lints: ">=6.0.0"
   tekartik_lints_flutter:
     git:

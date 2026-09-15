@@ -6,11 +6,18 @@ import 'package:tekartik_firebase_flutter/firebase_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart' as impl;
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
-/// Ui Auth service on firebase flutter
-/// prefer using the instance [firebaseUiAuthServiceFlutter]
+/// Ui Auth service on firebase flutter (native firebase_ui_auth screens).
+///
+/// Prefer using the instance [firebaseUiAuthServiceFlutter] unless you need
+/// custom [options].
 class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
+  @override
+  final FirebaseUiAuthOptions options;
+
   /// Constructor
-  const FirebaseUiAuthServiceFlutter();
+  const FirebaseUiAuthServiceFlutter({
+    this.options = firebaseUiAuthOptionsDefault,
+  });
 
   /// Configure email provider by default.
   void configureProviders({
@@ -27,11 +34,19 @@ class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
 
   @override
   Widget authScreen({FirebaseAuth? firebaseAuth}) =>
-      impl.authFlutterScreen(firebaseAuth: firebaseAuth);
+      impl.authFlutterScreen(firebaseAuth: firebaseAuth, uiAuthService: this);
 
   @override
   Widget loginScreen({FirebaseAuth? firebaseAuth}) =>
-      impl.authFlutterLoginScreen(firebaseAuth: firebaseAuth);
+      impl.authFlutterLoginScreen(firebaseAuth: firebaseAuth, options: options);
+
+  @override
+  Widget registerScreen({FirebaseAuth? firebaseAuth}) =>
+      impl.authFlutterRegisterScreen(firebaseAuth: firebaseAuth);
+
+  @override
+  Widget lostPasswordScreen({FirebaseAuth? firebaseAuth, String? email}) => impl
+      .authFlutterLostPasswordScreen(firebaseAuth: firebaseAuth, email: email);
 
   @override
   Widget profileScreen({FirebaseAuth? firebaseAuth}) =>
@@ -39,7 +54,7 @@ class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
 
   @override
   Widget emailVerificationScreen({FirebaseAuth? firebaseAuth}) =>
-      impl.authFlutterProfileScreen(firebaseAuth: firebaseAuth);
+      impl.authFlutterEmailVerificationScreen(firebaseAuth: firebaseAuth);
 }
 
 /// FirebaseUiAuthServiceFlutter instance

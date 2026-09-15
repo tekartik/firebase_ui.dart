@@ -1,17 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:tekartik_app_flutter_widget/mini_ui.dart';
-import 'package:tekartik_app_flutter_widget/view/body_container.dart';
-import 'package:tekartik_app_flutter_widget/view/body_h_padding.dart';
-import 'package:tekartik_app_flutter_widget/view/busy_indicator.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_bloc_flutter/app_rx_flutter.dart';
-import 'package:tekartik_common_utils/string_utils.dart';
 import 'package:tekartik_firebase_ui_auth/src/utils/app_intl.dart';
+import 'package:tekartik_firebase_ui_auth/src/widget/auth_ui_widgets.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
-/// Auth screen
+/// Auth screen: entry point of the authentication flow.
+///
+/// Signed out: welcome page with "Sign in" (and "Create account" when
+/// [FirebaseUiAuthOptions.registerEnabled]).
+///
+/// Signed in: user header, account details, preferences and logout.
 class AuthScreen extends StatefulWidget {
   /// ui auth service
   final FirebaseUiAuthService uiAuthService;
@@ -28,201 +28,136 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
     with AutoDisposedBusyScreenStateMixin<AuthScreen> {
-  late final _showUserId = audiAddBehaviorSubject(
-    BehaviorSubject.seeded(false),
-  );
-
   FirebaseUiAuthService get uiAuthService => widget.uiAuthService;
+
+  FirebaseUiAuthOptions get options => uiAuthService.options;
+
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     var intl = appIntl(context);
+    var ui = AuthUiTheme.of(context);
     return ValueStreamBuilder(
       stream: bloc.state,
       builder: (context, snapshot) {
         var state = snapshot.data;
-        var email = state?.user?.email?.trimmedNonEmpty();
-        var emailVerified = state?.user?.emailVerified ?? false;
-        var displayName = state?.user?.displayName?.trimmedNonEmpty();
-        var uid = state?.user?.uid;
-        return Scaffold(
-          appBar: AppBar(title: Text(intl.authTitle)),
-          body: Stack(
-            children: [
-              Center(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    if (state == null)
-                      const CircularProgressIndicator()
-                    else
-                      BodyContainer(
-                        child: Column(
-                          children: [
-                            if (state.signedIn)
-                              BodyHPadding(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    ListTile(
-                                      leading: const Icon(Icons.person),
-                                      onTap: () {
-                                        _showUserId.add(!_showUserId.value);
-                                      },
-                                      title: Text(
-                                        intl.profileLoggedInAs(
-                                          displayName ?? email ?? '<null>',
-                                        ),
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleMedium,
-                                      ),
-                                      subtitle:
-                                          (displayName != null && email != null)
-                                          ? Text(email)
-                                          : null,
-                                    ),
-                                    BehaviorSubjectBuilder(
-                                      subject: _showUserId,
-                                      builder: (_, snapshot) {
-                                        return snapshot.data!
-                                            ? ListTile(
-                                                leading: const Icon(Icons.info),
-                                                title: Text(
-                                                  intl.authUserIdLabel,
-                                                ),
-                                                subtitle: Text(uid!),
-                                                onTap: () {
-                                                  Clipboard.setData(
-                                                    ClipboardData(text: uid),
-                                                  );
-                                                  muiSnack(
-                                                    context,
-                                                    intl.authUserIdCopiedToClipboard,
-                                                  );
-                                                },
-                                              )
-                                            : const SizedBox();
-                                      },
-                                    ),
-                                    if (email != null)
-                                      BehaviorSubjectBuilder(
-                                        subject: _showUserId,
-                                        builder: (_, snapshot) {
-                                          return snapshot.data!
-                                              ? Column(
-                                                  children: [
-                                                    ListTile(
-                                                      leading: const Icon(
-                                                        Icons.alternate_email,
-                                                      ),
-                                                      title: Text(
-                                                        intl.authUserEmailLabel,
-                                                      ),
-                                                      subtitle: Text(email),
-                                                      onTap: () {
-                                                        Clipboard.setData(
-                                                          ClipboardData(
-                                                            text: email,
-                                                          ),
-                                                        );
-                                                        muiSnack(
-                                                          context,
-                                                          intl.authUserEmailCopiedToClipboard,
-                                                        );
-                                                      },
-                                                    ),
-                                                    ListTile(
-                                                      leading: Icon(
-                                                        emailVerified
-                                                            ? Icons.check_circle
-                                                            : Icons.error,
-                                                      ),
-                                                      title: Text(
-                                                        emailVerified
-                                                            ? intl.emailVerifiedMessage
-                                                            : intl.emailNotVerifiedMessage,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              : const SizedBox();
-                                        },
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            BodyHPadding(
-                              child: IntrinsicWidth(
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    const SizedBox(width: 160, height: 16),
-                                    if (!state.signedIn)
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          _goToLoginScreen(
-                                            context,
-                                            firebaseAuth: bloc.firebaseAuth,
-                                          );
-                                        },
-                                        child: Text(intl.loginButtonLabel),
-                                      ),
-
-                                    if (state.signedIn) ...[
-                                      if (state.user?.emailVerified ==
-                                          false) ...[
-                                        ElevatedButton(
-                                          onPressed: () async {
-                                            _goToEmailVerificationScreen(
-                                              context,
-                                              firebaseAuth: bloc.firebaseAuth,
-                                            );
-                                          },
-                                          child: Text(
-                                            intl.emailVerificationButtonLabel,
-                                          ),
-                                        ),
-                                      ],
-
-                                      const SizedBox(height: 16),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          _goToProfileScreen(
-                                            context,
-                                            firebaseAuth: bloc.firebaseAuth,
-                                          );
-                                        },
-                                        child: Text(intl.profileButtonLabel),
-                                      ),
-
-                                      const SizedBox(height: 16),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          _logout(bloc);
-                                        },
-                                        child: Text(intl.logoutButtonLabel),
-                                      ),
-                                    ],
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(height: 16),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-
-              BusyIndicator(busy: busyStream),
+        var user = state?.user;
+        if (state == null) {
+          return AuthUiScaffold(
+            title: intl.authTitle,
+            children: const [
+              SizedBox(height: 80),
+              Center(child: CircularProgressIndicator()),
             ],
-          ),
-        );
+          );
+        }
+        if (user == null) {
+          return _buildSignedOut(context, bloc, intl);
+        }
+        return _buildSignedIn(context, bloc, user, intl, ui);
       },
+    );
+  }
+
+  Widget _buildSignedOut(
+    BuildContext context,
+    AuthScreenBloc bloc,
+    FirebaseUiAuthServiceBasicLocalizations intl,
+  ) {
+    return AuthUiScaffold(
+      title: intl.authTitle,
+      busy: busyStream,
+      children: [
+        const SizedBox(height: 24),
+        const AuthUiHeroIcon(Icons.lock_person_outlined),
+        const SizedBox(height: 24),
+        AuthUiHeadline(
+          title: intl.authWelcomeHeadline,
+          subtitle: intl.authWelcomeSubtitle,
+        ),
+        const SizedBox(height: 32),
+        AuthUiPrimaryButton(
+          label: intl.loginButtonLabel,
+          icon: Icons.arrow_forward,
+          onPressed: () {
+            _goToLoginScreen(context, firebaseAuth: bloc.firebaseAuth);
+          },
+        ),
+        if (options.registerEnabled) ...[
+          const SizedBox(height: 12),
+          AuthUiOutlinedButton(
+            label: intl.authCreateAccountButtonLabel,
+            icon: Icons.person_add_alt_outlined,
+            onPressed: () {
+              _goToRegisterScreen(context, firebaseAuth: bloc.firebaseAuth);
+            },
+          ),
+        ],
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  Widget _buildSignedIn(
+    BuildContext context,
+    AuthScreenBloc bloc,
+    User user,
+    FirebaseUiAuthServiceBasicLocalizations intl,
+    AuthUiTheme ui,
+  ) {
+    var showEmailVerification = !user.emailVerified && !user.isAnonymous;
+    return AuthUiScaffold(
+      title: intl.authTitle,
+      busy: busyStream,
+      bottom: AuthUiTintedButton(
+        label: intl.logoutButtonLabel,
+        icon: Icons.logout,
+        color: ui.danger,
+        softColor: ui.dangerSoft,
+        onPressed: () {
+          _logout(bloc);
+        },
+      ),
+      children: [
+        const SizedBox(height: 8),
+        AuthUserHeaderCard(user: user),
+        AuthUiSectionHeader(intl.authAccountDetailsSection),
+        AuthAccountDetailsSection(
+          user: user,
+          onVerifyEmail: () {
+            _goToEmailVerificationScreen(
+              context,
+              firebaseAuth: bloc.firebaseAuth,
+            );
+          },
+        ),
+        AuthUiSectionHeader(intl.authPreferencesSection),
+        AuthUiCard(
+          children: [
+            AuthUiNavRow(
+              icon: Icons.person_outline,
+              title: intl.profileButtonLabel,
+              subtitle: intl.profileRowSubtitle,
+              onTap: () {
+                _goToProfileScreen(context, firebaseAuth: bloc.firebaseAuth);
+              },
+            ),
+            if (showEmailVerification)
+              AuthUiNavRow(
+                icon: Icons.mark_email_unread_outlined,
+                title: intl.emailVerificationButtonLabel,
+                subtitle: intl.emailVerificationRowSubtitle,
+                onTap: () {
+                  _goToEmailVerificationScreen(
+                    context,
+                    firebaseAuth: bloc.firebaseAuth,
+                  );
+                },
+              ),
+          ],
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 
@@ -234,22 +169,25 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
       } catch (e, st) {
         if (kDebugMode) {
           print('Error $e');
-        }
-        if (kDebugMode) {
           print(st);
         }
       }
     });
   }
 
+  void _push(BuildContext context, Widget Function() builder) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => builder()));
+  }
+
   void _goToProfileScreen(
     BuildContext context, {
     required FirebaseAuth firebaseAuth,
   }) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => uiAuthService.profileScreen(firebaseAuth: firebaseAuth),
-      ),
+    _push(
+      context,
+      () => uiAuthService.profileScreen(firebaseAuth: firebaseAuth),
     );
   }
 
@@ -257,11 +195,9 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
     BuildContext context, {
     required FirebaseAuth firebaseAuth,
   }) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) =>
-            uiAuthService.emailVerificationScreen(firebaseAuth: firebaseAuth),
-      ),
+    _push(
+      context,
+      () => uiAuthService.emailVerificationScreen(firebaseAuth: firebaseAuth),
     );
   }
 
@@ -269,16 +205,25 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
     BuildContext context, {
     required FirebaseAuth firebaseAuth,
   }) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => uiAuthService.loginScreen(firebaseAuth: firebaseAuth),
-      ),
+    _push(context, () => uiAuthService.loginScreen(firebaseAuth: firebaseAuth));
+  }
+
+  void _goToRegisterScreen(
+    BuildContext context, {
+    required FirebaseAuth firebaseAuth,
+  }) {
+    _push(
+      context,
+      () => uiAuthService.registerScreen(firebaseAuth: firebaseAuth),
     );
   }
 }
 
 /// Auth screen
-Widget authScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
+Widget authScreen({
+  FirebaseAuth? firebaseAuth,
+  FirebaseUiAuthService uiAuthService = firebaseUiAuthServiceBasic,
+}) => BlocProvider(
   blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-  child: const AuthScreen(),
+  child: AuthScreen(uiAuthService: uiAuthService),
 );

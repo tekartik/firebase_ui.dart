@@ -1,6 +1,8 @@
-# UI auth
+# Flutter UI auth
 
-email/password login
+Native `firebase_ui_auth` screens (sign in, register, forgot password,
+profile, email verification) exposed through the `FirebaseUiAuthService`
+interface of `tekartik_firebase_ui_auth`.
 
 ## Setup
 
@@ -11,5 +13,23 @@ In your `pubspec.yaml`:
     git:
       url: https://github.com/tekartik/firebase_ui.dart
       path: packages/firebase_flutter_ui_auth
-    version: '>=0.1.0'
+    version: '>=0.2.0'
 ```
+
+## Usage
+
+```dart
+// Once, after Firebase.initializeApp
+firebaseUiAuthServiceFlutter.configureProviders(
+  firebaseAuth: firebaseAuth,
+  googleAuthClientId: googleAuthClientId,
+);
+
+// Registration can be disabled
+const uiAuthService = FirebaseUiAuthServiceFlutter(
+  options: FirebaseUiAuthOptions(registerEnabled: false),
+);
+uiAuthService.authScreen(firebaseAuth: firebaseAuth);
+```
+
+See the `skills/` folder for agent skills (`dart run skills@ get`).

@@ -104,17 +104,71 @@ abstract class AppLocalizations {
   /// **'Authentication'**
   String get authTitle;
 
+  /// Headline of the authentication screen when signed out
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get authWelcomeHeadline;
+
+  /// Subtitle of the authentication screen when signed out
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to access your account'**
+  String get authWelcomeSubtitle;
+
+  /// Button opening the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get authCreateAccountButtonLabel;
+
+  /// Badge shown next to the user name when the email is verified
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get authVerifiedBadge;
+
+  /// Status line shown in the user header card
+  ///
+  /// In en, this message translates to:
+  /// **'Active session'**
+  String get authActiveSession;
+
+  /// Name shown for an anonymous user
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous user'**
+  String get authAnonymousUser;
+
+  /// Section title above the account details card
+  ///
+  /// In en, this message translates to:
+  /// **'Account details'**
+  String get authAccountDetailsSection;
+
+  /// Section title above the preferences card
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get authPreferencesSection;
+
   /// The authentication screen user email copied to clipboard message
   ///
   /// In en, this message translates to:
   /// **'User email copied to clipboard'**
   String get authUserEmailCopiedToClipboard;
 
-  /// The label for User Email
+  /// The label for the account email row
   ///
   /// In en, this message translates to:
-  /// **'User Email'**
+  /// **'Account email'**
   String get authUserEmailLabel;
+
+  /// Badge shown next to the account email
+  ///
+  /// In en, this message translates to:
+  /// **'Primary'**
+  String get authPrimaryBadge;
 
   /// The authentication screen user id copied to clipboard message
   ///
@@ -122,11 +176,41 @@ abstract class AppLocalizations {
   /// **'User id copied to clipboard'**
   String get authUserIdCopiedToClipboard;
 
-  /// The label for UserID
+  /// The label for the user id row
   ///
   /// In en, this message translates to:
   /// **'User ID'**
   String get authUserIdLabel;
+
+  /// The label for the email verification status row
+  ///
+  /// In en, this message translates to:
+  /// **'Security & status'**
+  String get authSecurityStatusLabel;
+
+  /// Badge shown when the email is verified
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get authConfirmedBadge;
+
+  /// Badge shown when the email is not verified
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get authPendingBadge;
+
+  /// The label for the sign-in provider row
+  ///
+  /// In en, this message translates to:
+  /// **'Session provider'**
+  String get authSessionProviderLabel;
+
+  /// Tooltip of the copy buttons
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copyTooltip;
 
   /// Email not verified message
   ///
@@ -140,11 +224,65 @@ abstract class AppLocalizations {
   /// **'Verify email'**
   String get emailVerificationButtonLabel;
 
+  /// Subtitle of the verify email preference row
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your email address'**
+  String get emailVerificationRowSubtitle;
+
   /// Email verified message
   ///
   /// In en, this message translates to:
   /// **'Email verified'**
   String get emailVerifiedMessage;
+
+  /// The email verification screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Email verification'**
+  String get emailVerificationTitle;
+
+  /// The email verification screen headline
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get emailVerificationHeadline;
+
+  /// The email verification screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'We need to confirm that {email} belongs to you. Send yourself a verification email and follow the link it contains.'**
+  String emailVerificationSubtitle(String email);
+
+  /// Button sending the verification email
+  ///
+  /// In en, this message translates to:
+  /// **'Send verification email'**
+  String get emailVerificationSendButtonLabel;
+
+  /// Message shown once the verification email is sent
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email sent. Check your inbox.'**
+  String get emailVerificationSentMessage;
+
+  /// Button reloading the user to check the verification status
+  ///
+  /// In en, this message translates to:
+  /// **'I have verified my email'**
+  String get emailVerificationCheckButtonLabel;
+
+  /// Message shown when the email is still not verified after a check
+  ///
+  /// In en, this message translates to:
+  /// **'Your email is not verified yet.'**
+  String get emailVerificationNotYetVerifiedMessage;
+
+  /// Error shown when sending the verification email fails
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send the verification email.'**
+  String get emailVerificationGenericError;
 
   /// A message with a single parameter
   ///
@@ -152,17 +290,35 @@ abstract class AppLocalizations {
   /// **'Hello {userName}'**
   String hello(String userName);
 
-  /// The login button label
+  /// The login screen title
   ///
   /// In en, this message translates to:
-  /// **'Login'**
-  String get loginButtonLabel;
+  /// **'Account access'**
+  String get loginTitle;
 
-  /// The login screen generic error message
+  /// The login screen headline
   ///
   /// In en, this message translates to:
-  /// **'Login failed'**
-  String get loginGenericError;
+  /// **'Welcome back'**
+  String get loginHeadline;
+
+  /// The login screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your details to sign in to your account'**
+  String get loginSubtitle;
+
+  /// The login screen user label
+  ///
+  /// In en, this message translates to:
+  /// **'Email or username'**
+  String get loginUserLabel;
+
+  /// The login screen user field hint
+  ///
+  /// In en, this message translates to:
+  /// **'name@example.com'**
+  String get loginUserHint;
 
   /// The login screen password label
   ///
@@ -170,29 +326,71 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get loginPasswordLabel;
 
-  /// The login screen title
+  /// Link opening the lost password screen
   ///
   /// In en, this message translates to:
-  /// **'Login'**
-  String get loginTitle;
+  /// **'Forgot password?'**
+  String get loginForgotPasswordLink;
 
-  /// The login screen user label
+  /// The login button label
   ///
   /// In en, this message translates to:
-  /// **'User'**
-  String get loginUserLabel;
+  /// **'Sign in'**
+  String get loginButtonLabel;
+
+  /// Divider text above the third party sign-in buttons
+  ///
+  /// In en, this message translates to:
+  /// **'Or continue with'**
+  String get loginOrContinueWith;
+
+  /// Text before the sign up link
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get loginNoAccountText;
+
+  /// Link opening the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get loginSignUpLink;
+
+  /// The login screen generic error message
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in failed. Please check your credentials and try again.'**
+  String get loginGenericError;
 
   /// The logout button label
   ///
   /// In en, this message translates to:
-  /// **'Logout'**
+  /// **'Logout session'**
   String get logoutButtonLabel;
+
+  /// Tooltip of the password visibility toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get passwordShowTooltip;
+
+  /// Tooltip of the password visibility toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get passwordHideTooltip;
 
   /// The profile button label
   ///
   /// In en, this message translates to:
   /// **'Profile'**
   String get profileButtonLabel;
+
+  /// Subtitle of the profile preference row
+  ///
+  /// In en, this message translates to:
+  /// **'View your account information'**
+  String get profileRowSubtitle;
 
   /// The profile screen logged in as label
   ///
@@ -206,11 +404,137 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profileTitle;
 
+  /// The registration screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get registerTitle;
+
+  /// The registration screen headline
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get registerHeadline;
+
+  /// The registration screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and choose a password to get started'**
+  String get registerSubtitle;
+
+  /// The registration screen password confirmation label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get registerPasswordConfirmLabel;
+
+  /// Error shown when the two passwords differ
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get registerPasswordMismatchError;
+
+  /// The registration button label
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get registerButtonLabel;
+
+  /// Text before the sign in link
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get registerHaveAccountText;
+
+  /// Link going back to the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get registerSignInLink;
+
+  /// The registration screen generic error message
+  ///
+  /// In en, this message translates to:
+  /// **'Account creation failed. Please try again.'**
+  String get registerGenericError;
+
+  /// The lost password screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get lostPasswordTitle;
+
+  /// The lost password screen headline
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot your password?'**
+  String get lostPasswordHeadline;
+
+  /// The lost password screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the email of your account and we will send you a link to reset your password'**
+  String get lostPasswordSubtitle;
+
+  /// Button sending the password reset email
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get lostPasswordButtonLabel;
+
+  /// Title shown once the reset email is sent
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox'**
+  String get lostPasswordSentTitle;
+
+  /// Message shown once the reset email is sent
+  ///
+  /// In en, this message translates to:
+  /// **'If an account exists for {email}, a password reset link has been sent.'**
+  String lostPasswordSentMessage(String email);
+
+  /// Link going back to the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get lostPasswordBackToSignInLink;
+
+  /// The lost password screen generic error message
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send the reset email. Please check the address and try again.'**
+  String get lostPasswordGenericError;
+
   /// The sign in with google button label
   ///
   /// In en, this message translates to:
   /// **'Sign in with Google'**
   String get signInWithGoogleButtonLabel;
+
+  /// The short label of the Google button
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get googleButtonLabel;
+
+  /// Message of the dialog showing the Google sign in link
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in using the following link:'**
+  String get googleSignInLinkMessage;
+
+  /// Button copying the sign in link
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get copyLinkButtonLabel;
+
+  /// Button closing a dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneButtonLabel;
 }
 
 class _AppLocalizationsDelegate

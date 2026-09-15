@@ -13,7 +13,10 @@ class AuthFlutterScreen extends AuthScreen {
 }
 
 /// Auth screen
-Widget authFlutterScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
+Widget authFlutterScreen({
+  FirebaseAuth? firebaseAuth,
+  FirebaseUiAuthService uiAuthService = firebaseUiAuthServiceFlutter,
+}) => BlocProvider(
   blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-  child: const AuthFlutterScreen(),
+  child: AuthFlutterScreen(uiAuthService: uiAuthService),
 );

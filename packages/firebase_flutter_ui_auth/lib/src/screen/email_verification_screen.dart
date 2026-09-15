@@ -7,9 +7,9 @@ import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
 import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
 
-/// Auth login screen
+/// Auth email verification screen (native firebase_ui_auth screen)
 class AuthFlutterEmailVerificationScreen extends StatefulWidget {
-  /// Auth login screen
+  /// Auth email verification screen
   const AuthFlutterEmailVerificationScreen({super.key});
 
   @override
@@ -66,8 +66,9 @@ class _AuthFlutterEmailVerificationScreenState
   }
 }
 
-/// Auth login screen
-Widget authFlutterLoginScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
-  blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-  child: const AuthFlutterEmailVerificationScreen(),
-);
+/// Auth email verification screen
+Widget authFlutterEmailVerificationScreen({FirebaseAuth? firebaseAuth}) =>
+    BlocProvider(
+      blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
+      child: const AuthFlutterEmailVerificationScreen(),
+    );

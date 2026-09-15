@@ -3,13 +3,49 @@
   "@authTitle": {
     "description": "The authentication screen title"
   },
+  "authWelcomeHeadline": "Welcome",
+  "@authWelcomeHeadline": {
+    "description": "Headline of the authentication screen when signed out"
+  },
+  "authWelcomeSubtitle": "Sign in to access your account",
+  "@authWelcomeSubtitle": {
+    "description": "Subtitle of the authentication screen when signed out"
+  },
+  "authCreateAccountButtonLabel": "Create account",
+  "@authCreateAccountButtonLabel": {
+    "description": "Button opening the registration screen"
+  },
+  "authVerifiedBadge": "Verified",
+  "@authVerifiedBadge": {
+    "description": "Badge shown next to the user name when the email is verified"
+  },
+  "authActiveSession": "Active session",
+  "@authActiveSession": {
+    "description": "Status line shown in the user header card"
+  },
+  "authAnonymousUser": "Anonymous user",
+  "@authAnonymousUser": {
+    "description": "Name shown for an anonymous user"
+  },
+  "authAccountDetailsSection": "Account details",
+  "@authAccountDetailsSection": {
+    "description": "Section title above the account details card"
+  },
+  "authPreferencesSection": "Preferences",
+  "@authPreferencesSection": {
+    "description": "Section title above the preferences card"
+  },
   "authUserEmailCopiedToClipboard": "User email copied to clipboard",
   "@authUserEmailCopiedToClipboard": {
     "description": "The authentication screen user email copied to clipboard message"
   },
-  "authUserEmailLabel": "User Email",
+  "authUserEmailLabel": "Account email",
   "@authUserEmailLabel": {
-    "description": "The label for User Email"
+    "description": "The label for the account email row"
+  },
+  "authPrimaryBadge": "Primary",
+  "@authPrimaryBadge": {
+    "description": "Badge shown next to the account email"
   },
   "authUserIdCopiedToClipboard": "User id copied to clipboard",
   "@authUserIdCopiedToClipboard": {
@@ -17,7 +53,27 @@
   },
   "authUserIdLabel": "User ID",
   "@authUserIdLabel": {
-    "description": "The label for UserID"
+    "description": "The label for the user id row"
+  },
+  "authSecurityStatusLabel": "Security & status",
+  "@authSecurityStatusLabel": {
+    "description": "The label for the email verification status row"
+  },
+  "authConfirmedBadge": "Confirmed",
+  "@authConfirmedBadge": {
+    "description": "Badge shown when the email is verified"
+  },
+  "authPendingBadge": "Pending",
+  "@authPendingBadge": {
+    "description": "Badge shown when the email is not verified"
+  },
+  "authSessionProviderLabel": "Session provider",
+  "@authSessionProviderLabel": {
+    "description": "The label for the sign-in provider row"
+  },
+  "copyTooltip": "Copy",
+  "@copyTooltip": {
+    "description": "Tooltip of the copy buttons"
   },
   "emailNotVerifiedMessage": "Email not verified",
   "@emailNotVerifiedMessage": {
@@ -27,9 +83,51 @@
   "@emailVerificationButtonLabel": {
     "description": "The email verification button label"
   },
+  "emailVerificationRowSubtitle": "Confirm your email address",
+  "@emailVerificationRowSubtitle": {
+    "description": "Subtitle of the verify email preference row"
+  },
   "emailVerifiedMessage": "Email verified",
   "@emailVerifiedMessage": {
     "description": "Email verified message"
+  },
+  "emailVerificationTitle": "Email verification",
+  "@emailVerificationTitle": {
+    "description": "The email verification screen title"
+  },
+  "emailVerificationHeadline": "Verify your email",
+  "@emailVerificationHeadline": {
+    "description": "The email verification screen headline"
+  },
+  "emailVerificationSubtitle": "We need to confirm that {email} belongs to you. Send yourself a verification email and follow the link it contains.",
+  "@emailVerificationSubtitle": {
+    "description": "The email verification screen subtitle",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "alex@tekartik.com"
+      }
+    }
+  },
+  "emailVerificationSendButtonLabel": "Send verification email",
+  "@emailVerificationSendButtonLabel": {
+    "description": "Button sending the verification email"
+  },
+  "emailVerificationSentMessage": "Verification email sent. Check your inbox.",
+  "@emailVerificationSentMessage": {
+    "description": "Message shown once the verification email is sent"
+  },
+  "emailVerificationCheckButtonLabel": "I have verified my email",
+  "@emailVerificationCheckButtonLabel": {
+    "description": "Button reloading the user to check the verification status"
+  },
+  "emailVerificationNotYetVerifiedMessage": "Your email is not verified yet.",
+  "@emailVerificationNotYetVerifiedMessage": {
+    "description": "Message shown when the email is still not verified after a check"
+  },
+  "emailVerificationGenericError": "Could not send the verification email.",
+  "@emailVerificationGenericError": {
+    "description": "Error shown when sending the verification email fails"
   },
   "hello": "Hello {userName}",
   "@hello": {
@@ -41,33 +139,73 @@
       }
     }
   },
-  "loginButtonLabel": "Login",
-  "@loginButtonLabel": {
-    "description": "The login button label"
+  "loginTitle": "Account access",
+  "@loginTitle": {
+    "description": "The login screen title"
   },
-  "loginGenericError": "Login failed",
-  "@loginGenericError": {
-    "description": "The login screen generic error message"
+  "loginHeadline": "Welcome back",
+  "@loginHeadline": {
+    "description": "The login screen headline"
+  },
+  "loginSubtitle": "Please enter your details to sign in to your account",
+  "@loginSubtitle": {
+    "description": "The login screen subtitle"
+  },
+  "loginUserLabel": "Email or username",
+  "@loginUserLabel": {
+    "description": "The login screen user label"
+  },
+  "loginUserHint": "name@example.com",
+  "@loginUserHint": {
+    "description": "The login screen user field hint"
   },
   "loginPasswordLabel": "Password",
   "@loginPasswordLabel": {
     "description": "The login screen password label"
   },
-  "loginTitle": "Login",
-  "@loginTitle": {
-    "description": "The login screen title"
+  "loginForgotPasswordLink": "Forgot password?",
+  "@loginForgotPasswordLink": {
+    "description": "Link opening the lost password screen"
   },
-  "loginUserLabel": "User",
-  "@loginUserLabel": {
-    "description": "The login screen user label"
+  "loginButtonLabel": "Sign in",
+  "@loginButtonLabel": {
+    "description": "The login button label"
   },
-  "logoutButtonLabel": "Logout",
+  "loginOrContinueWith": "Or continue with",
+  "@loginOrContinueWith": {
+    "description": "Divider text above the third party sign-in buttons"
+  },
+  "loginNoAccountText": "Don't have an account?",
+  "@loginNoAccountText": {
+    "description": "Text before the sign up link"
+  },
+  "loginSignUpLink": "Sign up",
+  "@loginSignUpLink": {
+    "description": "Link opening the registration screen"
+  },
+  "loginGenericError": "Sign in failed. Please check your credentials and try again.",
+  "@loginGenericError": {
+    "description": "The login screen generic error message"
+  },
+  "logoutButtonLabel": "Logout session",
   "@logoutButtonLabel": {
     "description": "The logout button label"
+  },
+  "passwordShowTooltip": "Show password",
+  "@passwordShowTooltip": {
+    "description": "Tooltip of the password visibility toggle"
+  },
+  "passwordHideTooltip": "Hide password",
+  "@passwordHideTooltip": {
+    "description": "Tooltip of the password visibility toggle"
   },
   "profileButtonLabel": "Profile",
   "@profileButtonLabel": {
     "description": "The profile button label"
+  },
+  "profileRowSubtitle": "View your account information",
+  "@profileRowSubtitle": {
+    "description": "Subtitle of the profile preference row"
   },
   "profileLoggedInAs": "Logged in as {email}",
   "@profileLoggedInAs": {
@@ -83,8 +221,98 @@
   "@profileTitle": {
     "description": "The profile screen title"
   },
+  "registerTitle": "Sign up",
+  "@registerTitle": {
+    "description": "The registration screen title"
+  },
+  "registerHeadline": "Create your account",
+  "@registerHeadline": {
+    "description": "The registration screen headline"
+  },
+  "registerSubtitle": "Enter your email and choose a password to get started",
+  "@registerSubtitle": {
+    "description": "The registration screen subtitle"
+  },
+  "registerPasswordConfirmLabel": "Confirm password",
+  "@registerPasswordConfirmLabel": {
+    "description": "The registration screen password confirmation label"
+  },
+  "registerPasswordMismatchError": "Passwords do not match",
+  "@registerPasswordMismatchError": {
+    "description": "Error shown when the two passwords differ"
+  },
+  "registerButtonLabel": "Sign up",
+  "@registerButtonLabel": {
+    "description": "The registration button label"
+  },
+  "registerHaveAccountText": "Already have an account?",
+  "@registerHaveAccountText": {
+    "description": "Text before the sign in link"
+  },
+  "registerSignInLink": "Sign in",
+  "@registerSignInLink": {
+    "description": "Link going back to the login screen"
+  },
+  "registerGenericError": "Account creation failed. Please try again.",
+  "@registerGenericError": {
+    "description": "The registration screen generic error message"
+  },
+  "lostPasswordTitle": "Reset password",
+  "@lostPasswordTitle": {
+    "description": "The lost password screen title"
+  },
+  "lostPasswordHeadline": "Forgot your password?",
+  "@lostPasswordHeadline": {
+    "description": "The lost password screen headline"
+  },
+  "lostPasswordSubtitle": "Enter the email of your account and we will send you a link to reset your password",
+  "@lostPasswordSubtitle": {
+    "description": "The lost password screen subtitle"
+  },
+  "lostPasswordButtonLabel": "Send reset link",
+  "@lostPasswordButtonLabel": {
+    "description": "Button sending the password reset email"
+  },
+  "lostPasswordSentTitle": "Check your inbox",
+  "@lostPasswordSentTitle": {
+    "description": "Title shown once the reset email is sent"
+  },
+  "lostPasswordSentMessage": "If an account exists for {email}, a password reset link has been sent.",
+  "@lostPasswordSentMessage": {
+    "description": "Message shown once the reset email is sent",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "alex@tekartik.com"
+      }
+    }
+  },
+  "lostPasswordBackToSignInLink": "Back to sign in",
+  "@lostPasswordBackToSignInLink": {
+    "description": "Link going back to the login screen"
+  },
+  "lostPasswordGenericError": "Could not send the reset email. Please check the address and try again.",
+  "@lostPasswordGenericError": {
+    "description": "The lost password screen generic error message"
+  },
   "signInWithGoogleButtonLabel": "Sign in with Google",
   "@signInWithGoogleButtonLabel": {
     "description": "The sign in with google button label"
+  },
+  "googleButtonLabel": "Google",
+  "@googleButtonLabel": {
+    "description": "The short label of the Google button"
+  },
+  "googleSignInLinkMessage": "Please sign in using the following link:",
+  "@googleSignInLinkMessage": {
+    "description": "Message of the dialog showing the Google sign in link"
+  },
+  "copyLinkButtonLabel": "Copy link",
+  "@copyLinkButtonLabel": {
+    "description": "Button copying the sign in link"
+  },
+  "doneButtonLabel": "Done",
+  "@doneButtonLabel": {
+    "description": "Button closing a dialog"
   }
 }

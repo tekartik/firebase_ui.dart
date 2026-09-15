@@ -7,3 +7,5 @@ workspace:
   - packages/firebase_ui_auth
   - packages/firebase_ui_firestore
   - packages/firebase_ui_firestore/example
+  - example/ui_auth_sdb_example
+  - example/ui_auth_emulator_example
