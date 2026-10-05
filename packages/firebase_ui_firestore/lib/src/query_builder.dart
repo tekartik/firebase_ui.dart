@@ -5,6 +5,9 @@
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
+// On stable (3.47) only rendering.dart has it, on beta widgets.dart does
+// too: a prefix keeps this import needed for both analyzers.
+import 'package:flutter/rendering.dart' as rendering show ScrollCacheExtent;
 import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_firebase_firestore/firestore.dart';
 
@@ -438,7 +441,7 @@ class FirestoreListView extends FirestoreQueryBuilder {
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
     @Deprecated('Use scrollCacheExtent instead.') double? cacheExtent,
-    ScrollCacheExtent? scrollCacheExtent,
+    rendering.ScrollCacheExtent? scrollCacheExtent,
     int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
@@ -468,7 +471,7 @@ class FirestoreListView extends FirestoreQueryBuilder {
              scrollCacheExtent:
                  scrollCacheExtent ??
                  (cacheExtent != null
-                     ? ScrollCacheExtent.pixels(cacheExtent)
+                     ? rendering.ScrollCacheExtent.pixels(cacheExtent)
                      : null),
              itemCount: snapshot.docs.length,
              itemBuilder: (context, index) {
