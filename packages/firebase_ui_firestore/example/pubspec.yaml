@@ -44,7 +44,10 @@ dependencies:
     version: '>=0.1.0'
 
   material_ui: ">=1.5.0"
-  tekartik_firebase_flutter: any
+  tekartik_firebase_flutter:
+    git:
+      url: https://github.com/tekartik/firebase_flutter
+      path: firebase_flutter
 dev_dependencies:
   drive: '>=1.0.0-1.0.nullsafety.1'
   flutter_test:
