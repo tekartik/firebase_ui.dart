@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as legacy show AppBar, Scaffold;
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
 import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
 import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/src/utils/app_intl.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
+
+import '../legacy_material.dart';
 
 /// Auth register screen (native firebase_ui_auth [RegisterScreen]).
 ///
@@ -50,11 +53,13 @@ class _AuthFlutterRegisterScreenState extends State<AuthFlutterRegisterScreen> {
     return ValueStreamBuilder(
       stream: bloc.state,
       builder: (context, snapshot) {
-        return Scaffold(
-          appBar: AppBar(title: Text(intl.registerTitle)),
-          body: RegisterScreen(
-            auth: bloc.firebaseAuth.nativeInstance,
-            showAuthActionSwitch: false,
+        return legacyMaterialScreen(
+          legacy.Scaffold(
+            appBar: legacy.AppBar(title: Text(intl.registerTitle)),
+            body: RegisterScreen(
+              auth: bloc.firebaseAuth.nativeInstance,
+              showAuthActionSwitch: false,
+            ),
           ),
         );
       },

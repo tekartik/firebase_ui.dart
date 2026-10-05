@@ -1,6 +1,5 @@
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
 import 'emulator_config.dart';
@@ -38,9 +37,7 @@ class ExampleApp extends StatelessWidget {
       localizationsDelegates: const [
         FirebaseUiAuthServiceBasicLocalizations.delegate,
         FirebaseUILocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
       ],
       supportedLocales:
           FirebaseUiAuthServiceBasicLocalizations.supportedLocales,
@@ -71,9 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
   var _busy = false;
 
   void _push(Widget Function() builder) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute<void>(builder: (_) => builder()));
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => builder()));
   }
 
   Future<void> _run(Future<void> Function() action) async {
@@ -84,9 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
       await action();
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) {

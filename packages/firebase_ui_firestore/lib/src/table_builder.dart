@@ -4,11 +4,11 @@
 
 import 'dart:collection';
 
-import 'package:tekartik_firebase_firestore/firestore.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:tekartik_firebase_firestore/firestore.dart';
 
 import 'query_builder.dart';
 
@@ -41,12 +41,11 @@ import 'query_builder.dart';
 
 typedef CellBuilder = Widget Function(DocumentSnapshot snapshot, String colKey);
 
-typedef OnTapCell =
-    void Function(
-      DocumentSnapshot snapshot,
-      Object? value,
-      String propertyName,
-    );
+typedef OnTapCell = void Function(
+  DocumentSnapshot snapshot,
+  Object? value,
+  String propertyName,
+);
 
 typedef OnSelectedRows = void Function(List<DocumentSnapshot> items);
 

@@ -4,15 +4,13 @@
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart' as native;
-import 'package:tekartik_firebase_ui_firestore/firebase_ui_firestore.dart';
-import 'package:tekartik_firebase_ui_firestore_example/firebase_options.dart';
-import 'package:flutter/material.dart';
-
+import 'package:material_ui/material_ui.dart';
 // ignore: depend_on_referenced_packages
 import 'package:tekartik_firebase_firestore_flutter/firestore_flutter.dart';
-
 // ignore: depend_on_referenced_packages
 import 'package:tekartik_firebase_flutter/firebase_flutter.dart';
+import 'package:tekartik_firebase_ui_firestore/firebase_ui_firestore.dart';
+import 'package:tekartik_firebase_ui_firestore_example/firebase_options.dart';
 
 late CollectionReference collection;
 

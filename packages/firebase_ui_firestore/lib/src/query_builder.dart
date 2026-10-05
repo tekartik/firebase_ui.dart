@@ -5,19 +5,18 @@
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_firebase_firestore/firestore.dart';
 
 /// A function that builds a widget from a [FirestoreQueryBuilderSnapshot]
 ///
 /// See also [FirebaseDatabaseQueryBuilder].
-typedef FirestoreQueryBuilderSnapshotBuilder =
-    Widget Function(
-      BuildContext context,
-      FirestoreQueryBuilderSnapshot snapshot,
-      Widget? child,
-    );
+typedef FirestoreQueryBuilderSnapshotBuilder = Widget Function(
+  BuildContext context,
+  FirestoreQueryBuilderSnapshot snapshot,
+  Widget? child,
+);
 
 /// {@template firebase_ui.firestore_query_builder}
 /// Listens to a query and paginates the result in a way that is compatible with
@@ -349,15 +348,20 @@ class _Sentinel {
 }
 
 /// A type representing the function passed to [FirestoreListView] for its `itemBuilder`.
-typedef FirestoreItemBuilder =
-    Widget Function(BuildContext context, DocumentSnapshot doc);
+typedef FirestoreItemBuilder = Widget Function(
+  BuildContext context,
+  DocumentSnapshot doc,
+);
 
 /// A type representing the function passed to [FirestoreListView] for its `loadingBuilder`.
 typedef FirestoreLoadingBuilder = Widget Function(BuildContext context);
 
 /// A type representing the function passed to [FirestoreListView] for its `errorBuilder`.
-typedef FirestoreErrorBuilder =
-    Widget Function(BuildContext context, Object error, StackTrace stackTrace);
+typedef FirestoreErrorBuilder = Widget Function(
+  BuildContext context,
+  Object error,
+  StackTrace stackTrace,
+);
 
 /// A type representing the function passed to [FirestoreListView] for its `emptyBuilder`.
 typedef FirestoreEmptyBuilder = Widget Function(BuildContext context);

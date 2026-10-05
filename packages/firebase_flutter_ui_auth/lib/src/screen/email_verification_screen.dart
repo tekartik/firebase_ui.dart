@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
 import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
 import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
+
+import '../legacy_material.dart';
 
 /// Auth email verification screen (native firebase_ui_auth screen)
 class AuthFlutterEmailVerificationScreen extends StatefulWidget {
@@ -45,21 +47,23 @@ class _AuthFlutterEmailVerificationScreenState
     return ValueStreamBuilder(
       stream: bloc.state,
       builder: (context, snapshot) {
-        return EmailVerificationScreen(
-          auth: bloc.firebaseAuth.nativeInstance,
-          actions: [
-            EmailVerifiedAction(() {
-              if (mounted) {
-                Navigator.of(context).pop();
-              }
-            }),
+        return legacyMaterialScreen(
+          EmailVerificationScreen(
+            auth: bloc.firebaseAuth.nativeInstance,
+            actions: [
+              EmailVerifiedAction(() {
+                if (mounted) {
+                  Navigator.of(context).pop();
+                }
+              }),
 
-            AuthCancelledAction((context) {
-              if (mounted) {
-                Navigator.of(context).pop();
-              }
-            }),
-          ],
+              AuthCancelledAction((context) {
+                if (mounted) {
+                  Navigator.of(context).pop();
+                }
+              }),
+            ],
+          ),
         );
       },
     );

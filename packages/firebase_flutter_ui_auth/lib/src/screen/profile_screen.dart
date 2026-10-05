@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as legacy show AppBar;
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
 import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/src/utils/app_intl.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
+
+import '../legacy_material.dart';
 
 // ignore: unused_import, depend_on_referenced_packages
 
@@ -57,18 +60,20 @@ class _AuthFlutterProfileScreenState extends State<AuthFlutterProfileScreen>
       stream: bloc.state,
       builder: (context, snapshot) {
         var title = intl.profileTitle;
-        return ProfileScreen(
-          appBar: AppBar(title: Text(title)),
-          auth: bloc.firebaseAuth.nativeInstance,
+        return legacyMaterialScreen(
+          ProfileScreen(
+            appBar: legacy.AppBar(title: Text(title)),
+            auth: bloc.firebaseAuth.nativeInstance,
 
-          //providers: providers
-          actions: [
-            SignedOutAction((context) {
-              if (context.mounted) {
-                Navigator.pop(context);
-              }
-            }),
-          ],
+            //providers: providers
+            actions: [
+              SignedOutAction((context) {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+              }),
+            ],
+          ),
         );
       },
     );

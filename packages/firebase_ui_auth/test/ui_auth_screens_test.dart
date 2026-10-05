@@ -1,15 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_firebase_auth_sdb/auth_sdb.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
 Widget testApp(Widget home) => MaterialApp(
   localizationsDelegates: const [
     FirebaseUiAuthServiceBasicLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
+    ...GlobalMaterialLocalizations.delegates,
   ],
   supportedLocales: FirebaseUiAuthServiceBasicLocalizations.supportedLocales,
   home: home,

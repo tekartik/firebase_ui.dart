@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_idb/sdb.dart';
 import 'package:tekartik_firebase_auth_sdb/auth_sdb.dart';
 import 'package:tekartik_firebase_local/firebase_local.dart';
@@ -48,9 +47,7 @@ class ExampleApp extends StatelessWidget {
       ),
       localizationsDelegates: const [
         FirebaseUiAuthServiceBasicLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
       ],
       supportedLocales:
           FirebaseUiAuthServiceBasicLocalizations.supportedLocales,
@@ -85,9 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   void _push(Widget Function() builder) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute<void>(builder: (_) => builder()));
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => builder()));
   }
 
   @override

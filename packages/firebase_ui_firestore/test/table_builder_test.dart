@@ -6,10 +6,10 @@
 
 import 'dart:async';
 
-import 'package:tekartik_firebase_ui_firestore/firebase_ui_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tekartik_firebase_ui_firestore/firebase_ui_firestore.dart';
 
 typedef Snapshot = QuerySnapshot;
 
