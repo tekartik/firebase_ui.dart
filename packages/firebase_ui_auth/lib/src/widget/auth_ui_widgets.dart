@@ -376,6 +376,7 @@ class AuthUiPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var ui = AuthUiTheme.of(context);
     return SizedBox(
       height: AuthUiTheme.buttonHeight,
       child: FilledButton(
@@ -383,7 +384,7 @@ class AuthUiPrimaryButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AuthUiTheme.fieldRadius),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          textStyle: ui.buttonTextStyle,
         ),
         onPressed: onPressed,
         child: _ButtonContent(
@@ -432,7 +433,7 @@ class AuthUiOutlinedButton extends StatelessWidget {
           side: BorderSide(color: ui.border),
           backgroundColor: ui.card,
           foregroundColor: ui.text,
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          textStyle: ui.buttonTextStyle,
         ),
         onPressed: onPressed,
         child: _ButtonContent(
@@ -474,6 +475,7 @@ class AuthUiTintedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var ui = AuthUiTheme.of(context);
     return SizedBox(
       height: AuthUiTheme.buttonHeight,
       child: FilledButton.tonal(
@@ -484,7 +486,7 @@ class AuthUiTintedButton extends StatelessWidget {
           ),
           backgroundColor: softColor,
           foregroundColor: color,
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          textStyle: ui.buttonTextStyle,
         ),
         onPressed: onPressed,
         child: _ButtonContent(label: label, leadingIcon: icon),
@@ -546,7 +548,7 @@ class AuthUiLinkButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         minimumSize: Size.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        textStyle: const TextStyle(fontWeight: FontWeight.w700),
+        textStyle: ui.linkTextStyle,
       ),
       onPressed: onPressed,
       child: Text(label),

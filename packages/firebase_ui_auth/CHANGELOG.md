@@ -10,6 +10,9 @@
 - `FirebaseUiAuthService` gets `options`, `registerScreen` and
   `lostPasswordScreen`.
 - Complete English and French localization of every string.
+- Button and link labels derive from the theme `labelLarge` style
+  (`AuthUiTheme.buttonTextStyle`, `linkTextStyle`), so the app font family
+  applies to them too.
 - Export `AuthUserHeaderCard`, `AuthAccountDetailsSection` and `AuthUiTheme`.
 
 # 0.1.0

@@ -135,6 +135,22 @@ class AuthUiTheme {
   /// App bar title style (small caps).
   TextStyle get appBarTitleStyle => sectionTitleStyle.copyWith(fontSize: 14);
 
+  /// Full width button label style.
+  ///
+  /// Derived from the theme so that the app font family applies (a button
+  /// text style replaces the theme one, it is not merged with it).
+  TextStyle get buttonTextStyle =>
+      (theme.textTheme.labelLarge ?? const TextStyle()).copyWith(
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+      );
+
+  /// Inline link button label style.
+  TextStyle get linkTextStyle =>
+      (theme.textTheme.labelLarge ?? const TextStyle()).copyWith(
+        fontWeight: FontWeight.w700,
+      );
+
   /// Field label style (small caps).
   TextStyle get fieldLabelStyle =>
       (theme.textTheme.labelLarge ?? const TextStyle()).copyWith(
