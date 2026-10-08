@@ -4,8 +4,10 @@ import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
 import 'emulator_config.dart';
 import 'firebase_context.dart';
+import 'screen/auth_gallery_screen.dart';
 import 'screen/items_screen.dart';
 import 'screen/rules_test_screen.dart';
+import 'theme/example_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +16,11 @@ Future<void> main() async {
 }
 
 /// Example app.
-class ExampleApp extends StatelessWidget {
+///
+/// The theme is picked from [exampleThemes], light or dark (see
+/// [ExampleThemeActions]), starting with the reference violet one in the
+/// platform brightness.
+class ExampleApp extends StatefulWidget {
   /// Firebase context (native, rest or local).
   final ExampleFirebaseContext firebaseContext;
 
@@ -22,26 +28,37 @@ class ExampleApp extends StatelessWidget {
   const ExampleApp({super.key, required this.firebaseContext});
 
   @override
+  State<ExampleApp> createState() => _ExampleAppState();
+}
+
+class _ExampleAppState extends State<ExampleApp> {
+  final _themeController = ExampleThemeController.platform();
+
+  @override
+  void dispose() {
+    _themeController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const seedColor = Color(0xFF5B4FE9);
-    return MaterialApp(
-      title: 'UI auth emulator example',
-      theme: ThemeData(
-        colorSchemeSeed: seedColor,
-        brightness: Brightness.light,
+    return ExampleThemeScope(
+      controller: _themeController,
+      child: ValueListenableBuilder(
+        valueListenable: _themeController,
+        builder: (context, _, _) => MaterialApp(
+          title: 'UI auth emulator example',
+          theme: _themeController.choice.themeData,
+          localizationsDelegates: const [
+            FirebaseUiAuthServiceBasicLocalizations.delegate,
+            FirebaseUILocalizations.delegate,
+            ...GlobalMaterialLocalizations.delegates,
+          ],
+          supportedLocales:
+              FirebaseUiAuthServiceBasicLocalizations.supportedLocales,
+          home: HomeScreen(firebaseContext: widget.firebaseContext),
+        ),
       ),
-      darkTheme: ThemeData(
-        colorSchemeSeed: seedColor,
-        brightness: Brightness.dark,
-      ),
-      localizationsDelegates: const [
-        FirebaseUiAuthServiceBasicLocalizations.delegate,
-        FirebaseUILocalizations.delegate,
-        ...GlobalMaterialLocalizations.delegates,
-      ],
-      supportedLocales:
-          FirebaseUiAuthServiceBasicLocalizations.supportedLocales,
-      home: HomeScreen(firebaseContext: firebaseContext),
     );
   }
 }
@@ -96,7 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: const Text('UI auth emulator example')),
+      appBar: AppBar(
+        title: const Text('UI auth emulator example'),
+        actions: const [ExampleThemeActions()],
+      ),
       body: StreamBuilder<User?>(
         stream: auth.onCurrentUser,
         builder: (context, snapshot) {
@@ -175,6 +195,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           () => uiAuthService.loginScreen(firebaseAuth: auth),
                         );
                       },
+              ),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                icon: const Icon(Icons.view_carousel_outlined),
+                label: const Text('Auth screens gallery (themes)'),
+                onPressed: () {
+                  _push(() => const AuthGalleryScreen());
+                },
               ),
               const SizedBox(height: 8),
               OutlinedButton.icon(

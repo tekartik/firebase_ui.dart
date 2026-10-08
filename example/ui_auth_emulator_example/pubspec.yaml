@@ -64,6 +64,11 @@ dependencies:
     git:
       url: https://github.com/tekartik/firebase_ui.dart
       path: packages/firebase_ui_firestore
+  # Demo accounts of the auth screens gallery.
+  tekartik_firebase_auth_sdb:
+    git:
+      url: https://github.com/tekartik/firebase_auth.dart
+      path: auth_sdb
 
   material_ui: ">=1.5.0"
 dev_dependencies:
@@ -86,10 +91,6 @@ dev_dependencies:
     git:
       url: https://github.com/tekartik/firebase.dart
       path: firebase_local
-  tekartik_firebase_auth_sdb:
-    git:
-      url: https://github.com/tekartik/firebase_auth.dart
-      path: auth_sdb
   tekartik_firebase_firestore_sembast:
     git:
       url: https://github.com/tekartik/firebase_firestore.dart

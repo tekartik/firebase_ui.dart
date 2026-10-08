@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_firebase_ui_auth_emulator_example/main.dart';
+import 'package:tekartik_firebase_ui_auth_emulator_example/theme/example_theme.dart';
 
 import 'local_context.dart';
 
@@ -59,6 +60,62 @@ void main() {
     await tapText(tester, 'Authentication screen');
     await settle(tester);
     expect(find.text('Logout session'), findsOneWidget);
+
+    await tester.runAsync(() => firebaseContext.dispose());
+  });
+
+  testWidgets('auth screens gallery and themes', (tester) async {
+    Color primary(Finder finder) =>
+        Theme.of(tester.element(finder)).colorScheme.primary;
+
+    var firebaseContext = initExampleFirebaseContextLocal();
+    await tester.pumpWidget(ExampleApp(firebaseContext: firebaseContext));
+    await settle(tester);
+    await tapText(tester, 'Auth screens gallery (themes)');
+    await settle(tester);
+    expect(find.text('Violet light'), findsOneWidget);
+    expect(find.text('Demo content'), findsOneWidget);
+    // The previews show the screens on the demo accounts.
+    expect(find.text('Good morning, Camille'), findsOneWidget);
+    expect(find.text('Welcome'), findsWidgets);
+
+    // One tap: same theme in dark
+    await tester.tap(find.text('Next theme'));
+    await settle(tester);
+    expect(find.text('Violet dark'), findsOneWidget);
+    expect(
+      Theme.of(tester.element(find.text('Violet dark'))).brightness,
+      Brightness.dark,
+    );
+
+    // Pick another theme, the brightness is kept
+    await tester.tap(find.text('Teal'));
+    await settle(tester);
+    expect(find.text('Teal dark'), findsOneWidget);
+    expect(
+      primary(find.text('Teal dark')),
+      exampleThemes[1].colorScheme(Brightness.dark).primary,
+    );
+
+    // Open a screen, its button cycles the themes too
+    await tester.tap(find.text('authScreen, signed out'), warnIfMissed: false);
+    await settle(tester);
+    expect(find.text('Sign in to access your account'), findsOneWidget);
+    await tester.tap(find.byType(FloatingActionButton));
+    await settle(tester);
+    expect(
+      primary(find.text('Sign in to access your account')),
+      exampleThemes[2].colorScheme(Brightness.light).primary,
+    );
+
+    // Back to home, the demo accounts are deleted
+    await tester.pageBack();
+    await settle(tester);
+    expect(find.text('Coral light'), findsOneWidget);
+    // (the previews have back buttons too)
+    tester.state<NavigatorState>(find.byType(Navigator).first).pop();
+    await settle(tester);
+    expect(find.text('Auth screens gallery (themes)'), findsOneWidget);
 
     await tester.runAsync(() => firebaseContext.dispose());
   });
