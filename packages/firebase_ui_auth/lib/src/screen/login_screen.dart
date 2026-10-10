@@ -62,6 +62,8 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
         await for (var authState in bloc.state) {
           if (authState.signedIn) {
             if (mounted) {
+              // The Google link dialog first, the pop is for the screen.
+              _closeGooglePrompt();
               Navigator.of(context).pop(authState.user);
             }
             return;
@@ -266,63 +268,100 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
     );
   }
 
+  /// The dialog showing the Google consent link while the sign in waits for
+  /// the browser to come back, null when not shown.
+  DialogRoute<void>? _googlePromptRoute;
+
+  /// Completed when the user gives up the Google sign in in progress.
+  Completer<void>? _googleCancel;
+
+  void _closeGooglePrompt() {
+    var route = _googlePromptRoute;
+    _googlePromptRoute = null;
+    if (route != null && route.isActive) {
+      route.navigator?.removeRoute(route);
+    }
+  }
+
   Future<void> _signInWithGoogle(
     BuildContext context,
     AuthScreenBloc bloc,
     GoogleRestAuthProvider provider,
   ) async {
     var intl = appIntl(context);
-    provider.userPrompt = (uri) async {
-      if (context.mounted) {
-        await showDialog<void>(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(intl.signInWithGoogleButtonLabel),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(intl.googleSignInLinkMessage),
-                  const SizedBox(height: 8),
-                  InkWell(
-                    onTap: () {
-                      webLaunchUri(Uri.parse(uri));
-                    },
-                    child: Text(
-                      uri,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
+    var cancel = _googleCancel = Completer<void>();
+    provider.userPrompt = (uri) {
+      // Straight to the browser, the dialog is the way back when it did not
+      // open (or to give up).
+      webLaunchUri(Uri.parse(uri));
+      if (!context.mounted) {
+        return;
+      }
+      _closeGooglePrompt();
+      var route = _googlePromptRoute = DialogRoute<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(intl.signInWithGoogleButtonLabel),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(intl.googleSignInLinkMessage),
+                const SizedBox(height: 8),
+                InkWell(
+                  onTap: () {
+                    webLaunchUri(Uri.parse(uri));
+                  },
+                  child: Text(
+                    uri,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: uri));
-                  },
-                  child: Text(intl.copyLinkButtonLabel),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(intl.doneButtonLabel),
                 ),
               ],
-            );
-          },
-        );
-      }
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: uri));
+                },
+                child: Text(intl.copyLinkButtonLabel),
+              ),
+              TextButton(
+                onPressed: () {
+                  _closeGooglePrompt();
+                  if (!cancel.isCompleted) {
+                    cancel.complete();
+                  }
+                },
+                child: Text(intl.cancelButtonLabel),
+              ),
+            ],
+          );
+        },
+      );
+      Navigator.of(context).push(route);
     };
     await busyAction(() async {
       try {
-        await bloc.firebaseAuth.signIn(provider);
+        _error.add(null);
+        // Giving up does not stop the loopback server waiting for the
+        // browser: finishing there later still signs in.
+        await Future.any([bloc.firebaseAuth.signIn(provider), cancel.future]);
       } catch (e, st) {
         if (kDebugMode) {
           print('Error $e');
           print(st);
         }
         _error.add(intl.loginGenericError);
+      } finally {
+        if (identical(_googleCancel, cancel)) {
+          _googleCancel = null;
+        }
+        _closeGooglePrompt();
       }
     });
   }

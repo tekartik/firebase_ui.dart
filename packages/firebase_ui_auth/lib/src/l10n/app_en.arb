@@ -303,7 +303,7 @@
   "@googleButtonLabel": {
     "description": "The short label of the Google button"
   },
-  "googleSignInLinkMessage": "Please sign in using the following link:",
+  "googleSignInLinkMessage": "Continue in your browser to sign in with Google. If it did not open, use this link:",
   "@googleSignInLinkMessage": {
     "description": "Message of the dialog showing the Google sign in link"
   },
@@ -314,5 +314,9 @@
   "doneButtonLabel": "Done",
   "@doneButtonLabel": {
     "description": "Button closing a dialog"
+  },
+  "cancelButtonLabel": "Cancel",
+  "@cancelButtonLabel": {
+    "description": "Button giving up the Google sign in in progress"
   }
 }

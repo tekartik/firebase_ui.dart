@@ -69,7 +69,8 @@
   "lostPasswordGenericError": "Impossible d'envoyer l'e-mail de réinitialisation. Vérifiez l'adresse et réessayez.",
   "signInWithGoogleButtonLabel": "Se connecter avec Google",
   "googleButtonLabel": "Google",
-  "googleSignInLinkMessage": "Veuillez vous connecter en utilisant le lien suivant :",
+  "googleSignInLinkMessage": "Continuez dans votre navigateur pour vous connecter avec Google. S'il ne s'est pas ouvert, utilisez ce lien :",
   "copyLinkButtonLabel": "Copier le lien",
-  "doneButtonLabel": "Terminé"
+  "doneButtonLabel": "Terminé",
+  "cancelButtonLabel": "Annuler"
 }

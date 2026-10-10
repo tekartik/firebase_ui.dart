@@ -238,11 +238,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get googleSignInLinkMessage =>
-      'Please sign in using the following link:';
+      'Continue in your browser to sign in with Google. If it did not open, use this link:';
 
   @override
   String get copyLinkButtonLabel => 'Copy link';
 
   @override
   String get doneButtonLabel => 'Done';
+
+  @override
+  String get cancelButtonLabel => 'Cancel';
 }

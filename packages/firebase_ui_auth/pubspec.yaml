@@ -66,6 +66,10 @@ dev_dependencies:
     git:
       url: https://github.com/tekartik/firebase_auth.dart
       path: auth_sdb
+  tekartik_firebase_rest:
+    git:
+      url: https://github.com/tekartik/firebase_rest.dart
+      path: firebase_rest
   flutter_lints: ">=6.0.0"
   tekartik_lints_flutter:
     git:

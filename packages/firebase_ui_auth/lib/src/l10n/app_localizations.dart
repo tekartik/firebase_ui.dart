@@ -521,7 +521,7 @@ abstract class AppLocalizations {
   /// Message of the dialog showing the Google sign in link
   ///
   /// In en, this message translates to:
-  /// **'Please sign in using the following link:'**
+  /// **'Continue in your browser to sign in with Google. If it did not open, use this link:'**
   String get googleSignInLinkMessage;
 
   /// Button copying the sign in link
@@ -535,6 +535,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get doneButtonLabel;
+
+  /// Button giving up the Google sign in in progress
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelButtonLabel;
 }
 
 class _AppLocalizationsDelegate
