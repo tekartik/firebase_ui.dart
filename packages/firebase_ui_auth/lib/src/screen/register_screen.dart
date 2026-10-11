@@ -53,7 +53,8 @@ class _AuthRegisterScreenState extends AutoDisposeBaseState<AuthRegisterScreen>
       if (mounted) {
         var bloc = BlocProvider.of<AuthScreenBloc>(context);
         await for (var authState in bloc.state) {
-          if (authState.signedIn) {
+          // Not for an anonymous user: they came to get an account.
+          if (authState.hasAccount) {
             if (mounted) {
               Navigator.of(context).pop(authState.user);
             }

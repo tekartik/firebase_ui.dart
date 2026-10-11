@@ -12,6 +12,10 @@ class AuthScreenBlocState {
   /// Signed in
   bool get signedIn => user != null;
 
+  /// Signed in with an account: anonymous users have none, the auth screens
+  /// offer them to sign in or create one.
+  bool get hasAccount => !(user?.isAnonymous ?? true);
+
   @override
   String toString() => 'AuthScreenBlocState(${user?.uid})';
 }

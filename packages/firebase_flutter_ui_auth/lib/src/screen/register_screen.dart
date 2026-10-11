@@ -34,7 +34,8 @@ class _AuthFlutterRegisterScreenState extends State<AuthFlutterRegisterScreen> {
       if (mounted) {
         var bloc = BlocProvider.of<AuthScreenBloc>(context);
         await for (var authState in bloc.state) {
-          if (authState.signedIn) {
+          // Not for an anonymous user: they came to get an account.
+          if (authState.hasAccount) {
             if (mounted) {
               Navigator.of(context).pop(authState.user);
             }
@@ -59,6 +60,14 @@ class _AuthFlutterRegisterScreenState extends State<AuthFlutterRegisterScreen> {
             body: RegisterScreen(
               auth: bloc.firebaseAuth.nativeInstance,
               showAuthActionSwitch: false,
+              // An anonymous user signing up keeps its uid (the account is
+              // linked to it): no auth state change, reload the user so the
+              // screens see the account.
+              actions: [
+                AuthStateChangeAction<CredentialLinked>((context, state) {
+                  unawaited(bloc.firebaseAuth.reloadCurrentUser());
+                }),
+              ],
             ),
           ),
         );

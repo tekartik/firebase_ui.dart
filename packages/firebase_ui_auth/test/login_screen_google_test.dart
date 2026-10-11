@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_firebase_auth_rest/auth_rest.dart';
 // ignore: implementation_imports
+import 'package:tekartik_firebase_auth_rest/src/auth_rest.dart'
+    show UserCredentialRest;
+// ignore: implementation_imports
 import 'package:tekartik_firebase_auth_rest/src/auth_rest_provider.dart';
 import 'package:tekartik_firebase_rest/firebase_rest.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
@@ -32,7 +35,14 @@ class _FakeGoogleProvider extends AuthProviderRestBase
   Future<AuthSignInResult> signIn() async {
     _userPrompt('https://accounts.google.com/o/oauth2/auth?test');
     await browser.future;
-    return _Result(await authRest.signInAnonymously());
+    // A user with an account (an anonymous one stays on the login screen),
+    // signed in like the real provider does.
+    var credential = await authRest.signInWithEmailAndPassword(
+      email: 'google@example.com',
+      password: 'google',
+    ) as UserCredentialRest;
+    await setCurrentUserCredential(credential);
+    return _Result(credential);
   }
 
   @override

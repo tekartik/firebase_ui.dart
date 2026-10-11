@@ -8,8 +8,8 @@ import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
 /// Auth screen: entry point of the authentication flow.
 ///
-/// Signed out: welcome page with "Sign in" (and "Create account" when
-/// [FirebaseUiAuthOptions.registerEnabled]).
+/// Signed out or anonymous: welcome page with "Sign in" (and "Create
+/// account" when [FirebaseUiAuthOptions.registerEnabled]).
 ///
 /// Signed in: user header, account details, preferences and logout.
 class AuthScreen extends StatefulWidget {
@@ -51,10 +51,10 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
             ],
           );
         }
-        if (user == null) {
+        if (!state.hasAccount) {
           return _buildSignedOut(context, bloc, intl);
         }
-        return _buildSignedIn(context, bloc, user, intl, ui);
+        return _buildSignedIn(context, bloc, user!, intl, ui);
       },
     );
   }

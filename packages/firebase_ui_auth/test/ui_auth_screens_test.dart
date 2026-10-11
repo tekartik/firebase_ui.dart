@@ -147,6 +147,38 @@ void main() {
       expect(find.text('Create your account'), findsNothing);
       expect(find.text('new@example.com'), findsWidgets);
     });
+
+    testWidgets('anonymous: welcome, then sign in', (tester) async {
+      await runAuth(tester, () async {
+        await auth.createUserWithEmailAndPassword(
+          email: 'user@example.com',
+          password: 'password1',
+        );
+        await auth.signOut();
+        await auth.signInAnonymously();
+      });
+      expect(auth.currentUser?.isAnonymous, isTrue);
+
+      // An anonymous user has no account: offered to sign in or create one.
+      await tester.pumpWidget(testApp(authScreen(firebaseAuth: auth)));
+      await settle(tester);
+      expect(find.text('Welcome'), findsOneWidget);
+      expect(find.text('Create account'), findsOneWidget);
+      expect(find.text('Logout session'), findsNothing);
+
+      // The login screen stays open for them.
+      await tapText(tester, 'Sign in');
+      await settle(tester);
+      expect(find.text('Welcome back'), findsOneWidget);
+
+      await enterField(tester, 0, 'user@example.com');
+      await enterField(tester, 1, 'password1');
+      await tapText(tester, 'Sign in');
+      await settle(tester);
+      expect(find.text('Welcome back'), findsNothing);
+      expect(auth.currentUser?.email, 'user@example.com');
+      expect(find.text('Logout session'), findsOneWidget);
+    });
   });
 
   group('lost password', () {

@@ -60,7 +60,8 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
       if (mounted) {
         var bloc = BlocProvider.of<AuthScreenBloc>(context);
         await for (var authState in bloc.state) {
-          if (authState.signedIn) {
+          // Not for an anonymous user: they came to get an account.
+          if (authState.hasAccount) {
             if (mounted) {
               // The Google link dialog first, the pop is for the screen.
               _closeGooglePrompt();
