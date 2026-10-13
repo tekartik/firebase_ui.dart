@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_bloc_flutter/app_rx_flutter.dart';
+import 'package:tekartik_firebase_ui_auth/src/screen/auth_screen_utils.dart';
 import 'package:tekartik_firebase_ui_auth/src/utils/app_intl.dart';
 import 'package:tekartik_firebase_ui_auth/src/widget/auth_ui_widgets.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
@@ -55,7 +55,6 @@ class _AuthLostPasswordScreenState
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     var intl = appIntl(context);
-    var ui = AuthUiTheme.of(context);
 
     return BehaviorSubjectBuilder(
       subject: _sentEmail,
@@ -114,24 +113,7 @@ class _AuthLostPasswordScreenState
               },
             ),
             const SizedBox(height: 24),
-            BehaviorSubjectBuilder(
-              subject: _error,
-              builder: (_, snapshot) {
-                var error = snapshot.data;
-                if (error == null) {
-                  return const SizedBox.shrink();
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: AuthUiMessageCard(
-                    text: error,
-                    icon: Icons.error_outline,
-                    color: ui.danger,
-                    softColor: ui.dangerSoft,
-                  ),
-                );
-              },
-            ),
+            AuthUiSubjectMessageCard.error(_error),
             ValueStreamBuilder(
               stream: _sendEnabled,
               builder: (context, snapshot) {
@@ -164,25 +146,16 @@ class _AuthLostPasswordScreenState
   }
 
   Future<void> _send(BuildContext context, AuthScreenBloc bloc) async {
-    if (_check()) {
-      var intl = appIntl(context);
-      await busyAction(() async {
+    await authSubmit(
+      check: _check,
+      error: _error,
+      errorMessage: appIntl(context).lostPasswordGenericError,
+      action: () async {
         var email = emailController.text.trim();
-        try {
-          _error.add(null);
-          await bloc.sendPasswordResetEmail(email: email);
-          _sentEmail.add(email);
-        } catch (e, st) {
-          if (kDebugMode) {
-            print('Error $e');
-            print(st);
-          }
-          _error.add(intl.lostPasswordGenericError);
-        } finally {
-          _check();
-        }
-      });
-    }
+        await bloc.sendPasswordResetEmail(email: email);
+        _sentEmail.add(email);
+      },
+    );
   }
 }
 

@@ -48,6 +48,13 @@ Future<void> enterField(WidgetTester tester, int index, String text) async {
   await tester.pump();
 }
 
+/// Whether the primary button showing [label] is enabled.
+bool buttonEnabled(WidgetTester tester, String label) => tester
+    .widget<FilledButton>(
+      find.ancestor(of: find.text(label), matching: find.byType(FilledButton)),
+    )
+    .enabled;
+
 void main() {
   late FirebaseAuth auth;
   setUp(() {
@@ -219,6 +226,68 @@ void main() {
       await settle(tester);
       expect(find.text('Check your inbox'), findsNothing);
       expect(find.textContaining('Could not send'), findsOneWidget);
+    });
+  });
+
+  group('submit after a failure', () {
+    // The button is enabled again once no longer busy: retry without editing
+    // a field.
+    testWidgets('login', (tester) async {
+      await runAuth(tester, () async {
+        await auth.createUserWithEmailAndPassword(
+          email: 'user@example.com',
+          password: 'password1',
+        );
+        await auth.signOut();
+      });
+      await tester.pumpWidget(testApp(authLoginScreen(firebaseAuth: auth)));
+      await settle(tester);
+      await enterField(tester, 0, 'user@example.com');
+      await enterField(tester, 1, 'wrong');
+      await tapText(tester, 'Sign in');
+      await settle(tester);
+      expect(find.textContaining('Sign in failed'), findsOneWidget);
+      expect(buttonEnabled(tester, 'Sign in'), isTrue);
+
+      // Retry without editing: tried again (and failed again).
+      await tapText(tester, 'Sign in');
+      await tester.pump();
+      expect(find.textContaining('Sign in failed'), findsNothing);
+      await settle(tester);
+      expect(find.textContaining('Sign in failed'), findsOneWidget);
+      expect(buttonEnabled(tester, 'Sign in'), isTrue);
+    });
+
+    testWidgets('register', (tester) async {
+      await runAuth(tester, () async {
+        await auth.createUserWithEmailAndPassword(
+          email: 'taken@example.com',
+          password: 'password1',
+        );
+        await auth.signOut();
+      });
+      await tester.pumpWidget(testApp(authRegisterScreen(firebaseAuth: auth)));
+      await settle(tester);
+      await enterField(tester, 0, 'taken@example.com');
+      await enterField(tester, 1, 'password1');
+      await enterField(tester, 2, 'password1');
+      await tapText(tester, 'Sign up');
+      await settle(tester);
+      expect(find.byIcon(Icons.error_outline), findsOneWidget);
+      expect(auth.currentUser, isNull);
+      expect(buttonEnabled(tester, 'Sign up'), isTrue);
+    });
+
+    testWidgets('lost password', (tester) async {
+      await tester.pumpWidget(
+        testApp(authLostPasswordScreen(firebaseAuth: auth)),
+      );
+      await settle(tester);
+      await enterField(tester, 0, 'nobody@example.com');
+      await tapText(tester, 'Send reset link');
+      await settle(tester);
+      expect(find.textContaining('Could not send'), findsOneWidget);
+      expect(buttonEnabled(tester, 'Send reset link'), isTrue);
     });
   });
 

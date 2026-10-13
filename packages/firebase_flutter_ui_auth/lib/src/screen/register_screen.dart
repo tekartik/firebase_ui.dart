@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart' as legacy show AppBar, Scaffold;
 import 'package:material_ui/material_ui.dart';
@@ -10,6 +8,7 @@ import 'package:tekartik_firebase_flutter_ui_auth/src/utils/app_intl.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
 
 import '../legacy_material.dart';
+import 'auth_screen_utils.dart';
 
 /// Auth register screen (native firebase_ui_auth [RegisterScreen]).
 ///
@@ -30,21 +29,11 @@ class _AuthFlutterRegisterScreenState extends State<AuthFlutterRegisterScreen> {
   void initState() {
     super.initState();
 
-    scheduleMicrotask(() async {
-      if (mounted) {
-        var bloc = BlocProvider.of<AuthScreenBloc>(context);
-        await for (var authState in bloc.state) {
-          // Not for an anonymous user: they came to get an account.
-          if (authState.hasAccount) {
-            if (mounted) {
-              Navigator.of(context).pop(authState.user);
-            }
-            return;
-          }
-        }
-        return;
-      }
-    });
+    authFlutterScreenPopWhen(
+      this,
+      // Not for an anonymous user: they came to get an account.
+      when: (authState) => authState.hasAccount,
+    );
   }
 
   @override
@@ -60,14 +49,9 @@ class _AuthFlutterRegisterScreenState extends State<AuthFlutterRegisterScreen> {
             body: RegisterScreen(
               auth: bloc.firebaseAuth.nativeInstance,
               showAuthActionSwitch: false,
-              // An anonymous user signing up keeps its uid (the account is
-              // linked to it): no auth state change, reload the user so the
-              // screens see the account.
-              actions: [
-                AuthStateChangeAction<CredentialLinked>((context, state) {
-                  unawaited(bloc.firebaseAuth.reloadCurrentUser());
-                }),
-              ],
+              // Same as the sign in screen: upstream also offers Google here
+              // and links an anonymous user.
+              actions: authFlutterAccountActions(bloc),
             ),
           ),
         );

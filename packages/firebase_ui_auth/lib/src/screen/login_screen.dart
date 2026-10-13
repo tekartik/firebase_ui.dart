@@ -7,6 +7,7 @@ import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_bloc_flutter/app_rx_flutter.dart';
 import 'package:tekartik_app_url_launcher_flutter/web_launch_uri.dart';
 import 'package:tekartik_firebase_auth_rest/auth_rest.dart';
+import 'package:tekartik_firebase_ui_auth/src/screen/auth_screen_utils.dart';
 import 'package:tekartik_firebase_ui_auth/src/utils/app_intl.dart';
 import 'package:tekartik_firebase_ui_auth/src/widget/auth_ui_widgets.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
@@ -56,23 +57,13 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
     _checkLoginEnabled();
     super.initState();
 
-    scheduleMicrotask(() async {
-      if (mounted) {
-        var bloc = BlocProvider.of<AuthScreenBloc>(context);
-        await for (var authState in bloc.state) {
-          // Not for an anonymous user: they came to get an account.
-          if (authState.hasAccount) {
-            if (mounted) {
-              // The Google link dialog first, the pop is for the screen.
-              _closeGooglePrompt();
-              Navigator.of(context).pop(authState.user);
-            }
-            return;
-          }
-        }
-        return;
-      }
-    });
+    authScreenPopWhen(
+      this,
+      // Not for an anonymous user: they came to get an account.
+      when: (authState) => authState.hasAccount,
+      // The Google link dialog first, the pop is for the screen.
+      beforePop: _closeGooglePrompt,
+    );
   }
 
   bool _checkLoginEnabled() {
@@ -179,24 +170,7 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
                 ),
               ),
             const SizedBox(height: 16),
-            BehaviorSubjectBuilder(
-              subject: _error,
-              builder: (_, snapshot) {
-                var error = snapshot.data;
-                if (error == null) {
-                  return const SizedBox.shrink();
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: AuthUiMessageCard(
-                    text: error,
-                    icon: Icons.error_outline,
-                    color: ui.danger,
-                    softColor: ui.dangerSoft,
-                  ),
-                );
-              },
-            ),
+            AuthUiSubjectMessageCard.error(_error),
             ValueStreamBuilder(
               stream: _loginEnabled,
               builder: (context, snapshot) {
@@ -368,30 +342,24 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
   }
 
   Future<void> _login(BuildContext context, AuthScreenBloc bloc) async {
-    if (_checkLoginEnabled()) {
-      var intl = appIntl(context);
-      await busyAction(() async {
-        try {
-          var username = usernameController.text.trim();
-          var password = passwordController.text.trim();
-          _error.add(null);
-          await bloc.signInWithEmailAndPassword(
-            email: username,
-            password: password,
-          );
+    await authSubmit(
+      check: _checkLoginEnabled,
+      error: _error,
+      errorMessage: appIntl(context).loginGenericError,
+      action: () async {
+        var username = usernameController.text.trim();
+        // Trimmed since the first version: accounts created through these
+        // screens have a trimmed password, keep it (the native screens do
+        // not trim).
+        var password = passwordController.text.trim();
+        await bloc.signInWithEmailAndPassword(
+          email: username,
+          password: password,
+        );
 
-          await Future<void>.delayed(const Duration(milliseconds: 300));
-        } catch (e, st) {
-          if (kDebugMode) {
-            print('Error $e');
-            print(st);
-          }
-          _error.add(intl.loginGenericError);
-        } finally {
-          _checkLoginEnabled();
-        }
-      });
-    }
+        await Future<void>.delayed(const Duration(milliseconds: 300));
+      },
+    );
   }
 }
 

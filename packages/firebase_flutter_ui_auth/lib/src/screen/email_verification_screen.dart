@@ -8,6 +8,7 @@ import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
 
 import '../legacy_material.dart';
+import 'auth_screen_utils.dart';
 
 /// Auth email verification screen (native firebase_ui_auth screen)
 class AuthFlutterEmailVerificationScreen extends StatefulWidget {
@@ -25,20 +26,7 @@ class _AuthFlutterEmailVerificationScreenState
   void initState() {
     super.initState();
 
-    scheduleMicrotask(() async {
-      if (mounted) {
-        var bloc = BlocProvider.of<AuthScreenBloc>(context);
-        await for (var authState in bloc.state) {
-          if (!authState.signedIn) {
-            if (mounted) {
-              Navigator.of(context).pop();
-            }
-            return;
-          }
-        }
-        return;
-      }
-    });
+    authFlutterScreenPopWhen(this, when: (authState) => !authState.signedIn);
   }
 
   @override
@@ -52,6 +40,10 @@ class _AuthFlutterEmailVerificationScreenState
             auth: bloc.firebaseAuth.nativeInstance,
             actions: [
               EmailVerifiedAction(() {
+                // Upstream reloads the native user, which only fires
+                // userChanges: reload through the bloc auth so the other
+                // screens (the hub) see the verified email.
+                unawaited(bloc.firebaseAuth.reloadCurrentUser());
                 if (mounted) {
                   Navigator.of(context).pop();
                 }

@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_bloc_flutter/app_rx_flutter.dart';
 import 'package:tekartik_common_utils/string_utils.dart';
+import 'package:tekartik_firebase_ui_auth/src/screen/auth_screen_utils.dart';
 import 'package:tekartik_firebase_ui_auth/src/utils/app_intl.dart';
 import 'package:tekartik_firebase_ui_auth/src/widget/auth_ui_widgets.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
@@ -38,28 +39,19 @@ class _AuthEmailVerificationScreenState
   void initState() {
     super.initState();
 
-    scheduleMicrotask(() async {
-      if (mounted) {
-        var bloc = BlocProvider.of<AuthScreenBloc>(context);
-        await for (var authState in bloc.state) {
-          var user = authState.user;
-          if (user == null || user.emailVerified) {
-            if (mounted) {
-              Navigator.of(context).pop(user);
-            }
-            return;
-          }
-        }
-        return;
-      }
-    });
+    authScreenPopWhen(
+      this,
+      when: (authState) {
+        var user = authState.user;
+        return user == null || user.emailVerified;
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     var intl = appIntl(context);
-    var ui = AuthUiTheme.of(context);
     return ValueStreamBuilder(
       stream: bloc.state,
       builder: (context, snapshot) {
@@ -86,42 +78,8 @@ class _AuthEmailVerificationScreenState
               subtitle: intl.emailVerificationSubtitle(email),
             ),
             const SizedBox(height: 28),
-            BehaviorSubjectBuilder(
-              subject: _info,
-              builder: (_, snapshot) {
-                var info = snapshot.data;
-                if (info == null) {
-                  return const SizedBox.shrink();
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: AuthUiMessageCard(
-                    text: info,
-                    icon: Icons.check_circle_outline,
-                    color: ui.success,
-                    softColor: ui.successSoft,
-                  ),
-                );
-              },
-            ),
-            BehaviorSubjectBuilder(
-              subject: _error,
-              builder: (_, snapshot) {
-                var error = snapshot.data;
-                if (error == null) {
-                  return const SizedBox.shrink();
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: AuthUiMessageCard(
-                    text: error,
-                    icon: Icons.error_outline,
-                    color: ui.danger,
-                    softColor: ui.dangerSoft,
-                  ),
-                );
-              },
-            ),
+            AuthUiSubjectMessageCard.success(_info),
+            AuthUiSubjectMessageCard.error(_error),
             AuthUiPrimaryButton(
               label: intl.emailVerificationSendButtonLabel,
               icon: Icons.send_outlined,

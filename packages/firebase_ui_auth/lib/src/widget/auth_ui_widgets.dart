@@ -935,6 +935,47 @@ class AuthUiMessageCard extends StatelessWidget {
   }
 }
 
+/// Error or confirmation message following a subject: nothing while the
+/// subject holds null, else a padded [AuthUiMessageCard].
+class AuthUiSubjectMessageCard extends StatelessWidget {
+  /// Message subject.
+  final BehaviorSubject<String?> subject;
+
+  /// Confirmation (success colors) instead of an error.
+  final bool success;
+
+  /// Error message card.
+  const AuthUiSubjectMessageCard.error(this.subject, {super.key})
+    : success = false;
+
+  /// Confirmation message card.
+  const AuthUiSubjectMessageCard.success(this.subject, {super.key})
+    : success = true;
+
+  @override
+  Widget build(BuildContext context) {
+    var ui = AuthUiTheme.of(context);
+    return BehaviorSubjectBuilder(
+      subject: subject,
+      builder: (_, snapshot) {
+        var text = snapshot.data;
+        if (text == null) {
+          return const SizedBox.shrink();
+        }
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: AuthUiMessageCard(
+            text: text,
+            icon: success ? Icons.check_circle_outline : Icons.error_outline,
+            color: success ? ui.success : ui.danger,
+            softColor: success ? ui.successSoft : ui.dangerSoft,
+          ),
+        );
+      },
+    );
+  }
+}
+
 /// Centered footer prompt with a link ("Don't have an account? Sign up").
 class AuthUiFooterPrompt extends StatelessWidget {
   /// Text before the link.

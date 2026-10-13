@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_widget/view/busy_screen_state_mixin.dart';
 import 'package:tekartik_app_rx_bloc_flutter/app_rx_flutter.dart';
+import 'package:tekartik_firebase_ui_auth/src/screen/auth_screen_utils.dart';
 import 'package:tekartik_firebase_ui_auth/src/utils/app_intl.dart';
 import 'package:tekartik_firebase_ui_auth/src/widget/auth_ui_widgets.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
@@ -31,20 +32,7 @@ class _AuthProfileScreenState extends AutoDisposeBaseState<AuthProfileScreen>
   void initState() {
     super.initState();
 
-    scheduleMicrotask(() async {
-      if (mounted) {
-        var bloc = BlocProvider.of<AuthScreenBloc>(context);
-        await for (var authState in bloc.state) {
-          if (!authState.signedIn) {
-            if (mounted) {
-              Navigator.of(context).pop(null);
-            }
-            return;
-          }
-        }
-        return;
-      }
-    });
+    authScreenPopWhen(this, when: (authState) => !authState.signedIn);
   }
 
   @override

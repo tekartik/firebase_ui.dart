@@ -777,8 +777,10 @@ class _ReferenceFormState extends _FormState {
 
   final TextEditingController controller;
 
+  // Local fix to the upstream copy (string there): the type dropdown showed
+  // "String" when editing a reference.
   @override
-  _PropertyType get type => _PropertyType.string;
+  _PropertyType get type => _PropertyType.reference;
 
   @override
   _Edit submit(DocumentReference ref) {
