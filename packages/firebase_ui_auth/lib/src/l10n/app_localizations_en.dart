@@ -178,6 +178,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'You are using the app without an account: signing in to an existing account switches to it, what you did without one does not follow.';
 
   @override
+  String get loginAnonymousMergeNotice =>
+      'You are using the app without an account: signing in to an existing account moves what you did to it.';
+
+  @override
   String get registerLinkSubtitle =>
       'What you did without an account is kept in your new account';
 

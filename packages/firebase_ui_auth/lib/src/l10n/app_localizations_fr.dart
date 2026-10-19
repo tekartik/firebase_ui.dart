@@ -182,6 +182,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Vous utilisez l\'application sans compte : vous connecter à un compte existant bascule sur celui-ci, ce que vous avez fait sans compte ne suit pas.';
 
   @override
+  String get loginAnonymousMergeNotice =>
+      'Vous utilisez l\'application sans compte : vous connecter à un compte existant y transfère ce que vous avez fait.';
+
+  @override
   String get registerLinkSubtitle =>
       'Ce que vous avez fait sans compte est conservé dans votre nouveau compte';
 

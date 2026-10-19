@@ -27,11 +27,19 @@ class FirebaseUiAuthOptions {
   /// in this mode the login screen says so to an anonymous user.
   final bool linkAnonymousUser;
 
+  /// Called once an anonymous user signed in to an existing account, with an
+  /// id token of the anonymous user taken before: the app hands it to its
+  /// server (`app-user/merge`) so that what they did follows them. In this
+  /// mode the login screen says so to an anonymous user. A failure is
+  /// ignored (the sign in succeeded).
+  final Future<void> Function(String anonymousIdToken)? onAnonymousUserSignedIn;
+
   /// Options.
   const FirebaseUiAuthOptions({
     this.registerEnabled = true,
     this.lostPasswordEnabled = true,
     this.linkAnonymousUser = true,
+    this.onAnonymousUserSignedIn,
   });
 
   /// Copy with new values.
@@ -39,10 +47,13 @@ class FirebaseUiAuthOptions {
     bool? registerEnabled,
     bool? lostPasswordEnabled,
     bool? linkAnonymousUser,
+    Future<void> Function(String anonymousIdToken)? onAnonymousUserSignedIn,
   }) => FirebaseUiAuthOptions(
     registerEnabled: registerEnabled ?? this.registerEnabled,
     lostPasswordEnabled: lostPasswordEnabled ?? this.lostPasswordEnabled,
     linkAnonymousUser: linkAnonymousUser ?? this.linkAnonymousUser,
+    onAnonymousUserSignedIn:
+        onAnonymousUserSignedIn ?? this.onAnonymousUserSignedIn,
   );
 
   @override

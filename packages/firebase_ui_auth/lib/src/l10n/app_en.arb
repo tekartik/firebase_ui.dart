@@ -225,6 +225,10 @@
   "@loginAnonymousNotice": {
     "description": "The login screen notice for an anonymous user (anonymous user link mode)"
   },
+  "loginAnonymousMergeNotice": "You are using the app without an account: signing in to an existing account moves what you did to it.",
+  "@loginAnonymousMergeNotice": {
+    "description": "The login screen notice for an anonymous user when what they did follows them (merge)"
+  },
   "registerLinkSubtitle": "What you did without an account is kept in your new account",
   "@registerLinkSubtitle": {
     "description": "The register screen subtitle when the new account is linked to the anonymous user"

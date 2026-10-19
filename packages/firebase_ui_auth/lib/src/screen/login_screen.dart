@@ -118,11 +118,14 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
               title: intl.loginHeadline,
               subtitle: intl.loginSubtitle,
             ),
-            if (options.linkAnonymousUser &&
+            if ((options.linkAnonymousUser ||
+                    options.onAnonymousUserSignedIn != null) &&
                 (snapshot.data?.user?.isAnonymous ?? false)) ...[
               const SizedBox(height: 20),
               AuthUiMessageCard(
-                text: intl.loginAnonymousNotice,
+                text: options.onAnonymousUserSignedIn != null
+                    ? intl.loginAnonymousMergeNotice
+                    : intl.loginAnonymousNotice,
                 icon: Icons.info_outline,
                 color: ui.info,
                 softColor: ui.infoSoft,
@@ -335,9 +338,15 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
     await busyAction(() async {
       try {
         _error.add(null);
+        var anonymousIdToken = await _anonymousIdToken(bloc);
         // Giving up does not stop the loopback server waiting for the
         // browser: finishing there later still signs in.
-        await Future.any([bloc.firebaseAuth.signIn(provider), cancel.future]);
+        await Future.any([
+          bloc.firebaseAuth
+              .signIn(provider)
+              .then((_) => _anonymousUserSignedIn(bloc, anonymousIdToken)),
+          cancel.future,
+        ]);
       } catch (e, st) {
         if (kDebugMode) {
           print('Error $e');
@@ -353,6 +362,45 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
     });
   }
 
+  /// An id token of the anonymous current user, taken before signing in, when
+  /// [FirebaseUiAuthOptions.onAnonymousUserSignedIn] wants one.
+  Future<String?> _anonymousIdToken(AuthScreenBloc bloc) async {
+    if (options.onAnonymousUserSignedIn == null) {
+      return null;
+    }
+    var user = bloc.firebaseAuth.currentUser;
+    if (user == null || !user.isAnonymous || user is! UserInfoWithIdToken) {
+      return null;
+    }
+    try {
+      return await (user as UserInfoWithIdToken).getIdToken();
+    } catch (e) {
+      if (kDebugMode) {
+        print('No anonymous id token: $e');
+      }
+      return null;
+    }
+  }
+
+  /// Hands [anonymousIdToken] to the app once signed in to another user, see
+  /// [FirebaseUiAuthOptions.onAnonymousUserSignedIn]; a failure is ignored.
+  Future<void> _anonymousUserSignedIn(
+    AuthScreenBloc bloc,
+    String? anonymousIdToken,
+  ) async {
+    var onAnonymousUserSignedIn = options.onAnonymousUserSignedIn;
+    if (anonymousIdToken == null || onAnonymousUserSignedIn == null) {
+      return;
+    }
+    try {
+      await onAnonymousUserSignedIn(anonymousIdToken);
+    } catch (e) {
+      if (kDebugMode) {
+        print('onAnonymousUserSignedIn failed: $e');
+      }
+    }
+  }
+
   Future<void> _login(BuildContext context, AuthScreenBloc bloc) async {
     await authSubmit(
       check: _checkLoginEnabled,
@@ -364,10 +412,12 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
         // screens have a trimmed password, keep it (the native screens do
         // not trim).
         var password = passwordController.text.trim();
+        var anonymousIdToken = await _anonymousIdToken(bloc);
         await bloc.signInWithEmailAndPassword(
           email: username,
           password: password,
         );
+        await _anonymousUserSignedIn(bloc, anonymousIdToken);
 
         await Future<void>.delayed(const Duration(milliseconds: 300));
       },

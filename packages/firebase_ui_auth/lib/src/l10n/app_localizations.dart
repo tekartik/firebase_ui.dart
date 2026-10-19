@@ -410,6 +410,12 @@ abstract class AppLocalizations {
   /// **'You are using the app without an account: signing in to an existing account switches to it, what you did without one does not follow.'**
   String get loginAnonymousNotice;
 
+  /// The login screen notice for an anonymous user when what they did follows them (merge)
+  ///
+  /// In en, this message translates to:
+  /// **'You are using the app without an account: signing in to an existing account moves what you did to it.'**
+  String get loginAnonymousMergeNotice;
+
   /// The register screen subtitle when the new account is linked to the anonymous user
   ///
   /// In en, this message translates to:

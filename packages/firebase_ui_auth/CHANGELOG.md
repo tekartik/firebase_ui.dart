@@ -18,6 +18,10 @@
   user the register screen links the new account to it
   (`FirebaseUser.linkWithCredential`, same uid), and the login screen says
   that signing in switches account. An email in use gets its own message.
+- `FirebaseUiAuthOptions.onAnonymousUserSignedIn`: an anonymous user signing
+  in to an existing account (email/password or Google) hands an id token of
+  the anonymous user to the app (for a server side merge); the login screen
+  then says that what they did follows them.
 
 # 0.1.0
 
