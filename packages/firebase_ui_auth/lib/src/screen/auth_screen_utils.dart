@@ -32,10 +32,21 @@ void authScreenPopWhen(
   });
 }
 
+/// Whether [error] says the email belongs to another account: the codes of
+/// the native (`email-already-in-use`), local (`email-already-exists`) and
+/// rest (`EMAIL_EXISTS`) backends.
+bool authIsEmailInUseError(Object error) {
+  var text = error.toString();
+  return text.contains('email-already-in-use') ||
+      text.contains('email-already-exists') ||
+      text.contains('EMAIL_EXISTS');
+}
+
 /// Submit helper of the form screens (login, register, lost password).
 extension AuthScreenSubmitExt<T extends StatefulWidget> on BusyScreenState<T> {
   /// Runs [action] while busy when [check] allows it, shows [errorMessage]
-  /// in [error] when it fails.
+  /// in [error] when it fails, or the message [errorMessageOf] gives for that
+  /// error when not null.
   ///
   /// [check] (which reads busy) runs again once no longer busy: the submit
   /// button is enabled again after a failure without editing a field.
@@ -43,6 +54,7 @@ extension AuthScreenSubmitExt<T extends StatefulWidget> on BusyScreenState<T> {
     required bool Function() check,
     required BehaviorSubject<String?> error,
     required String errorMessage,
+    String? Function(Object error)? errorMessageOf,
     required Future<void> Function() action,
   }) async {
     if (!check()) {
@@ -57,7 +69,7 @@ extension AuthScreenSubmitExt<T extends StatefulWidget> on BusyScreenState<T> {
           print('Error $e');
           print(st);
         }
-        error.add(errorMessage);
+        error.add(errorMessageOf?.call(e) ?? errorMessage);
       }
     });
     if (mounted) {

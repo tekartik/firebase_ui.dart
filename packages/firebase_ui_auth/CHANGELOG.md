@@ -14,6 +14,10 @@
   (`AuthUiTheme.buttonTextStyle`, `linkTextStyle`), so the app font family
   applies to them too.
 - Export `AuthUserHeaderCard`, `AuthAccountDetailsSection` and `AuthUiTheme`.
+- `FirebaseUiAuthOptions.linkAnonymousUser` (default `true`): for an anonymous
+  user the register screen links the new account to it
+  (`FirebaseUser.linkWithCredential`, same uid), and the login screen says
+  that signing in switches account. An email in use gets its own message.
 
 # 0.1.0
 

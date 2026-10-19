@@ -20,7 +20,9 @@ String? gDebugPassword;
 
 /// Auth login screen (email and password).
 ///
-/// Pops with the signed-in [User] once the sign-in succeeds.
+/// Pops with the signed-in [User] once the sign-in succeeds. Signing in
+/// switches to that account: with [FirebaseUiAuthOptions.linkAnonymousUser]
+/// an anonymous user is told that what they did does not follow.
 class AuthLoginScreen extends StatefulWidget {
   /// ui auth service (used for navigation and options)
   final FirebaseUiAuthService uiAuthService;
@@ -116,6 +118,16 @@ class _AuthLoginScreenState extends AutoDisposeBaseState<AuthLoginScreen>
               title: intl.loginHeadline,
               subtitle: intl.loginSubtitle,
             ),
+            if (options.linkAnonymousUser &&
+                (snapshot.data?.user?.isAnonymous ?? false)) ...[
+              const SizedBox(height: 20),
+              AuthUiMessageCard(
+                text: intl.loginAnonymousNotice,
+                icon: Icons.info_outline,
+                color: ui.info,
+                softColor: ui.infoSoft,
+              ),
+            ],
             const SizedBox(height: 28),
             AutofillGroup(
               child: Column(

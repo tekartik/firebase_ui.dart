@@ -44,6 +44,12 @@ used for tests and offline apps.
   `registerEnabled: false` hides "Sign up"/"Create account",
   `lostPasswordEnabled: false` hides "Forgot password?". Both default to
   `true`.
+* An anonymous user is offered to sign in or create an account. With
+  `linkAnonymousUser` (default `true`) the register screen links the new
+  account to the anonymous user (`FirebaseUser.linkWithCredential`): same
+  uid, nothing to migrate. Signing in to an existing account switches to it
+  (its uid), the login screen says so. Never sign the anonymous user out
+  before opening these screens, the link needs it.
 * The lost password screen calls `FirebaseAuth.sendPasswordResetEmail`. Local
   backends (sdb, sembast, sim, local) only check that the email exists and
   send nothing; backends that do not support it throw and the screen shows

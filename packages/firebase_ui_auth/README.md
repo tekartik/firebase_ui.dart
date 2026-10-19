@@ -43,6 +43,12 @@ const uiAuthService = FirebaseUiAuthServiceBasic(
   options: FirebaseUiAuthOptions(registerEnabled: false),
 );
 
+// An anonymous user creating an account keeps its uid (linked) by default,
+// a new user instead:
+const newUserUiAuthService = FirebaseUiAuthServiceBasic(
+  options: FirebaseUiAuthOptions(linkAnonymousUser: false),
+);
+
 Navigator.of(context).push(
   MaterialPageRoute<void>(
     builder: (_) => uiAuthService.authScreen(firebaseAuth: firebaseAuth),

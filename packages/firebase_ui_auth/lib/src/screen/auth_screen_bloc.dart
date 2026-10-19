@@ -59,6 +59,24 @@ class AuthScreenBloc extends AutoDisposeStateBaseBloc<AuthScreenBlocState> {
     password: password,
   );
 
+  /// Whether the current user is anonymous.
+  bool get isAnonymous => firebaseAuth.currentUser?.isAnonymous ?? false;
+
+  /// Link an email and password to the current (anonymous) user, which keeps
+  /// its uid, see [FirebaseUser.linkWithCredential].
+  Future<UserCredential> linkWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) {
+    var user = firebaseAuth.currentUser;
+    if (user == null) {
+      throw StateError('No current user to link');
+    }
+    return user.linkWithCredential(
+      FirebaseAuthEmailPasswordCredential(email: email, password: password),
+    );
+  }
+
   /// Send a password reset email
   Future<void> sendPasswordResetEmail({required String email}) =>
       firebaseAuth.sendPasswordResetEmail(email: email);

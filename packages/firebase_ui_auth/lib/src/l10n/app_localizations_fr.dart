@@ -178,6 +178,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileTitle => 'Profil';
 
   @override
+  String get loginAnonymousNotice =>
+      'Vous utilisez l\'application sans compte : vous connecter à un compte existant bascule sur celui-ci, ce que vous avez fait sans compte ne suit pas.';
+
+  @override
+  String get registerLinkSubtitle =>
+      'Ce que vous avez fait sans compte est conservé dans votre nouveau compte';
+
+  @override
+  String get registerEmailInUseError =>
+      'Un compte existe déjà avec cet e-mail. Connectez-vous plutôt.';
+
+  @override
   String get registerTitle => 'Inscription';
 
   @override

@@ -174,6 +174,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileTitle => 'Profile';
 
   @override
+  String get loginAnonymousNotice =>
+      'You are using the app without an account: signing in to an existing account switches to it, what you did without one does not follow.';
+
+  @override
+  String get registerLinkSubtitle =>
+      'What you did without an account is kept in your new account';
+
+  @override
+  String get registerEmailInUseError =>
+      'An account already exists with this email. Sign in instead.';
+
+  @override
   String get registerTitle => 'Sign up';
 
   @override

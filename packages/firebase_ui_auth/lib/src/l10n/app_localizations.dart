@@ -404,6 +404,24 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profileTitle;
 
+  /// The login screen notice for an anonymous user (anonymous user link mode)
+  ///
+  /// In en, this message translates to:
+  /// **'You are using the app without an account: signing in to an existing account switches to it, what you did without one does not follow.'**
+  String get loginAnonymousNotice;
+
+  /// The register screen subtitle when the new account is linked to the anonymous user
+  ///
+  /// In en, this message translates to:
+  /// **'What you did without an account is kept in your new account'**
+  String get registerLinkSubtitle;
+
+  /// The register screen error when the email belongs to another account
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists with this email. Sign in instead.'**
+  String get registerEmailInUseError;
+
   /// The registration screen title
   ///
   /// In en, this message translates to:

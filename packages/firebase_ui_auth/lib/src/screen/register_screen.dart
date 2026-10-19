@@ -10,7 +10,9 @@ import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
 /// Auth register screen (create an account with email and password).
 ///
-/// Pops with the signed-in [User] once the account is created.
+/// Pops with the signed-in [User] once the account is created. For an
+/// anonymous user, with [FirebaseUiAuthOptions.linkAnonymousUser], the
+/// account is linked to that user, which keeps its uid.
 class AuthRegisterScreen extends StatefulWidget {
   /// ui auth service (used for options)
   final FirebaseUiAuthService uiAuthService;
@@ -43,6 +45,12 @@ class _AuthRegisterScreenState extends AutoDisposeBaseState<AuthRegisterScreen>
     BehaviorSubject<bool>.seeded(false),
   );
   late final _error = audiAddBehaviorSubject(BehaviorSubject<String?>());
+
+  FirebaseUiAuthOptions get options => widget.uiAuthService.options;
+
+  /// Whether the account is linked to the current, anonymous, user.
+  bool _linksAnonymousUser(AuthScreenBlocState? authState) =>
+      options.linkAnonymousUser && (authState?.user?.isAnonymous ?? false);
 
   @override
   void initState() {
@@ -90,9 +98,14 @@ class _AuthRegisterScreenState extends AutoDisposeBaseState<AuthRegisterScreen>
         const SizedBox(height: 16),
         const AuthUiHeroIcon(Icons.person_add_alt_outlined),
         const SizedBox(height: 24),
-        AuthUiHeadline(
-          title: intl.registerHeadline,
-          subtitle: intl.registerSubtitle,
+        ValueStreamBuilder(
+          stream: bloc.state,
+          builder: (context, snapshot) => AuthUiHeadline(
+            title: intl.registerHeadline,
+            subtitle: _linksAnonymousUser(snapshot.data)
+                ? intl.registerLinkSubtitle
+                : intl.registerSubtitle,
+          ),
         ),
         const SizedBox(height: 28),
         AutofillGroup(
@@ -183,18 +196,25 @@ class _AuthRegisterScreenState extends AutoDisposeBaseState<AuthRegisterScreen>
   }
 
   Future<void> _register(BuildContext context, AuthScreenBloc bloc) async {
+    var intl = appIntl(context);
     await authSubmit(
       check: _check,
       error: _error,
-      errorMessage: appIntl(context).registerGenericError,
+      errorMessage: intl.registerGenericError,
+      errorMessageOf: (e) =>
+          authIsEmailInUseError(e) ? intl.registerEmailInUseError : null,
       action: () async {
         var email = emailController.text.trim();
         // Trimmed since the first version (the login screen trims too).
         var password = passwordController.text.trim();
-        await bloc.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
+        if (_linksAnonymousUser(bloc.state.valueOrNull)) {
+          await bloc.linkWithEmailAndPassword(email: email, password: password);
+        } else {
+          await bloc.createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+        }
         await Future<void>.delayed(const Duration(milliseconds: 300));
       },
     );

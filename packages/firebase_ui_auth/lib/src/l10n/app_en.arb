@@ -221,6 +221,18 @@
   "@profileTitle": {
     "description": "The profile screen title"
   },
+  "loginAnonymousNotice": "You are using the app without an account: signing in to an existing account switches to it, what you did without one does not follow.",
+  "@loginAnonymousNotice": {
+    "description": "The login screen notice for an anonymous user (anonymous user link mode)"
+  },
+  "registerLinkSubtitle": "What you did without an account is kept in your new account",
+  "@registerLinkSubtitle": {
+    "description": "The register screen subtitle when the new account is linked to the anonymous user"
+  },
+  "registerEmailInUseError": "An account already exists with this email. Sign in instead.",
+  "@registerEmailInUseError": {
+    "description": "The register screen error when the email belongs to another account"
+  },
   "registerTitle": "Sign up",
   "@registerTitle": {
     "description": "The registration screen title"
