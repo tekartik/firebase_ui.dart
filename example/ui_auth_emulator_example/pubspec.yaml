@@ -103,4 +103,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  # The provider icons of the flutterfire profile screen (`SocialIcons`, no
+  # font package): firebase_ui_auth ships the font without declaring it.
+  fonts:
+    - family: SocialIcons
+      fonts:
+        - asset: packages/firebase_ui_auth/fonts/SocialIcons.ttf
+
 resolution: workspace
