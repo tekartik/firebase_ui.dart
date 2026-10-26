@@ -5,6 +5,7 @@ import 'package:tekartik_app_rx_utils/app_rx_utils.dart';
 import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
 
+import '../firebase_ui_auth_service_flutter.dart';
 import '../legacy_material.dart';
 import 'auth_screen_utils.dart';
 
@@ -33,6 +34,7 @@ class _AuthFlutterLoginScreenState extends State<AuthFlutterLoginScreen> {
   @override
   void initState() {
     super.initState();
+    firebaseUiAuthEnsureProviders();
 
     authFlutterScreenPopWhen(
       this,

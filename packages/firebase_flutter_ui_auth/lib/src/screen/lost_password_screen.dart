@@ -4,6 +4,7 @@ import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
 import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
 
+import '../firebase_ui_auth_service_flutter.dart';
 import '../legacy_material.dart';
 
 /// Lost password screen (native firebase_ui_auth [ForgotPasswordScreen]).
@@ -16,6 +17,7 @@ class AuthFlutterLostPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    firebaseUiAuthEnsureProviders();
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     return legacyMaterialScreen(
       ForgotPasswordScreen(

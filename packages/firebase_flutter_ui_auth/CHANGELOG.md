@@ -1,3 +1,10 @@
+# 0.2.1
+
+- `configureProviders` is lazy: the providers are configured by the first
+  auth screen, so Google Sign-In does not start (nor set its `g_state` cookie
+  on the web) before the user opens one. On the web, a `web/index.html`
+  snippet (README) also holds Google's script back until then.
+
 # 0.2.0
 
 - `FirebaseUiAuthServiceFlutter` gets `options` (`registerEnabled` toggles the
