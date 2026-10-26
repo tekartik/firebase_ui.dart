@@ -6,8 +6,6 @@ import 'package:tekartik_firebase_flutter/firebase_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart' as impl;
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
-import 'google_sign_in_script.dart';
-
 /// The providers [FirebaseUiAuthServiceFlutter.configureProviders] asked
 /// for, configured by the first auth screen
 /// ([firebaseUiAuthEnsureProviders]).
@@ -42,17 +40,13 @@ class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
   /// Lazy: the providers are configured by the first auth screen (sign in,
   /// register, profile...), not here. Google's provider starts Google
   /// Sign-In (on the web its `g_state` cookie), so nothing of it runs before
-  /// the user opens an auth screen (GDPR). On the web, `web/index.html` may
-  /// also hold Google's script back until then (see the README).
+  /// the user opens an auth screen (GDPR).
   void configureProviders({
     FirebaseAuth? firebaseAuth,
     bool noEmailPassword = false,
     String? googleAuthClientId,
   }) {
     _pendingProviders = () {
-      if (googleAuthClientId != null) {
-        releaseGoogleSignInScript();
-      }
       native.FirebaseUIAuth.configureProviders([
         if (!noEmailPassword) native.EmailAuthProvider(),
         if (googleAuthClientId != null)

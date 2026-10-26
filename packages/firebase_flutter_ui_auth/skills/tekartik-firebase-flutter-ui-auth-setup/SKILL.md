@@ -29,9 +29,9 @@ without changes.
   not start, nor set its `g_state` cookie, before the user opens one): do
   not read `FirebaseUIAuth.providersFor` or build native `firebase_ui_auth`
   screens directly.
-* On the web, add the README snippet to `web/index.html` to also hold the
-  Google Sign-In script (`accounts.google.com/gsi/client`, appended at
-  startup by `google_sign_in_web`) back until the first auth screen.
+* On the web, `google_sign_in_web` still loads Google's script
+  (`accounts.google.com/gsi/client`) at startup, without a cookie: list it
+  in the app's privacy policy.
 * Keep a single `FirebaseUiAuthService` variable in the app (for example
   `globalAuthFlutterUiService`) assigned to `firebaseUiAuthServiceFlutter`
   (native) or `firebaseUiAuthServiceBasic` (local) depending on the flavor,
