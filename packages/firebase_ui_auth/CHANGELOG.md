@@ -22,6 +22,11 @@
   in to an existing account (email/password or Google) hands an id token of
   the anonymous user to the app (for a server side merge); the login screen
   then says that what they did follows them.
+- `authScreen(authContinue: FirebaseUiAuthContinue(label: ...))`: once
+  signed in, a continue button, for a "Sign in and join" flow. The screen
+  pops with a `FirebaseUiAuthContinueResult` (`continued`, the current
+  `user`, `hasAccount`), going back too; `pushAuthScreenToContinue` pushes
+  it and returns that result.
 
 # 0.1.0
 

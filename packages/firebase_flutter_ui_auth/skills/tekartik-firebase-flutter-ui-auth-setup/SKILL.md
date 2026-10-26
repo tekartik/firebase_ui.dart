@@ -43,7 +43,9 @@ without changes.
   details) from `tekartik_firebase_ui_auth`; `loginScreen()`,
   `registerScreen()`, `lostPasswordScreen()`, `profileScreen()` and
   `emailVerificationScreen()` are the native screens. They pop by themselves
-  on sign-in / sign-out.
+  on sign-in / sign-out. For "Sign in and join", pass
+  `authScreen(authContinue: FirebaseUiAuthContinue(label: 'Join'))` (or
+  `pushAuthScreenToContinue`): see the `tekartik_firebase_ui_auth` skill.
 * Add both localization delegates to the `MaterialApp`:
   `FirebaseUiAuthServiceBasicLocalizations.delegate` (auth screen) and
   `FirebaseUILocalizations.delegate` from `firebase_ui_localizations`

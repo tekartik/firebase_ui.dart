@@ -22,6 +22,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authCreateAccountButtonLabel => 'Create account';
 
   @override
+  String get authContinueButtonLabel => 'Continue';
+
+  @override
   String get authVerifiedBadge => 'Verified';
 
   @override

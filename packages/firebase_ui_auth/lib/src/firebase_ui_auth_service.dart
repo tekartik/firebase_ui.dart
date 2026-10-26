@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:tekartik_firebase_auth/auth.dart';
 
+import 'firebase_ui_auth_continue.dart';
 import 'firebase_ui_auth_options.dart';
 
 /// Ui Auth service
@@ -12,7 +13,14 @@ abstract class FirebaseUiAuthService {
   FirebaseUiAuthOptions get options;
 
   /// Base auth screen, allowing login and profile
-  Widget authScreen({FirebaseAuth? firebaseAuth});
+  ///
+  /// With [authContinue], once signed in it shows a continue button, and it
+  /// pops with a `FirebaseUiAuthContinueResult` ("Sign in and join", see
+  /// [FirebaseUiAuthContinue]).
+  Widget authScreen({
+    FirebaseAuth? firebaseAuth,
+    FirebaseUiAuthContinue? authContinue,
+  });
 
   /// Login/Sign-in
   Widget loginScreen({FirebaseAuth? firebaseAuth});

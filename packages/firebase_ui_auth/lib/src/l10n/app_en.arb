@@ -15,6 +15,10 @@
   "@authCreateAccountButtonLabel": {
     "description": "Button opening the registration screen"
   },
+  "authContinueButtonLabel": "Continue",
+  "@authContinueButtonLabel": {
+    "description": "Button of the signed-in auth screen going on with what the user signed in for (FirebaseUiAuthContinue)"
+  },
   "authVerifiedBadge": "Verified",
   "@authVerifiedBadge": {
     "description": "Badge shown next to the user name when the email is verified"

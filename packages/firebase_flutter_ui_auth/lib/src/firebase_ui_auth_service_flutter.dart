@@ -56,8 +56,14 @@ class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
   }
 
   @override
-  Widget authScreen({FirebaseAuth? firebaseAuth}) =>
-      impl.authFlutterScreen(firebaseAuth: firebaseAuth, uiAuthService: this);
+  Widget authScreen({
+    FirebaseAuth? firebaseAuth,
+    FirebaseUiAuthContinue? authContinue,
+  }) => impl.authFlutterScreen(
+    firebaseAuth: firebaseAuth,
+    uiAuthService: this,
+    authContinue: authContinue,
+  );
 
   @override
   Widget loginScreen({FirebaseAuth? firebaseAuth}) =>

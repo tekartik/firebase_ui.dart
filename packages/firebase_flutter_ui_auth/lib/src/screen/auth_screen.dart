@@ -9,6 +9,7 @@ class AuthFlutterScreen extends AuthScreen {
   const AuthFlutterScreen({
     super.key,
     super.uiAuthService = firebaseUiAuthServiceFlutter,
+    super.authContinue,
   });
 }
 
@@ -16,7 +17,11 @@ class AuthFlutterScreen extends AuthScreen {
 Widget authFlutterScreen({
   FirebaseAuth? firebaseAuth,
   FirebaseUiAuthService uiAuthService = firebaseUiAuthServiceFlutter,
+  FirebaseUiAuthContinue? authContinue,
 }) => BlocProvider(
   blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-  child: AuthFlutterScreen(uiAuthService: uiAuthService),
+  child: AuthFlutterScreen(
+    uiAuthService: uiAuthService,
+    authContinue: authContinue,
+  ),
 );

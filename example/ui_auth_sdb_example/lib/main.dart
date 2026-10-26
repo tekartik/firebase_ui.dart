@@ -72,6 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
   var _registerEnabled = true;
   var _lostPasswordEnabled = true;
 
+  /// The user who joined the demo list (in memory).
+  String? _joinedUid;
+
   FirebaseAuth get firebaseAuth => widget.firebaseAuth;
 
   FirebaseUiAuthService get uiAuthService => FirebaseUiAuthServiceBasic(
@@ -84,6 +87,67 @@ class _HomeScreenState extends State<HomeScreen> {
   void _push(Widget Function() builder) {
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (_) => builder()));
+  }
+
+  void _join(User user) {
+    setState(() {
+      _joinedUid = user.uid;
+    });
+  }
+
+  /// Signs in, then joins on "Join"; back: nothing, the card now offers
+  /// "Join" if the user signed in.
+  Future<void> _signInAndJoin() async {
+    var result = await uiAuthService.pushAuthScreenToContinue(
+      context,
+      firebaseAuth: firebaseAuth,
+      authContinue: const FirebaseUiAuthContinue(label: 'Join'),
+    );
+    if (result.continued) {
+      _join(result.user!);
+    }
+  }
+
+  Widget _buildJoinCard(User? user) {
+    var hasAccount = user != null && !user.isAnonymous;
+    var joined = hasAccount && _joinedUid == user.uid;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Demo list', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 4),
+            Text(
+              joined
+                  ? 'Joined'
+                  : 'FirebaseUiAuthContinue: sign in, then join or go back',
+            ),
+            const SizedBox(height: 12),
+            if (joined)
+              OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    _joinedUid = null;
+                  });
+                },
+                child: const Text('Leave'),
+              )
+            else if (hasAccount)
+              FilledButton(
+                onPressed: () => _join(user),
+                child: const Text('Join'),
+              )
+            else
+              FilledButton(
+                onPressed: _signInAndJoin,
+                child: const Text('Sign in and join'),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -109,6 +173,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   subtitle: signedIn ? Text(user.uid) : null,
                 ),
               ),
+              const SizedBox(height: 8),
+              _buildJoinCard(user),
               const SizedBox(height: 16),
               SwitchListTile(
                 title: const Text('Allow registration'),

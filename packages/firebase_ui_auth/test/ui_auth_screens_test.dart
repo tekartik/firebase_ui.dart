@@ -186,6 +186,124 @@ void main() {
       expect(find.text('Welcome back'), findsNothing);
       expect(auth.currentUser?.email, 'user@example.com');
       expect(find.text('Logout session'), findsOneWidget);
+      expect(find.text('Continue'), findsNothing);
+    });
+  });
+
+  group('continue', () {
+    /// A "Sign in and join" button opening the auth screen to continue,
+    /// [results] gets what it popped with.
+    Widget joinApp(List<FirebaseUiAuthContinueResult> results) => testApp(
+      Builder(
+        builder: (context) => Scaffold(
+          body: Center(
+            child: TextButton(
+              onPressed: () async {
+                results.add(
+                  await firebaseUiAuthServiceBasic.pushAuthScreenToContinue(
+                    context,
+                    firebaseAuth: auth,
+                    authContinue: const FirebaseUiAuthContinue(label: 'Join'),
+                  ),
+                );
+              },
+              child: const Text('Sign in and join'),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    Future<void> signIn(WidgetTester tester) async {
+      await tapText(tester, 'Sign in');
+      await settle(tester);
+      await enterField(tester, 0, 'user@example.com');
+      await enterField(tester, 1, 'password1');
+      await tapText(tester, 'Sign in');
+      await settle(tester);
+    }
+
+    setUp(() async {
+      await auth.createUserWithEmailAndPassword(
+        email: 'user@example.com',
+        password: 'password1',
+      );
+      await auth.signOut();
+    });
+
+    testWidgets('signed in, continue', (tester) async {
+      var results = <FirebaseUiAuthContinueResult>[];
+      await tester.pumpWidget(joinApp(results));
+      await tapText(tester, 'Sign in and join');
+      await settle(tester);
+      // Signed out: no way on yet.
+      expect(find.text('Welcome'), findsOneWidget);
+      expect(find.text('Join'), findsNothing);
+
+      await signIn(tester);
+      // Back on the auth screen, signed in, with the way on.
+      expect(find.text('Logout session'), findsOneWidget);
+      expect(results, isEmpty);
+
+      await tapText(tester, 'Join');
+      await settle(tester);
+      expect(find.text('Sign in and join'), findsOneWidget);
+      var result = results.single;
+      expect(result.continued, isTrue);
+      expect(result.hasAccount, isTrue);
+      expect(result.user?.email, 'user@example.com');
+    });
+
+    testWidgets('signed in, back', (tester) async {
+      var results = <FirebaseUiAuthContinueResult>[];
+      await tester.pumpWidget(joinApp(results));
+      await tapText(tester, 'Sign in and join');
+      await settle(tester);
+      await signIn(tester);
+      expect(find.text('Join'), findsOneWidget);
+
+      await tester.pageBack();
+      await settle(tester);
+      expect(find.text('Sign in and join'), findsOneWidget);
+      // Signed in: the caller now offers the action itself.
+      var result = results.single;
+      expect(result.continued, isFalse);
+      expect(result.hasAccount, isTrue);
+      expect(result.user?.email, 'user@example.com');
+    });
+
+    testWidgets('signed out, back', (tester) async {
+      var results = <FirebaseUiAuthContinueResult>[];
+      await tester.pumpWidget(joinApp(results));
+      await tapText(tester, 'Sign in and join');
+      await settle(tester);
+      expect(find.text('Welcome'), findsOneWidget);
+
+      await tester.pageBack();
+      await settle(tester);
+      var result = results.single;
+      expect(result.continued, isFalse);
+      expect(result.hasAccount, isFalse);
+      expect(result.user, isNull);
+    });
+
+    testWidgets('default label', (tester) async {
+      await runAuth(tester, () async {
+        await auth.signInWithEmailAndPassword(
+          email: 'user@example.com',
+          password: 'password1',
+        );
+      });
+      await tester.pumpWidget(
+        testApp(
+          authScreen(
+            firebaseAuth: auth,
+            authContinue: const FirebaseUiAuthContinue(),
+          ),
+        ),
+      );
+      await settle(tester);
+      expect(find.text('Continue'), findsOneWidget);
     });
   });
 

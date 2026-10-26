@@ -3,6 +3,7 @@
   "authWelcomeHeadline": "Bienvenue",
   "authWelcomeSubtitle": "Connectez-vous pour accéder à votre compte",
   "authCreateAccountButtonLabel": "Créer un compte",
+  "authContinueButtonLabel": "Continuer",
   "authVerifiedBadge": "Vérifié",
   "authActiveSession": "Session active",
   "authAnonymousUser": "Utilisateur anonyme",

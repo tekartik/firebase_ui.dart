@@ -11,15 +11,21 @@ import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 /// Signed out or anonymous: welcome page with "Sign in" (and "Create
 /// account" when [FirebaseUiAuthOptions.registerEnabled]).
 ///
-/// Signed in: user header, account details, preferences and logout.
+/// Signed in: user header, account details, preferences and logout. With
+/// [authContinue], a continue button under the header, and the screen pops
+/// with a [FirebaseUiAuthContinueResult] (going back too).
 class AuthScreen extends StatefulWidget {
   /// ui auth service
   final FirebaseUiAuthService uiAuthService;
+
+  /// The continue button shown once signed in, if any.
+  final FirebaseUiAuthContinue? authContinue;
 
   /// Auth screen
   const AuthScreen({
     super.key,
     this.uiAuthService = firebaseUiAuthServiceBasic,
+    this.authContinue,
   });
 
   @override
@@ -37,7 +43,7 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
     var bloc = BlocProvider.of<AuthScreenBloc>(context);
     var intl = appIntl(context);
     var ui = AuthUiTheme.of(context);
-    return ValueStreamBuilder(
+    var screen = ValueStreamBuilder(
       stream: bloc.state,
       builder: (context, snapshot) {
         var state = snapshot.data;
@@ -56,6 +62,28 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
         }
         return _buildSignedIn(context, bloc, user!, intl, ui);
       },
+    );
+    if (widget.authContinue == null) {
+      return screen;
+    }
+    // Going back pops with a result too.
+    return PopScope<Object?>(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) {
+          _popContinueResult(bloc, continued: false);
+        }
+      },
+      child: screen,
+    );
+  }
+
+  void _popContinueResult(AuthScreenBloc bloc, {required bool continued}) {
+    Navigator.of(context).pop(
+      FirebaseUiAuthContinueResult(
+        user: bloc.firebaseAuth.currentUser,
+        continued: continued,
+      ),
     );
   }
 
@@ -121,6 +149,16 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
       children: [
         const SizedBox(height: 8),
         AuthUserHeaderCard(user: user),
+        if (widget.authContinue case var authContinue?) ...[
+          const SizedBox(height: 16),
+          AuthUiPrimaryButton(
+            label: authContinue.label ?? intl.authContinueButtonLabel,
+            icon: Icons.arrow_forward,
+            onPressed: () {
+              _popContinueResult(bloc, continued: true);
+            },
+          ),
+        ],
         AuthUiSectionHeader(intl.authAccountDetailsSection),
         AuthAccountDetailsSection(
           user: user,
@@ -222,7 +260,8 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
 Widget authScreen({
   FirebaseAuth? firebaseAuth,
   FirebaseUiAuthService uiAuthService = firebaseUiAuthServiceBasic,
+  FirebaseUiAuthContinue? authContinue,
 }) => BlocProvider(
   blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-  child: AuthScreen(uiAuthService: uiAuthService),
+  child: AuthScreen(uiAuthService: uiAuthService, authContinue: authContinue),
 );

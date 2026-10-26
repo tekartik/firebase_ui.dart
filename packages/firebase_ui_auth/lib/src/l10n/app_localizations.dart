@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Create account'**
   String get authCreateAccountButtonLabel;
 
+  /// Button of the signed-in auth screen going on with what the user signed in for (FirebaseUiAuthContinue)
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get authContinueButtonLabel;
+
   /// Badge shown next to the user name when the email is verified
   ///
   /// In en, this message translates to:

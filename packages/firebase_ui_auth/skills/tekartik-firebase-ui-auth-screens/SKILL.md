@@ -34,6 +34,15 @@ used for tests and offline apps.
   * `authScreen()` is the entry point: welcome page when signed out (sign in,
     optional create account), user header + account details + logout when
     signed in.
+  * To sign in in order to do something ("Sign in and join"), use
+    `uiAuthService.pushAuthScreenToContinue(context, firebaseAuth: ...,
+    authContinue: FirebaseUiAuthContinue(label: 'Join'))`: once signed in the
+    auth screen shows that button. It returns a
+    `FirebaseUiAuthContinueResult`: do the action when `continued` (with
+    `user!`); otherwise stay put, the caller page rebuilds from the auth
+    state ("Join" when `hasAccount`, the user signed in before going back).
+    With go_router, build `authScreen(authContinue: ...)` in the route and
+    read the pop result of `context.push<FirebaseUiAuthContinueResult>`.
   * `loginScreen()` pops with the signed-in `User` once the sign-in succeeds
     and links to the register and lost password screens.
   * `registerScreen()` pops once the account is created (the user is signed

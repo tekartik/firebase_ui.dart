@@ -1,5 +1,10 @@
 export 'package:tekartik_firebase_auth/auth.dart';
 
+export 'src/firebase_ui_auth_continue.dart'
+    show
+        FirebaseUiAuthContinue,
+        FirebaseUiAuthContinueResult,
+        FirebaseUiAuthServiceContinueExt;
 export 'src/firebase_ui_auth_options.dart'
     show FirebaseUiAuthOptions, firebaseUiAuthOptionsDefault;
 export 'src/firebase_ui_auth_service.dart' show FirebaseUiAuthService;

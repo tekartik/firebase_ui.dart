@@ -3,6 +3,8 @@
 - `configureProviders` is lazy: the providers are configured by the first
   auth screen, so Google Sign-In does not start (nor set its `g_state` cookie
   on the web) before the user opens one.
+- `authScreen(authContinue: ...)` passes the continue button of
+  `tekartik_firebase_ui_auth` ("Sign in and join") to the shared auth screen.
 
 # 0.2.0
 

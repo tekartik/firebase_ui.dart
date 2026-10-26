@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:tekartik_firebase_auth/auth.dart';
+import 'package:tekartik_firebase_ui_auth/src/firebase_ui_auth_continue.dart';
 import 'package:tekartik_firebase_ui_auth/src/firebase_ui_auth_options.dart';
 import 'package:tekartik_firebase_ui_auth/src/firebase_ui_auth_service.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart' as impl;
@@ -18,8 +19,14 @@ class FirebaseUiAuthServiceBasic implements FirebaseUiAuthService {
   });
 
   @override
-  Widget authScreen({FirebaseAuth? firebaseAuth}) =>
-      impl.authScreen(firebaseAuth: firebaseAuth, uiAuthService: this);
+  Widget authScreen({
+    FirebaseAuth? firebaseAuth,
+    FirebaseUiAuthContinue? authContinue,
+  }) => impl.authScreen(
+    firebaseAuth: firebaseAuth,
+    uiAuthService: this,
+    authContinue: authContinue,
+  );
 
   @override
   Widget loginScreen({FirebaseAuth? firebaseAuth}) =>
