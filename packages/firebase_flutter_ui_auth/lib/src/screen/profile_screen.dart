@@ -1,4 +1,6 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+// firebase_ui_auth screens are still legacy material.
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart' as legacy show AppBar;
 import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_app_flutter_bloc/bloc_provider.dart';
