@@ -65,7 +65,9 @@ used for tests and offline apps.
   the localized error.
 * Email verification calls `FirebaseAuth.sendEmailVerification` which only
   the native Flutter backend supports; the basic screen shows an error
-  otherwise.
+  otherwise. Its check button calls `FirebaseAuth.reloadCurrentUser()`: the
+  screen pops once the backend publishes the verified user; any failure of
+  the reload (a backend without it) shows "not yet verified".
 * The design follows the app `ColorScheme`: set
   `ThemeData(colorSchemeSeed: Color(0xFF5B4FE9))` for the reference violet
   look. Dark themes are supported. `AuthUiTheme.of(context)` exposes the
