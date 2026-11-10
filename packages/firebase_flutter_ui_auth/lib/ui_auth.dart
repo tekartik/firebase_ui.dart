@@ -1,3 +1,9 @@
+/// The native `firebase_ui_auth` screens behind the `FirebaseUiAuthService`
+/// interface of `tekartik_firebase_ui_auth`: [firebaseUiAuthServiceFlutter]
+/// (or a [FirebaseUiAuthServiceFlutter] with options), configured once with
+/// [FirebaseUiAuthServiceFlutter.configureProviders].
+library;
+
 export 'package:tekartik_firebase_ui_auth/ui_auth.dart'
     show
         AuthScreenBloc,

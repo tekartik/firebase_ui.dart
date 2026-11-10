@@ -42,14 +42,20 @@ without changes.
 * `authScreen()` is the shared material auth screen (welcome / account
   details) from `tekartik_firebase_ui_auth`; `loginScreen()`,
   `registerScreen()`, `lostPasswordScreen()`, `profileScreen()` and
-  `emailVerificationScreen()` are the native screens. They pop by themselves
-  on sign-in / sign-out. For "Sign in and join", pass
+  `emailVerificationScreen()` are the native screens: sign in and register
+  pop once signed in with an account, profile and email verification on
+  sign out. For "Sign in and join", pass
   `authScreen(authContinue: FirebaseUiAuthContinue(label: 'Join'))` (or
   `pushAuthScreenToContinue`): see the `tekartik_firebase_ui_auth` skill.
 * Add both localization delegates to the `MaterialApp`:
   `FirebaseUiAuthServiceBasicLocalizations.delegate` (auth screen) and
   `FirebaseUILocalizations.delegate` from `firebase_ui_localizations`
-  (native screens), plus the global material delegates.
+  (native screens), plus the global material delegates. Build the app on
+  `package:material_ui/material_ui.dart` (Flutter beta deprecates
+  `package:flutter/material.dart`): the native screens, still on flutter
+  material, are hosted through a compatibility bridge.
+* Platforms: Android, iOS, macOS and the web (native Firebase Auth); on Linux
+  and Windows use `FirebaseUiAuthServiceBasic` with a REST or local auth.
 * Do not import `firebase_ui_auth` screens directly in app code; go through
   the service so the local flavor keeps working.
 * To develop against the Firebase emulators, call
@@ -66,7 +72,7 @@ without changes.
 
 ```dart
 import 'package:firebase_core/firebase_core.dart' as native;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_firebase_auth_flutter/auth_flutter.dart';
 import 'package:tekartik_firebase_flutter/firebase_flutter.dart';
 import 'package:tekartik_firebase_flutter_ui_auth/ui_auth.dart';
@@ -101,15 +107,12 @@ Future<void> openAuth(BuildContext context) => Navigator.of(context).push(
 
 ```dart
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 
 const localizationsDelegates = [
   FirebaseUiAuthServiceBasicLocalizations.delegate,
   FirebaseUILocalizations.delegate,
-  GlobalMaterialLocalizations.delegate,
-  GlobalWidgetsLocalizations.delegate,
-  GlobalCupertinoLocalizations.delegate,
+  ...GlobalMaterialLocalizations.delegates,
 ];
 ```
