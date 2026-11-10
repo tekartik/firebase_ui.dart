@@ -258,6 +258,8 @@ class _FirestoreTableState extends State<FirestoreDataTable> {
       builder: (context, snapshot) {
         return AggregateQueryBuilder(
           query: _query,
+          // Counted again on each change (a document added or deleted).
+          refresh: snapshot.data,
           builder: (context, aggSsnapshot) {
             return FirestoreQueryBuilder(
               query: _query,

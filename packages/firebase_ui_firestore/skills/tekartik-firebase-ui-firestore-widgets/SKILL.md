@@ -24,9 +24,9 @@ implementations used in tests.
   `CollectionReference` or a chained `where`/`orderBy`/`limit`. Obtain the
   `Firestore` from a service, for example
   `firestoreServiceFlutter.firestore(firebaseFlutter.app())` after
-  `Firebase.initializeApp`, or `newFirestoreServiceSembastMemory()` style
-  helpers in tests. Never use `cloud_firestore` types directly with these
-  widgets.
+  `Firebase.initializeApp`, or `newFirestoreMemory()` (from
+  `package:tekartik_firebase_firestore_sembast/firestore_sembast.dart`) in
+  tests. Never use `cloud_firestore` types directly with these widgets.
 * Prefer `FirestoreListView` for simple lists: it shows a progress indicator
   while fetching, renders `itemBuilder(context, DocumentSnapshot)` per
   document and fetches the next page automatically when the last item is
@@ -38,8 +38,11 @@ implementations used in tests.
   visible item is built and `snapshot.hasMore` is `true`. `fetchMore` is safe
   to call several times and from `build`.
 * `pageSize` (default 10) controls the page size for both widgets. Keep the
-  `Query` instance stable (build it once, outside `build`) or the widget
-  resets and refetches the first page.
+  `Query` instance stable: build it once (a `State` field, `initState`), not
+  in `build`. tekartik queries have no value equality, so a new
+  `collection('x').orderBy('y')` at each parent rebuild restarts the listener
+  and the pagination. A plain `CollectionReference` is compared by path and
+  can be built anywhere.
 * Document data is `snapshot.data` (`Map<String, Object?>`); map it to a
   model with a `fromJson`-style constructor. Use `snapshot.ref` to update or
   delete the document.
@@ -47,9 +50,15 @@ implementations used in tests.
   be a `LinkedHashMap` (a map literal is fine) from field name to header
   widget; rows can be selected (`onSelectedRows`), edited in place
   (`enableDefaultCellEditor`, `onTapCell`) and deleted (`canDeleteItems`).
-  Use `cellBuilder` to customize how a field is rendered.
+  Use `cellBuilder` to customize how a field is rendered. Its total (a
+  `count()` of the query) is computed again on each change. Pass `onError`
+  when deleting is allowed: without it a refused delete is an uncaught
+  error.
 * The table strings come from `firebase_ui_localizations`: add
   `FirebaseUILocalizations.delegate` to the `MaterialApp` delegates.
+* Widget tests on the sembast memory firestore: it runs on timers, so
+  advance the fake clock (`await tester.pump(const Duration(milliseconds:
+  1))` in a loop) rather than `pumpAndSettle` alone.
 * A security rules denial surfaces as a `FirestoreException` whose `code` is
   `FirestoreErrorCode.permissionDenied` on both the native and REST backends;
   handle it in `errorBuilder`. `example/ui_auth_emulator_example` in the
@@ -64,14 +73,20 @@ implementations used in tests.
 import 'package:flutter/material.dart';
 import 'package:tekartik_firebase_ui_firestore/firebase_ui_firestore.dart';
 
-class ContactsScreen extends StatelessWidget {
+class ContactsScreen extends StatefulWidget {
   final Firestore firestore;
   const ContactsScreen({super.key, required this.firestore});
 
   @override
+  State<ContactsScreen> createState() => _ContactsScreenState();
+}
+
+class _ContactsScreenState extends State<ContactsScreen> {
+  // Built once: a new query object at each build restarts the list.
+  late final query = widget.firestore.collection('users').orderBy('lastName');
+
+  @override
   Widget build(BuildContext context) {
-    // Build the query once per build of a stable widget.
-    var query = firestore.collection('users').orderBy('lastName');
     return Scaffold(
       appBar: AppBar(title: const Text('Contacts')),
       body: FirestoreListView(
@@ -120,7 +135,7 @@ Widget buildGrid(Query query) {
             snapshot.fetchMore();
           }
           var doc = snapshot.docs[index];
-          return Card(child: Text(doc.data['name']?.toString() ?? doc.id));
+          return Card(child: Text(doc.data['name']?.toString() ?? doc.ref.id));
         },
       );
     },

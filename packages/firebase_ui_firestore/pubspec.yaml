@@ -24,6 +24,10 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ">=6.0.0"
   mockito: '>=5.3.0'
+  tekartik_firebase_firestore_sembast:
+    git:
+      url: https://github.com/tekartik/firebase_firestore.dart
+      path: firestore_sembast
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

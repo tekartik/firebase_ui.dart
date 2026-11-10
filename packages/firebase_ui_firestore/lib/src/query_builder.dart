@@ -503,10 +503,17 @@ class FirestoreListView extends FirestoreQueryBuilder {
        );
 }
 
-/// Listens to an aggregate query and passes the [AsyncSnapshot] to the builder.
+/// Counts the documents of a query and passes the [AsyncSnapshot] to the
+/// builder.
+///
+/// The count is done again when [query] or [refresh] changes (pass the last
+/// query snapshot as [refresh] to follow the changes).
 class AggregateQueryBuilder extends StatefulWidget {
   /// A query to listen to
   final Query query;
+
+  /// Counted again when it changes (compared with `identical`).
+  final Object? refresh;
 
   /// A builder that is called whenever the query is updated.
   final Widget Function(BuildContext context, AsyncSnapshot<int> snapshot)
@@ -515,6 +522,7 @@ class AggregateQueryBuilder extends StatefulWidget {
   const AggregateQueryBuilder({
     super.key,
     required this.query,
+    this.refresh,
     required this.builder,
   });
 
@@ -538,7 +546,8 @@ class _AggregateQueryBuilderState extends State<AggregateQueryBuilder> {
   @override
   void didUpdateWidget(covariant AggregateQueryBuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.query != oldWidget.query) {
+    if (widget.query != oldWidget.query ||
+        !identical(widget.refresh, oldWidget.refresh)) {
       queryFuture = widget.query.count();
     }
   }
