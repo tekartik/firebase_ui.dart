@@ -9,7 +9,7 @@ import 'auth_ui_theme.dart';
 import 'auth_ui_widgets.dart';
 
 /// Card listing the account details of a signed-in user: user id, email,
-/// verification status and sign-in provider.
+/// verification status (not for an anonymous user) and sign-in provider.
 class AuthAccountDetailsSection extends StatelessWidget {
   /// The user.
   final User user;
@@ -67,21 +67,23 @@ class AuthAccountDetailsSection extends StatelessWidget {
             onTap: () =>
                 _copy(context, email, intl.authUserEmailCopiedToClipboard),
           ),
-        AuthUiDetailRow(
-          icon: verified ? Icons.check_circle_outline : Icons.error_outline,
-          color: verified ? ui.success : ui.warning,
-          softColor: verified ? ui.successSoft : ui.warningSoft,
-          label: intl.authSecurityStatusLabel,
-          value: verified
-              ? intl.emailVerifiedMessage
-              : intl.emailNotVerifiedMessage,
-          trailing: AuthUiBadge(
-            verified ? intl.authConfirmedBadge : intl.authPendingBadge,
+        // An anonymous user has no email to verify.
+        if (!user.isAnonymous)
+          AuthUiDetailRow(
+            icon: verified ? Icons.check_circle_outline : Icons.error_outline,
             color: verified ? ui.success : ui.warning,
             softColor: verified ? ui.successSoft : ui.warningSoft,
+            label: intl.authSecurityStatusLabel,
+            value: verified
+                ? intl.emailVerifiedMessage
+                : intl.emailNotVerifiedMessage,
+            trailing: AuthUiBadge(
+              verified ? intl.authConfirmedBadge : intl.authPendingBadge,
+              color: verified ? ui.success : ui.warning,
+              softColor: verified ? ui.successSoft : ui.warningSoft,
+            ),
+            onTap: verified ? null : onVerifyEmail,
           ),
-          onTap: verified ? null : onVerifyEmail,
-        ),
         AuthUiDetailRow(
           icon: Icons.shield_outlined,
           color: ui.warning,

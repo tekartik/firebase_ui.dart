@@ -28,5 +28,10 @@ export 'src/utils/app_intl.dart'
         FirebaseUiAuthServiceBasicLocalizationsDefault;
 export 'src/widget/auth_account_details_section.dart'
     show AuthAccountDetailsSection;
-export 'src/widget/auth_ui_theme.dart' show AuthUiTheme;
+export 'src/widget/auth_ui_theme.dart'
+    show
+        AuthUiStyle,
+        AuthUiStyleExtension,
+        AuthUiTheme,
+        AuthUiThemeDataExtension;
 export 'src/widget/auth_user_header_card.dart' show AuthUserHeaderCard;

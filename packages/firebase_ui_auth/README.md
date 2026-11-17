@@ -93,8 +93,14 @@ app pushing its own routes (go_router): read the result of
 on it. The label defaults to "Continue" (localized). `loginScreen` needs none
 of this: it pops with the `User` as soon as the user signs in.
 
-The design follows the app `ColorScheme` (use
-`ThemeData(colorSchemeSeed: Color(0xFF5B4FE9))` for the reference look).
+The design follows the app `ColorScheme` and, by default
+(`AuthUiStyle.app`), its page, card and field colors (`scaffoldBackgroundColor`,
+`cardTheme`, `inputDecorationTheme`): under a festenao theme the screens sit on
+the app paper. `theme.withAuthUiStyle(AuthUiStyle.classic)` (or
+`AuthUiStyleExtension(AuthUiStyle.classic)` in `ThemeData.extensions`) brings
+back the original look, a page gradient tinted by the primary color and white
+cards; with `ThemeData(colorSchemeSeed: Color(0xFF5B4FE9))` it is the reference
+violet look.
 
 See `example/ui_auth_sdb_example` in the repository for a complete offline
 example using `tekartik_firebase_auth_sdb`, and the `skills/` folder for

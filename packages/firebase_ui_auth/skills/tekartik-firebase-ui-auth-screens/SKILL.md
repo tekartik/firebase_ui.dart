@@ -68,9 +68,15 @@ used for tests and offline apps.
   otherwise. Its check button calls `FirebaseAuth.reloadCurrentUser()`: the
   screen pops once the backend publishes the verified user; any failure of
   the reload (a backend without it) shows "not yet verified".
-* The design follows the app `ColorScheme`: set
-  `ThemeData(colorSchemeSeed: Color(0xFF5B4FE9))` for the reference violet
-  look. Dark themes are supported. `AuthUiTheme.of(context)` exposes the
+* The design follows the app `ColorScheme` and, in the default
+  `AuthUiStyle.app`, its page, card and field colors (`scaffoldBackgroundColor`,
+  `cardTheme` color, shape side and elevation, `inputDecorationTheme` fill and
+  enabled border; what the theme leaves unset keeps the classic value): a
+  festenao theme shows the screens on its paper, as the rest of the app.
+  `theme.withAuthUiStyle(AuthUiStyle.classic)` keeps the original tinted
+  gradient page and white cards (with
+  `ThemeData(colorSchemeSeed: Color(0xFF5B4FE9))`, the reference violet look).
+  Dark themes are supported. `AuthUiTheme.of(context)` exposes the
   derived tokens if you build companion widgets.
 * Reuse the exported widgets `AuthUserHeaderCard` and
   `AuthAccountDetailsSection` to show the current user elsewhere in the app.

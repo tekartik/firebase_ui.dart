@@ -520,5 +520,17 @@ void main() {
       await settle(tester);
       expect(find.textContaining('Could not send'), findsOneWidget);
     });
+
+    testWidgets('anonymous: no email status', (tester) async {
+      await runAuth(tester, () async {
+        await auth.signInAnonymously();
+      });
+      await tester.pumpWidget(testApp(authProfileScreen(firebaseAuth: auth)));
+      await settle(tester);
+      expect(find.text('User ID'), findsOneWidget);
+      expect(find.text('Security & status'), findsNothing);
+      expect(find.text('Email not verified'), findsNothing);
+      expect(find.text('Pending'), findsNothing);
+    });
   });
 }

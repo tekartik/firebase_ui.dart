@@ -118,12 +118,15 @@ Future<void> _setSize(WidgetTester tester, Size size) async {
   await tester.binding.setSurfaceSize(size);
 }
 
-/// One way of showing the screens: size, theme and language.
+/// One way of showing the screens: size, theme, style and language.
 class _Variant {
   final String name;
   final Size size;
   final Brightness brightness;
   final Locale locale;
+
+  /// The style of the screens.
+  final AuthUiStyle style;
 
   /// Shot names to take, all when null.
   final Set<String>? only;
@@ -133,6 +136,7 @@ class _Variant {
     this.size = phoneSize,
     this.brightness = Brightness.light,
     this.locale = const Locale('en'),
+    this.style = AuthUiStyle.app,
     this.only,
   });
 }
@@ -155,6 +159,19 @@ const _variants = [
     'phone_fr',
     locale: Locale('fr'),
     only: {'welcome', 'sign_in_error', 'sign_up_mismatch', 'profile'},
+  ),
+  // The original look, a gradient page.
+  _Variant(
+    'phone_classic',
+    style: AuthUiStyle.classic,
+    only: {'welcome', 'sign_in_error', 'profile_verified'},
+  ),
+  _Variant(
+    'desktop_dark_classic',
+    size: desktopSize,
+    brightness: Brightness.dark,
+    style: AuthUiStyle.classic,
+    only: {'profile_verified'},
   ),
 ];
 
@@ -339,7 +356,7 @@ void main() {
                   theme: ThemeData(
                     colorSchemeSeed: seedColor,
                     brightness: variant.brightness,
-                  ),
+                  ).withAuthUiStyle(variant.style),
                   locale: variant.locale,
                   localizationsDelegates: const [
                     FirebaseUiAuthServiceBasicLocalizations.delegate,

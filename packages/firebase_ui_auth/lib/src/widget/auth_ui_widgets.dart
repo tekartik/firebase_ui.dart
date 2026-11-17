@@ -6,7 +6,8 @@ import 'auth_ui_theme.dart';
 
 /// Page scaffold used by all the auth screens.
 ///
-/// Gradient background, small caps centered title, scrollable column limited
+/// Page background of the [AuthUiStyle] (the app page color, or the classic
+/// gradient), small caps centered title, scrollable column limited
 /// to [AuthUiTheme.maxWidth] and an optional pinned [bottom] area.
 class AuthUiScaffold extends StatelessWidget {
   /// App bar title (displayed in small caps).
@@ -40,7 +41,7 @@ class AuthUiScaffold extends StatelessWidget {
       ),
     );
     return DecoratedBox(
-      decoration: BoxDecoration(gradient: ui.pageGradient),
+      decoration: ui.pageDecoration,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -262,8 +263,8 @@ class AuthUiTextField extends StatelessWidget {
               horizontal: 16,
               vertical: 18,
             ),
-            border: border(ui.border),
-            enabledBorder: border(ui.border),
+            border: border(ui.fieldBorder),
+            enabledBorder: border(ui.fieldBorder),
             focusedBorder: border(ui.primary, 1.6),
           ),
         ),

@@ -1,16 +1,73 @@
 import 'package:material_ui/material_ui.dart';
 
+/// How the auth screens draw their page and their surfaces.
+enum AuthUiStyle {
+  /// Follow the app theme (default): the flat page color of the theme
+  /// (`scaffoldBackgroundColor`), the color and border of its cards
+  /// (`cardTheme`), the fill and border of its fields
+  /// (`inputDecorationTheme`), no card shadow when its cards have no
+  /// elevation. What the theme does not set keeps the [classic] value.
+  app,
+
+  /// The original look: a page gradient tinted by the primary color, white
+  /// cards with a soft shadow in light mode, whatever the app theme sets for
+  /// its cards and fields.
+  classic,
+}
+
+/// Selects the [AuthUiStyle] of the auth screens in a [ThemeData]:
+/// `ThemeData(extensions: [AuthUiStyleExtension(AuthUiStyle.classic)])`, or
+/// `theme.withAuthUiStyle(AuthUiStyle.classic)` on an existing theme.
+class AuthUiStyleExtension extends ThemeExtension<AuthUiStyleExtension> {
+  /// The style.
+  final AuthUiStyle style;
+
+  /// Style extension.
+  const AuthUiStyleExtension(this.style);
+
+  @override
+  AuthUiStyleExtension copyWith({AuthUiStyle? style}) =>
+      AuthUiStyleExtension(style ?? this.style);
+
+  @override
+  AuthUiStyleExtension lerp(covariant AuthUiStyleExtension? other, double t) =>
+      (other == null || t < 0.5) ? this : other;
+}
+
+/// [AuthUiStyle] helpers on [ThemeData].
+extension AuthUiThemeDataExtension on ThemeData {
+  /// This theme with the auth screens in [style], its other extensions kept.
+  ThemeData withAuthUiStyle(AuthUiStyle style) => copyWith(
+    extensions: [
+      ...extensions.values.where((ext) => ext is! AuthUiStyleExtension),
+      AuthUiStyleExtension(style),
+    ],
+  );
+}
+
 /// Design tokens used by the auth screens, derived from the app [ThemeData].
 ///
-/// The screens follow the app color scheme: use a violet seed color on your
-/// theme (`ThemeData(colorSchemeSeed: Color(0xFF5B4FE9))`) to get the
-/// reference look. Light and dark themes are supported.
+/// The screens follow the app color scheme and, in the default
+/// [AuthUiStyle.app], its page, card and field colors: a festenao theme
+/// (`festenao_theme`) shows them on its own paper. [AuthUiStyle.classic]
+/// (`theme.withAuthUiStyle(AuthUiStyle.classic)`) brings back the original
+/// tinted gradient page; with a violet seed color on the theme
+/// (`ThemeData(colorSchemeSeed: Color(0xFF5B4FE9))`) it is the reference look.
+/// Light and dark themes are supported.
 class AuthUiTheme {
   /// The app theme.
   final ThemeData theme;
 
-  /// Constructor.
-  AuthUiTheme(this.theme);
+  /// The style: [AuthUiStyleExtension] of [theme] if any, else
+  /// [AuthUiStyle.app].
+  final AuthUiStyle style;
+
+  /// Constructor, [style] overriding the one of [theme].
+  AuthUiTheme(this.theme, {AuthUiStyle? style})
+    : style =
+          style ??
+          theme.extension<AuthUiStyleExtension>()?.style ??
+          AuthUiStyle.app;
 
   /// From context.
   factory AuthUiTheme.of(BuildContext context) =>
@@ -30,6 +87,9 @@ class AuthUiTheme {
 
   /// Horizontal page padding.
   static const double pagePadding = 20;
+
+  /// Whether in [AuthUiStyle.classic].
+  bool get isClassic => style == AuthUiStyle.classic;
 
   /// Color scheme.
   ColorScheme get scheme => theme.colorScheme;
@@ -84,17 +144,72 @@ class AuthUiTheme {
   /// Main text color.
   Color get text => scheme.onSurface;
 
-  /// Card background.
-  Color get card => isDark ? scheme.surfaceContainerHigh : Colors.white;
+  /// The flat page color of [AuthUiStyle.app]: the theme
+  /// `scaffoldBackgroundColor`.
+  Color get pageColor => theme.scaffoldBackgroundColor;
 
-  /// Text field background.
-  Color get field => isDark ? scheme.surfaceContainerHighest : Colors.white;
+  /// Page background: [pageColor] in [AuthUiStyle.app], [pageGradient] in
+  /// [AuthUiStyle.classic].
+  Decoration get pageDecoration => isClassic
+      ? BoxDecoration(gradient: pageGradient)
+      : BoxDecoration(color: pageColor);
 
-  /// Card and field border color.
-  Color get border => scheme.outlineVariant.withValues(alpha: 0.6);
+  /// The classic card color.
+  Color get _classicCard => isDark ? scheme.surfaceContainerHigh : Colors.white;
 
-  /// Card shadow.
-  List<BoxShadow> get cardShadow => isDark
+  /// Card background: the theme `cardTheme.color` in [AuthUiStyle.app].
+  Color get card =>
+      isClassic ? _classicCard : theme.cardTheme.color ?? _classicCard;
+
+  /// The classic field color.
+  Color get _classicField =>
+      isDark ? scheme.surfaceContainerHighest : Colors.white;
+
+  /// Text field background: the theme `inputDecorationTheme.fillColor` (when
+  /// `filled`) in [AuthUiStyle.app].
+  Color get field {
+    if (!isClassic) {
+      var inputTheme = theme.inputDecorationTheme;
+      var fillColor = inputTheme.fillColor;
+      if (inputTheme.filled && fillColor != null) {
+        return fillColor;
+      }
+    }
+    return _classicField;
+  }
+
+  /// The classic border color.
+  Color get _classicBorder => scheme.outlineVariant.withValues(alpha: 0.6);
+
+  /// Card and divider border color: the side of the theme `cardTheme.shape`
+  /// in [AuthUiStyle.app].
+  Color get border {
+    if (!isClassic) {
+      var shape = theme.cardTheme.shape;
+      if (shape is OutlinedBorder && shape.side.style != BorderStyle.none) {
+        return shape.side.color;
+      }
+    }
+    return _classicBorder;
+  }
+
+  /// Text field border color: the side of the theme
+  /// `inputDecorationTheme.enabledBorder` in [AuthUiStyle.app], else
+  /// [border].
+  Color get fieldBorder {
+    if (!isClassic) {
+      var side = theme.inputDecorationTheme.enabledBorder?.borderSide;
+      if (side != null && side.style != BorderStyle.none) {
+        return side.color;
+      }
+    }
+    return border;
+  }
+
+  /// Card shadow: none in dark mode, nor in [AuthUiStyle.app] when the theme
+  /// cards have no elevation.
+  List<BoxShadow> get cardShadow =>
+      isDark || (!isClassic && theme.cardTheme.elevation == 0)
       ? const []
       : [
           BoxShadow(
@@ -104,7 +219,7 @@ class AuthUiTheme {
           ),
         ];
 
-  /// Page background gradient.
+  /// Page background gradient of [AuthUiStyle.classic].
   Gradient get pageGradient => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
