@@ -1,4 +1,5 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart' as native;
+import 'package:firebase_ui_oauth_apple/firebase_ui_oauth_apple.dart' as native;
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart'
     as native;
 import 'package:flutter/widgets.dart';
@@ -35,7 +36,14 @@ class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
     this.options = firebaseUiAuthOptionsDefault,
   });
 
-  /// Configure email provider by default, Google with [googleAuthClientId].
+  /// Configure email provider by default, Google with [googleAuthClientId],
+  /// Sign in with Apple with [apple].
+  ///
+  /// [apple]: the App Store asks for it in an iOS app offering Google (its
+  /// review guideline 4.8). The Apple provider must be enabled in the
+  /// firebase project; the native flow of iOS and macOS needs the "Sign in
+  /// with Apple" capability of the app, the web flow (web, android) a
+  /// Services ID configured in that provider.
   ///
   /// Lazy: the providers are configured by the first auth screen (sign in,
   /// register, profile...), not here. Google's provider starts Google
@@ -45,10 +53,12 @@ class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
     FirebaseAuth? firebaseAuth,
     bool noEmailPassword = false,
     String? googleAuthClientId,
+    bool apple = false,
   }) {
     _pendingProviders = () {
       native.FirebaseUIAuth.configureProviders([
         if (!noEmailPassword) native.EmailAuthProvider(),
+        if (apple) native.AppleProvider(),
         if (googleAuthClientId != null)
           native.GoogleProvider(clientId: googleAuthClientId),
       ], app: firebaseAuth?.app.nativeInstance);

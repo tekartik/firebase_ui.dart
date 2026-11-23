@@ -1,3 +1,8 @@
+# 0.2.2
+
+- `configureProviders(apple: true)` adds Sign in with Apple
+  (`firebase_ui_oauth_apple`).
+
 # 0.2.1
 
 - `configureProviders` is lazy: the providers are configured by the first

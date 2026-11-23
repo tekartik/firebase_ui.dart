@@ -23,8 +23,12 @@ without changes.
   `tekartik_firebase_ui_auth` instead.
 * Call `firebaseUiAuthServiceFlutter.configureProviders(...)` once, after
   `Firebase.initializeApp` and before showing any screen. Pass
-  `googleAuthClientId` to add Google sign-in, `noEmailPassword: true` to drop
-  the email provider. The providers are only configured by the first native
+  `googleAuthClientId` to add Google sign-in, `apple: true` to add Sign in
+  with Apple (the App Store asks for it next to Google in an iOS app,
+  guideline 4.8: the Apple provider enabled in the firebase project, the
+  "Sign in with Apple" capability in the iOS/macOS app; the web flow, on the
+  web and android, also needs a Services ID in that provider),
+  `noEmailPassword: true` to drop the email provider. The providers are only configured by the first native
   auth screen built through the package (lazy, so that Google Sign-In does
   not start, nor set its `g_state` cookie, before the user opens one): do
   not read `FirebaseUIAuth.providersFor` or build native `firebase_ui_auth`

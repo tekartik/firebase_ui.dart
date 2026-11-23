@@ -2,7 +2,8 @@
 
 The native Firebase UI auth screens (`firebase_ui_auth`: sign in, register,
 forgot password, profile, email verification, Google sign in with
-`firebase_ui_oauth_google`) behind the `FirebaseUiAuthService` interface of
+`firebase_ui_oauth_google`, Sign in with Apple with `firebase_ui_oauth_apple`)
+behind the `FirebaseUiAuthService` interface of
 `tekartik_firebase_ui_auth`. App code builds its screens through the service:
 `FirebaseUiAuthServiceFlutter` (native Firebase) in production,
 `FirebaseUiAuthServiceBasic` (pure Flutter screens, any `FirebaseAuth`:
@@ -50,7 +51,8 @@ Future<void> main() async {
   // With the options of your project (flutterfire configure).
   await native.Firebase.initializeApp();
   var auth = firebaseAuthServiceFlutter.auth(firebaseFlutter.app());
-  // Email/password; pass googleAuthClientId to add Google.
+  // Email/password; pass googleAuthClientId to add Google, apple: true to
+  // add Sign in with Apple.
   firebaseUiAuthServiceFlutter.configureProviders(firebaseAuth: auth);
   runApp(
     MaterialApp(

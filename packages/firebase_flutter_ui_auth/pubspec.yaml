@@ -1,6 +1,6 @@
 name: tekartik_firebase_flutter_ui_auth
 description: "Firebase Flutter UI auth"
-version: 0.2.1
+version: 0.2.2
 publish_to: none
 
 environment:
@@ -58,6 +58,8 @@ dependencies:
       path: firebase_flutter
   # firebase_ui_oauth_google: ">=2.0.0"
   firebase_ui_oauth_google: ">=1.4.3"
+  # Sign in with Apple (pure dart, on firebase_auth).
+  firebase_ui_oauth_apple: ">=1.3.3"
   tekartik_app_rx_bloc_flutter:
     git:
       url: https://github.com/tekartik/app_flutter_utils.dart
