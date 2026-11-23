@@ -6,7 +6,10 @@ export 'src/firebase_ui_auth_continue.dart'
         FirebaseUiAuthContinueResult,
         FirebaseUiAuthServiceContinueExt;
 export 'src/firebase_ui_auth_options.dart'
-    show FirebaseUiAuthOptions, firebaseUiAuthOptionsDefault;
+    show
+        FirebaseUiAuthDeleteAccount,
+        FirebaseUiAuthOptions,
+        firebaseUiAuthOptionsDefault;
 export 'src/firebase_ui_auth_service.dart' show FirebaseUiAuthService;
 export 'src/firebase_ui_auth_service_basic.dart'
     show FirebaseUiAuthServiceBasic, firebaseUiAuthServiceBasic;

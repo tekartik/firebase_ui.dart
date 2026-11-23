@@ -17,8 +17,13 @@ import 'auth_screen_utils.dart';
 
 /// Auth profile screen
 class AuthFlutterProfileScreen extends StatefulWidget {
+  /// What the "Delete account" button runs, the app way (its server data
+  /// too, see [FirebaseUiAuthOptions.deleteAccount]); null, the flutterfire
+  /// default: the auth user alone is deleted.
+  final FirebaseUiAuthDeleteAccount? deleteAccount;
+
   /// Auth profile screen
-  const AuthFlutterProfileScreen({super.key});
+  const AuthFlutterProfileScreen({super.key, this.deleteAccount});
 
   @override
   State<AuthFlutterProfileScreen> createState() =>
@@ -50,17 +55,31 @@ class _AuthFlutterProfileScreenState extends State<AuthFlutterProfileScreen>
     // Not rebuilt on auth state changes: upstream ProfileScreen reads
     // `auth.currentUser!`, a rebuild on the signed out state (during the exit
     // transition) throws.
+    var deleteAccount = widget.deleteAccount;
     return legacyMaterialScreen(
       ProfileScreen(
         appBar: legacy.AppBar(title: Text(intl.profileTitle)),
         auth: bloc.firebaseAuth.nativeInstance,
+        // The app deletes the account: its "confirmation" does it all
+        // (confirm, server, sign out) and answers false, the button then
+        // never deletes the auth user alone.
+        showDeleteConfirmationDialog: deleteAccount != null,
+        deleteConfirmation: deleteAccount == null
+            ? null
+            : (context) async {
+                await deleteAccount(context);
+                return false;
+              },
       ),
     );
   }
 }
 
-/// Auth profile screen
-Widget authFlutterProfileScreen({FirebaseAuth? firebaseAuth}) => BlocProvider(
+/// Auth profile screen, see [AuthFlutterProfileScreen.deleteAccount].
+Widget authFlutterProfileScreen({
+  FirebaseAuth? firebaseAuth,
+  FirebaseUiAuthDeleteAccount? deleteAccount,
+}) => BlocProvider(
   blocBuilder: () => AuthScreenBloc(firebaseAuth: firebaseAuth),
-  child: const AuthFlutterProfileScreen(),
+  child: AuthFlutterProfileScreen(deleteAccount: deleteAccount),
 );

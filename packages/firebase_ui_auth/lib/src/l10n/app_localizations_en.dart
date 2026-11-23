@@ -42,6 +42,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPreferencesSection => 'Preferences';
 
   @override
+  String get authDeleteAccountRowTitle => 'Delete account';
+
+  @override
+  String get authDeleteAccountRowSubtitle =>
+      'Your account and its data, for good';
+
+  @override
   String get authUserEmailCopiedToClipboard => 'User email copied to clipboard';
 
   @override

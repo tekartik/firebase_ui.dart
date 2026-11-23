@@ -8,9 +8,11 @@ export 'package:tekartik_firebase_ui_auth/ui_auth.dart'
     show
         AuthScreenBloc,
         AuthScreenBlocState,
+        FirebaseUiAuthDeleteAccount,
         FirebaseUiAuthOptions,
         firebaseUiAuthOptionsDefault;
 
+export 'src/apple_sign_in_revoke.dart' show firebaseUiAuthRevokeAppleSignIn;
 export 'src/firebase_ui_auth_service_flutter.dart'
     show FirebaseUiAuthServiceFlutter, firebaseUiAuthServiceFlutter;
 export 'src/screen/auth_screen.dart' show AuthFlutterScreen, authFlutterScreen;

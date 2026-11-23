@@ -89,7 +89,10 @@ class FirebaseUiAuthServiceFlutter implements FirebaseUiAuthService {
 
   @override
   Widget profileScreen({FirebaseAuth? firebaseAuth}) =>
-      impl.authFlutterProfileScreen(firebaseAuth: firebaseAuth);
+      impl.authFlutterProfileScreen(
+        firebaseAuth: firebaseAuth,
+        deleteAccount: options.deleteAccount,
+      );
 
   @override
   Widget emailVerificationScreen({FirebaseAuth? firebaseAuth}) =>

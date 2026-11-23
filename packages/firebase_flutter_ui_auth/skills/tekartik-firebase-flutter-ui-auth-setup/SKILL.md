@@ -43,6 +43,14 @@ without changes.
 * Use `FirebaseUiAuthServiceFlutter(options: FirebaseUiAuthOptions(...))`
   to customize: `registerEnabled: false` hides the native "Register" switch
   of the sign-in screen and the create account button of the auth screen.
+* Account deletion (the App Store and Google Play ask for it): an app with
+  data on its server passes `deleteAccount` in the options, its own flow
+  (confirm, server api deleting the data and the user, sign out). The auth
+  screen shows a "Delete account" row, and the native profile screen's
+  "Delete account" button runs it; without it that button deletes the auth
+  user alone, the server data stays behind. Signed in with Apple, call
+  `firebaseUiAuthRevokeAppleSignIn(firebaseAuth: auth)` first (iOS/macOS):
+  Apple asks once more, and the tokens are revoked as the App Store asks.
 * `authScreen()` is the shared material auth screen (welcome / account
   details) from `tekartik_firebase_ui_auth`; `loginScreen()`,
   `registerScreen()`, `lostPasswordScreen()`, `profileScreen()` and

@@ -1,3 +1,9 @@
+# 0.2.1
+
+- `FirebaseUiAuthOptions.deleteAccount`: the app deletes the account (its
+  server data too); the auth screen then shows a "Delete account" row to a
+  user with an account.
+
 # 0.2.0
 
 - New design for all screens (auth, login, profile) inspired by a card based

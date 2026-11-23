@@ -1,3 +1,10 @@
+# 0.2.3
+
+- With `FirebaseUiAuthOptions.deleteAccount`, the "Delete account" button of
+  the profile screen runs it instead of deleting the auth user alone.
+- `firebaseUiAuthRevokeAppleSignIn`: revokes the Sign in with Apple tokens
+  of the signed in user before its account is deleted (App Store).
+
 # 0.2.2
 
 - `configureProviders(apple: true)` adds Sign in with Apple

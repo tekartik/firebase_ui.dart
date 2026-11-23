@@ -9,6 +9,8 @@
   "authAnonymousUser": "Utilisateur anonyme",
   "authAccountDetailsSection": "Détails du compte",
   "authPreferencesSection": "Préférences",
+  "authDeleteAccountRowTitle": "Supprimer le compte",
+  "authDeleteAccountRowSubtitle": "Votre compte et ses données, définitivement",
   "authUserEmailCopiedToClipboard": "Adresse e-mail de l'utilisateur copiée dans le presse-papiers",
   "authUserEmailLabel": "E-mail du compte",
   "authPrimaryBadge": "Principal",

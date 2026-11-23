@@ -43,6 +43,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authPreferencesSection => 'Préférences';
 
   @override
+  String get authDeleteAccountRowTitle => 'Supprimer le compte';
+
+  @override
+  String get authDeleteAccountRowSubtitle =>
+      'Votre compte et ses données, définitivement';
+
+  @override
   String get authUserEmailCopiedToClipboard =>
       'Adresse e-mail de l\'utilisateur copiée dans le presse-papiers';
 

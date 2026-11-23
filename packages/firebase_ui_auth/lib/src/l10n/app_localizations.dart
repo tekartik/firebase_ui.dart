@@ -159,6 +159,18 @@ abstract class AppLocalizations {
   /// **'Preferences'**
   String get authPreferencesSection;
 
+  /// Row of the auth screen deleting the account, shown when the app can (FirebaseUiAuthOptions.deleteAccount)
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get authDeleteAccountRowTitle;
+
+  /// Subtitle of the delete account row
+  ///
+  /// In en, this message translates to:
+  /// **'Your account and its data, for good'**
+  String get authDeleteAccountRowSubtitle;
+
   /// The authentication screen user email copied to clipboard message
   ///
   /// In en, this message translates to:

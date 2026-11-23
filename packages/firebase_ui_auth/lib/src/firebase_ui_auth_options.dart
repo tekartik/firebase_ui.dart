@@ -1,3 +1,11 @@
+import 'package:flutter/widgets.dart';
+
+/// Deletes the account of the signed in user, see
+/// [FirebaseUiAuthOptions.deleteAccount].
+typedef FirebaseUiAuthDeleteAccount = Future<void> Function(
+  BuildContext context,
+);
+
 /// Options controlling which features the auth UI exposes.
 ///
 /// Pass them to [FirebaseUiAuthServiceBasic] (or any other
@@ -34,12 +42,25 @@ class FirebaseUiAuthOptions {
   /// ignored (the sign in succeeded).
   final Future<void> Function(String anonymousIdToken)? onAnonymousUserSignedIn;
 
+  /// Deletes the account of the signed in user, the app way: its data on its
+  /// server, then the user (an api call, the user deleted by the server).
+  /// It confirms first and says what goes (its own dialog), and signs out
+  /// once done.
+  ///
+  /// When set, the auth screen shows a "Delete account" row to a user with
+  /// an account, and the "Delete account" button of the flutterfire profile
+  /// screen runs it instead of deleting the auth user alone (which leaves
+  /// the data of the user behind on the server). Null by default: no row,
+  /// the flutterfire button deletes the auth user only.
+  final FirebaseUiAuthDeleteAccount? deleteAccount;
+
   /// Options.
   const FirebaseUiAuthOptions({
     this.registerEnabled = true,
     this.lostPasswordEnabled = true,
     this.linkAnonymousUser = true,
     this.onAnonymousUserSignedIn,
+    this.deleteAccount,
   });
 
   /// Copy with new values.
@@ -48,19 +69,22 @@ class FirebaseUiAuthOptions {
     bool? lostPasswordEnabled,
     bool? linkAnonymousUser,
     Future<void> Function(String anonymousIdToken)? onAnonymousUserSignedIn,
+    FirebaseUiAuthDeleteAccount? deleteAccount,
   }) => FirebaseUiAuthOptions(
     registerEnabled: registerEnabled ?? this.registerEnabled,
     lostPasswordEnabled: lostPasswordEnabled ?? this.lostPasswordEnabled,
     linkAnonymousUser: linkAnonymousUser ?? this.linkAnonymousUser,
     onAnonymousUserSignedIn:
         onAnonymousUserSignedIn ?? this.onAnonymousUserSignedIn,
+    deleteAccount: deleteAccount ?? this.deleteAccount,
   );
 
   @override
   String toString() =>
       'FirebaseUiAuthOptions(register: $registerEnabled, '
       'lostPassword: $lostPasswordEnabled, '
-      'linkAnonymousUser: $linkAnonymousUser)';
+      'linkAnonymousUser: $linkAnonymousUser, '
+      'deleteAccount: ${deleteAccount != null})';
 }
 
 /// Default options (register, lost password and anonymous user link

@@ -39,6 +39,14 @@
   "@authPreferencesSection": {
     "description": "Section title above the preferences card"
   },
+  "authDeleteAccountRowTitle": "Delete account",
+  "@authDeleteAccountRowTitle": {
+    "description": "Row of the auth screen deleting the account, shown when the app can (FirebaseUiAuthOptions.deleteAccount)"
+  },
+  "authDeleteAccountRowSubtitle": "Your account and its data, for good",
+  "@authDeleteAccountRowSubtitle": {
+    "description": "Subtitle of the delete account row"
+  },
   "authUserEmailCopiedToClipboard": "User email copied to clipboard",
   "@authUserEmailCopiedToClipboard": {
     "description": "The authentication screen user email copied to clipboard message"

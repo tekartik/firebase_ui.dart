@@ -91,6 +91,37 @@ void main() {
       expect(find.text('Forgot password?'), findsNothing);
     });
 
+    testWidgets('delete account, when the app can', (tester) async {
+      await runAuth(tester, () async {
+        await auth.createUserWithEmailAndPassword(
+          email: 'user@example.com',
+          password: 'password1',
+        );
+      });
+      // No row by default.
+      await tester.pumpWidget(testApp(authScreen(firebaseAuth: auth)));
+      await settle(tester);
+      expect(find.text('Logout session'), findsOneWidget);
+      expect(find.text('Delete account'), findsNothing);
+
+      var deleteCount = 0;
+      var service = FirebaseUiAuthServiceBasic(
+        options: FirebaseUiAuthOptions(
+          deleteAccount: (context) async {
+            deleteCount++;
+          },
+        ),
+      );
+      await tester.pumpWidget(testApp(service.authScreen(firebaseAuth: auth)));
+      await settle(tester);
+      expect(find.text('Your account and its data, for good'), findsOneWidget);
+      await tapText(tester, 'Delete account');
+      await settle(tester);
+      // The app does it all, the screen nothing (the user is still there).
+      expect(deleteCount, 1);
+      expect(auth.currentUser, isNotNull);
+    });
+
     testWidgets('login and logout', (tester) async {
       await runAuth(tester, () async {
         await auth.createUserWithEmailAndPassword(

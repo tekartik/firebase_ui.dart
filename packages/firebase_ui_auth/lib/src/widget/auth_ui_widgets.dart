@@ -834,6 +834,10 @@ class AuthUiNavRow extends StatelessWidget {
   /// On tap.
   final VoidCallback? onTap;
 
+  /// An action that destroys something (deleting the account): its icon and
+  /// title in the danger color.
+  final bool danger;
+
   /// Navigation row.
   const AuthUiNavRow({
     super.key,
@@ -841,6 +845,7 @@ class AuthUiNavRow extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.onTap,
+    this.danger = false,
   });
 
   @override
@@ -854,8 +859,8 @@ class AuthUiNavRow extends StatelessWidget {
           children: [
             AuthUiIconBox(
               icon: icon,
-              color: ui.neutral,
-              softColor: ui.neutralSoft,
+              color: danger ? ui.danger : ui.neutral,
+              softColor: danger ? ui.dangerSoft : ui.neutralSoft,
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -864,7 +869,10 @@ class AuthUiNavRow extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: ui.rowValueStyle.copyWith(fontSize: 17),
+                    style: ui.rowValueStyle.copyWith(
+                      fontSize: 17,
+                      color: danger ? ui.danger : null,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

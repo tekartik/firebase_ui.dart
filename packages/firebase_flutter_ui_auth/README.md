@@ -106,6 +106,12 @@ platform).
   auth screen, so Google Sign-In does not start (nor set its `g_state` cookie
   on the web) before the user opens one. Do not build `firebase_ui_auth`
   screens directly, go through the service.
+* Account deletion: `FirebaseUiAuthOptions(deleteAccount: ...)`, the app's
+  flow (its server data and the user), adds a "Delete account" row to the
+  auth screen and replaces what the "Delete account" button of the profile
+  screen does (by default it deletes the auth user alone). A user signed in
+  with Apple: `firebaseUiAuthRevokeAppleSignIn()` before deleting (iOS,
+  macOS), what the App Store asks.
 * Options: `FirebaseUiAuthServiceFlutter(options:
   FirebaseUiAuthOptions(registerEnabled: false))` hides the register switch
   of the sign in screen and the create account button of the auth screen.

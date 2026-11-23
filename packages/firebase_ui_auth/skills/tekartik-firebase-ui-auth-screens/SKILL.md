@@ -52,7 +52,10 @@ used for tests and offline apps.
 * Use `FirebaseUiAuthOptions` to turn features off:
   `registerEnabled: false` hides "Sign up"/"Create account",
   `lostPasswordEnabled: false` hides "Forgot password?". Both default to
-  `true`.
+  `true`. `deleteAccount` (none by default) adds a "Delete account" row to
+  the auth screen of a user with an account: the app's own flow (confirm,
+  delete the server data and the user, sign out), the screen does nothing
+  else.
 * An anonymous user is offered to sign in or create an account. With
   `linkAnonymousUser` (default `true`) the register screen links the new
   account to the anonymous user (`FirebaseUser.linkWithCredential`): same

@@ -11,7 +11,8 @@ import 'package:tekartik_firebase_ui_auth/ui_auth.dart';
 /// Signed out or anonymous: welcome page with "Sign in" (and "Create
 /// account" when [FirebaseUiAuthOptions.registerEnabled]).
 ///
-/// Signed in: user header, account details, preferences and logout. With
+/// Signed in: user header, account details, preferences, a "Delete account"
+/// row when the app can ([FirebaseUiAuthOptions.deleteAccount]) and logout. With
 /// [authContinue], a continue button under the header, and the screen pops
 /// with a [FirebaseUiAuthContinueResult] (going back too).
 class AuthScreen extends StatefulWidget {
@@ -194,6 +195,22 @@ class _AuthScreenState extends AutoDisposeBaseState<AuthScreen>
               ),
           ],
         ),
+        if (options.deleteAccount case var deleteAccount?) ...[
+          const SizedBox(height: 16),
+          AuthUiCard(
+            children: [
+              AuthUiNavRow(
+                icon: Icons.delete_forever_outlined,
+                title: intl.authDeleteAccountRowTitle,
+                subtitle: intl.authDeleteAccountRowSubtitle,
+                danger: true,
+                onTap: () {
+                  deleteAccount(context);
+                },
+              ),
+            ],
+          ),
+        ],
         const SizedBox(height: 24),
       ],
     );
